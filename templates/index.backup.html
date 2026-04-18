@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Assistant étudiant — Premium</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body>
+    <main class="container">
+        <section class="card">
+            <div class="hero">
+                <div>
+                    <p class="eyebrow">Assistant académique premium</p>
+                    <h1>Révise mieux, plus vite, plus intelligemment.</h1>
+                    <p class="subtitle">
+                        IA de révision personnalisée : explication, résumé, fiche, quiz, correction, notions centrales, mémoire.
+                    </p>
+                </div>
+            </div>
+
+            <div class="grid">
+                <div>
+                    <label for="student_name">Nom affiché</label>
+                    <input id="student_name" type="text" placeholder="Exemple : Axel" />
+                </div>
+
+                <div>
+                    <label for="niveau">Niveau</label>
+                    <select id="niveau">
+                        <option value="college">Collège</option>
+                        <option value="lycee">Lycée</option>
+                        <option value="L1">L1</option>
+                        <option value="L2" selected>L2</option>
+                        <option value="L3">L3</option>
+                        <option value="master">Master</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="grid">
+                <div>
+                    <label for="matiere">Matière</label>
+                    <input id="matiere" type="text" placeholder="Exemple : sociologie, SES, droit..." />
+                </div>
+
+                <div>
+                    <label for="mode">Mode</label>
+                    <select id="mode">
+                        <option value="expliquer">Expliquer</option>
+                        <option value="resumer">Résumer</option>
+                        <option value="reviser">Fiche de révision</option>
+                        <option value="quiz">Quiz</option>
+                        <option value="corriger">Corriger ma réponse</option>
+                        <option value="exam">Question d’examen</option>
+                        <option value="notions_centrales">Notions centrales</option>
+                        <option value="a_retenir">À retenir absolument</option>
+                        <option value="memoire">Mémoire / stratégie perso</option>
+                    </select>
+                </div>
+            </div>
+
+            <label for="learning_style">Style d’apprentissage</label>
+            <input id="learning_style" type="text" placeholder="Exemple : explications claires, structurées, pas trop longues" />
+
+            <label for="weaknesses">Lacunes / difficultés</label>
+            <input id="weaknesses" type="text" placeholder="Exemple : j’ai du mal à repérer les notions centrales, à reformuler..." />
+
+            <label for="cours">Cours / notes / extrait</label>
+            <textarea id="cours" rows="10" placeholder="Colle ici ton cours, tes notes ou un extrait important..."></textarea>
+
+            <label for="previous_response">Ma réponse à corriger</label>
+            <textarea id="previous_response" rows="6" placeholder="Colle ici ta réponse si tu veux que l’IA la corrige."></textarea>
+
+            <label for="message">Ta demande</label>
+            <textarea id="message" rows="5" placeholder="Exemple : Explique-moi la socialisation primaire à partir du cours ci-dessus, comme pour un étudiant de L2."></textarea>
+
+            <div class="button-row">
+                <button id="sendBtn">Envoyer</button>
+                <button id="memoryBtn" class="secondary">Voir ma mémoire</button>
+            </div>
+
+            <div class="output answer-box">
+                <div class="output-header">
+                    <h2>Réponse</h2>
+                    <span class="badge">IA locale</span>
+                </div>
+                <pre id="answer">Aucune réponse pour l’instant.</pre>
+            </div>
+
+            <div class="meta-grid">
+                <div class="output small">
+                    <div class="output-header">
+                        <h2>Ma mémoire</h2>
+                        <span class="badge subtle">Privée</span>
+                    </div>
+                    <pre id="studentMemory">Aucune mémoire affichée.</pre>
+                </div>
+
+                <div class="output small helper-panel">
+                    <div class="output-header">
+                        <h2>Conseils d’usage</h2>
+                        <span class="badge subtle">Guide</span>
+                    </div>
+
+                    <div id="helperBox" class="helper-list">
+                        <div class="helper-item">
+                            <strong>Corriger</strong>
+                            <span>colle ta réponse pour savoir ce qui est juste, ce qui manque et comment l’améliorer.</span>
+                        </div>
+                        <div class="helper-item">
+                            <strong>Notions centrales</strong>
+                            <span>repère rapidement ce qui compte vraiment dans un cours.</span>
+                        </div>
+                        <div class="helper-item">
+                            <strong>À retenir</strong>
+                            <span>obtiens une version ultra utile pour une révision rapide avant contrôle ou partiel.</span>
+                        </div>
+                        <div class="helper-item">
+                            <strong>Mémoire personnalisée</strong>
+                            <span>garde le même appareil et le même navigateur pour retrouver ta progression et ton profil pédagogique.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const sendBtn = document.getElementById("sendBtn");
+        const memoryBtn = document.getElementById("memoryBtn");
+
+        const studentNameEl = document.getElementById("student_name");
+        const niveauEl = document.getElementById("niveau");
+        const matiereEl = document.getElementById("matiere");
+        const modeEl = document.getElementById("mode");
+        const learningStyleEl = document.getElementById("learning_style");
+        const weaknessesEl = document.getElementById("weaknesses");
+        const coursEl = document.getElementById("cours");
+        const previousResponseEl = document.getElementById("previous_response");
+        const messageEl = document.getElementById("message");
+
+        const answerEl = document.getElementById("answer");
+        const studentMemoryEl = document.getElementById("studentMemory");
+
+        function getOrCreateStudentId() {
+            let studentId = localStorage.getItem("assistant_student_id");
+            if (!studentId) {
+                studentId = "student_" + Date.now() + "_" + Math.random().toString(36).slice(2, 10);
+                localStorage.setItem("assistant_student_id", studentId);
+            }
+            return studentId;
+        }
+
+        async function sendMessage() {
+            const payload = {
+                student_id: getOrCreateStudentId(),
+                student_name: studentNameEl.value.trim(),
+                niveau: niveauEl.value,
+                matiere: matiereEl.value.trim(),
+                mode: modeEl.value,
+                learning_style: learningStyleEl.value.trim(),
+                weaknesses: weaknessesEl.value.trim(),
+                cours: coursEl.value.trim(),
+                previous_response: previousResponseEl.value.trim(),
+                message: messageEl.value.trim()
+            };
+
+            if (!payload.message) {
+                answerEl.textContent = "Écris une demande.";
+                return;
+            }
+
+            answerEl.textContent = "Chargement...";
+            const res = await fetch("/chat", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            });
+
+            const data = await res.json();
+            answerEl.textContent = data.answer || "Pas de réponse.";
+        }
+
+        async function loadMyMemory() {
+            const payload = {
+                student_id: getOrCreateStudentId()
+            };
+
+            studentMemoryEl.textContent = "Chargement...";
+            const res = await fetch("/student-memory", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            });
+
+            const data = await res.json();
+            studentMemoryEl.textContent = JSON.stringify(data, null, 2);
+        }
+
+        sendBtn.addEventListener("click", sendMessage);
+        memoryBtn.addEventListener("click", loadMyMemory);
+    </script>
+</body>
+</html>

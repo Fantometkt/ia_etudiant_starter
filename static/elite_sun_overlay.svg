@@ -1,0 +1,22 @@
+<svg width="340" height="260" viewBox="0 0 340 260" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="246" cy="88" r="54" fill="url(#sun)" opacity="0.95"/>
+  <g opacity="0.62">
+    <path d="M246 0V34" stroke="#FDE68A" stroke-width="4" stroke-linecap="round"/>
+    <path d="M246 142V176" stroke="#FDE68A" stroke-width="4" stroke-linecap="round"/>
+    <path d="M158 88H192" stroke="#FDE68A" stroke-width="4" stroke-linecap="round"/>
+    <path d="M300 88H334" stroke="#FDE68A" stroke-width="4" stroke-linecap="round"/>
+    <path d="M186 28L206 48" stroke="#FDE68A" stroke-width="4" stroke-linecap="round"/>
+    <path d="M286 128L306 148" stroke="#FDE68A" stroke-width="4" stroke-linecap="round"/>
+    <path d="M186 148L206 128" stroke="#FDE68A" stroke-width="4" stroke-linecap="round"/>
+    <path d="M286 48L306 28" stroke="#FDE68A" stroke-width="4" stroke-linecap="round"/>
+  </g>
+  <path d="M74 214C126 190 184 188 260 202" stroke="#FCD9A1" stroke-opacity="0.42" stroke-width="6" stroke-linecap="round"/>
+  <path d="M38 236C106 214 186 214 286 230" stroke="#FCD9A1" stroke-opacity="0.24" stroke-width="5" stroke-linecap="round"/>
+  <defs>
+    <radialGradient id="sun" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(246 88) rotate(90) scale(54)">
+      <stop stop-color="#FFF1B8"/>
+      <stop offset="0.52" stop-color="#FDE68A" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#FDE68A" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+</svg>

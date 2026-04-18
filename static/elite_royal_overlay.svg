@@ -1,0 +1,20 @@
+<svg width="320" height="260" viewBox="0 0 320 260" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <g opacity="0.85">
+    <circle cx="220" cy="92" r="68" fill="url(#g1)"/>
+    <circle cx="220" cy="92" r="40" fill="url(#g2)"/>
+    <path d="M220 22L230 58L266 68L230 78L220 114L210 78L174 68L210 58L220 22Z" fill="#F5D0FE" fill-opacity="0.65"/>
+    <path d="M220 0L224 16L240 20L224 24L220 40L216 24L200 20L216 16L220 0Z" fill="#FFF3DA" fill-opacity="0.72"/>
+    <path d="M120 170C146 154 176 150 204 160" stroke="#F5D0FE" stroke-opacity="0.42" stroke-width="4" stroke-linecap="round"/>
+    <path d="M138 190C165 176 188 174 210 182" stroke="#FFF3DA" stroke-opacity="0.28" stroke-width="3" stroke-linecap="round"/>
+  </g>
+  <defs>
+    <radialGradient id="g1" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(220 92) rotate(90) scale(68)">
+      <stop stop-color="#FFF3DA" stop-opacity="0.32"/>
+      <stop offset="1" stop-color="#FFF3DA" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="g2" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(220 92) rotate(90) scale(40)">
+      <stop stop-color="#F5D0FE" stop-opacity="0.34"/>
+      <stop offset="1" stop-color="#F5D0FE" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+</svg>

@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>IA Étudiant — V2.2</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='v29.css') }}">
+</head>
+<body>
+    <main class="app-shell theme-default" id="appShell">
+        <aside class="sidebar">
+            <section class="glass brand-card compact-panel">
+                <div class="brand-top">
+                    <div>
+                        <p class="eyebrow">Assistant académique premium</p>
+                        <h1>IA Étudiant</h1>
+                    </div>
+                    <div id="userAura" class="user-aura">◆</div>
+                </div>
+
+                <p class="brand-subtitle">
+                    Comprendre, réviser, corriger, progresser.
+                </p>
+
+                <div class="brand-tags">
+                    <span>Révision</span>
+                    <span>Correction</span>
+                    <span>Mémoire</span>
+                    <span>Lab</span>
+                </div>
+            </section>
+
+            <section class="glass panel compact-panel">
+                <div class="panel-head">
+                    <h2>Progression</h2>
+                    <span class="mini-badge">Live</span>
+                </div>
+
+                <div class="level-card">
+                    <div class="level-main">
+                        <div>
+                            <p class="muted-title">Niveau</p>
+                            <strong id="profileLevel">Apprenti</strong>
+                        </div>
+                        <div class="xp-pill" id="xpValue">0 XP</div>
+                    </div>
+
+                    <div class="progress-rail">
+                        <div class="progress-fill" id="xpBar"></div>
+                    </div>
+
+                    <div class="unlock-row">
+                        <span class="unlock-chip" id="rewardBadge">Début</span>
+                        <span class="unlock-chip subtle" id="themeBadge">Thème standard</span>
+                    </div>
+                </div>
+
+                <div class="stat-mini-grid">
+                    <div class="mini-stat">
+                        <span>Messages</span>
+                        <strong id="statMessages">0</strong>
+                    </div>
+                    <div class="mini-stat">
+                        <span>Quiz</span>
+                        <strong id="statQuiz">0</strong>
+                    </div>
+                    <div class="mini-stat">
+                        <span>Corrections</span>
+                        <strong id="statCorrection">0</strong>
+                    </div>
+                    <div class="mini-stat">
+                        <span>Série</span>
+                        <strong id="streakBadge">0</strong>
+                    </div>
+                </div>
+            </section>
+
+            <section class="glass panel compact-panel">
+                <div class="panel-head">
+                    <h2>Modes rapides</h2>
+                    <span class="mini-badge subtle">Action</span>
+                </div>
+
+                <div class="quick-modes">
+                    <button type="button" class="mode-chip" data-mode="expliquer">Expliquer</button>
+                    <button type="button" class="mode-chip" data-mode="resumer">Résumé</button>
+                    <button type="button" class="mode-chip" data-mode="reviser">Réviser</button>
+                    <button type="button" class="mode-chip" data-mode="quiz">Quiz</button>
+                    <button type="button" class="mode-chip" data-mode="corriger">Corriger</button>
+                    <button type="button" class="mode-chip" data-mode="exam">Examen</button>
+                    <button type="button" class="mode-chip" data-mode="notions_centrales">Notions</button>
+                    <button type="button" class="mode-chip" data-mode="a_retenir">À retenir</button>
+                </div>
+            </section>
+
+            <section class="glass panel compact-panel">
+                <div class="panel-head">
+                    <h2>Lab / Benchmark</h2>
+                    <span class="mini-badge">Système</span>
+                </div>
+
+                <div class="lab-grid">
+                    <div class="lab-box">
+                        <span>Quick</span>
+                        <strong id="labQuick">—</strong>
+                    </div>
+                    <div class="lab-box">
+                        <span>Full</span>
+                        <strong id="labFull">—</strong>
+                    </div>
+                    <div class="lab-box">
+                        <span>Ultra</span>
+                        <strong id="labUltra">—</strong>
+                    </div>
+                    <div class="lab-box">
+                        <span>Coverage</span>
+                        <strong id="labCoverage">—</strong>
+                    </div>
+                </div>
+
+                <div class="lab-status-card">
+                    <div class="lab-status-top">
+                        <span>État labo</span>
+                        <strong id="labStatus">Prêt</strong>
+                    </div>
+                    <p id="labHint" class="muted-paragraph">
+                        La zone labo affichera ici tes derniers signaux utiles.
+                    </p>
+                </div>
+            </section>
+        </aside>
+
+        <section class="main-column">
+            <section class="glass hero-card">
+                <div class="hero-top">
+                    <div>
+                        <p class="eyebrow">V2.2 interface</p>
+                        <h2>Plus propre, plus compacte, plus maîtrisée</h2>
+                    </div>
+                    <div class="hero-actions">
+                        <button id="memoryBtn" class="secondary-btn" type="button">Voir ma mémoire</button>
+                        <button id="themeBtn" class="ghost-btn" type="button">Changer le thème</button>
+                        <button id="devModeBtn" class="ghost-btn" type="button">Mode développeur</button>
+                    </div>
+                </div>
+                <p class="hero-text">
+                    Interface immersive, mémoire propre, thèmes plus identitaires et ambiance plus premium.
+                </p>
+            </section>
+
+            <section class="glass form-card">
+                <div class="panel-head">
+                    <h2>Nouvelle demande</h2>
+                    <span class="mini-badge" id="modeBadge">Prêt</span>
+                </div>
+
+                <div class="form-grid">
+                    <div>
+                        <label for="student_name">Nom / pseudo</label>
+                        <input id="student_name" type="text" placeholder="Exemple : Axel">
+                    </div>
+
+                    <div>
+                        <label for="niveau">Niveau</label>
+                        <select id="niveau">
+                            <option value="college">Collège</option>
+                            <option value="lycee">Lycée</option>
+                            <option value="L1" selected>L1</option>
+                            <option value="L2">L2</option>
+                            <option value="L3">L3</option>
+                            <option value="M1">M1</option>
+                            <option value="M2">M2</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="matiere">Matière</label>
+                        <input id="matiere" type="text" placeholder="Exemple : sociologie">
+                    </div>
+
+                    <div>
+                        <label for="mode">Mode</label>
+                        <select id="mode">
+                            <option value="expliquer">Expliquer</option>
+                            <option value="resumer">Résumer</option>
+                            <option value="reviser">Réviser</option>
+                            <option value="quiz">Quiz</option>
+                            <option value="corriger">Corriger</option>
+                            <option value="exam">Examen</option>
+                            <option value="notions_centrales">Notions centrales</option>
+                            <option value="a_retenir">À retenir</option>
+                            <option value="memoire">Mémoire</option>
+                        </select>
+                    </div>
+                </div>
+
+                <details class="advanced-box">
+                    <summary>Réglages avancés</summary>
+                    <div class="form-grid advanced-grid">
+                        <div>
+                            <label for="learning_style">Style d’apprentissage</label>
+                            <input id="learning_style" type="text" placeholder="Clair, structuré, pas trop long...">
+                        </div>
+
+                        <div>
+                            <label for="weaknesses">Difficultés</label>
+                            <input id="weaknesses" type="text" placeholder="Repérer l’idée centrale, reformuler, méthode...">
+                        </div>
+                    </div>
+                </details>
+
+                <label for="cours">Cours / notes</label>
+                <textarea id="cours" rows="8" placeholder="Colle ici ton cours, tes notes ou un extrait utile..."></textarea>
+
+                <label for="previous_response">Ma réponse à corriger</label>
+                <textarea id="previous_response" rows="5" placeholder="Colle ici ta réponse si tu veux une correction détaillée."></textarea>
+
+                <label for="message">Ta demande</label>
+                <textarea id="message" rows="4" placeholder="Exemple : explique-moi la socialisation primaire à partir du cours ci-dessus."></textarea>
+
+                <div class="cta-row">
+                    <button id="sendBtn" class="primary-btn">Envoyer</button>
+                    <button id="clearBtn" class="ghost-btn" type="button">Effacer</button>
+                </div>
+            </section>
+
+            <div class="dashboard-grid">
+                <section class="glass answer-card">
+                    <div class="panel-head">
+                        <h2>Réponse</h2>
+                        <span class="mini-badge accent" id="answerState">Attente</span>
+                    </div>
+                    <pre id="answer">Aucune réponse pour l’instant.</pre>
+                </section>
+
+                <section class="glass memory-card">
+                    <div class="panel-head">
+                        <h2>Ma mémoire</h2>
+                        <span class="mini-badge subtle">Propre</span>
+                    </div>
+                    <div id="studentMemory" class="memory-render">
+                        <div class="empty-state">Aucune mémoire affichée.</div>
+                    </div>
+                </section>
+            </div>
+
+            <div class="dashboard-grid lower-grid">
+                <section class="glass history-card">
+                    <div class="panel-head">
+                        <h2>Historique récent</h2>
+                        <span class="mini-badge subtle">Session</span>
+                    </div>
+                    <div id="timelineCards" class="timeline-cards">
+                        <div class="empty-state">Aucune activité pour l’instant.</div>
+                    </div>
+                </section>
+
+                <section class="glass rewards-card">
+                    <div class="panel-head">
+                        <h2>Récompenses & thèmes</h2>
+                        <span class="mini-badge">Unlocks</span>
+                    </div>
+                    <div class="theme-groups">
+
+                        <div class="theme-group">
+                            <div class="theme-group-title">Base</div>
+                            <div class="theme-grid">
+                                <button class="theme-tile active-theme" data-theme="default">Nuit Premium</button>
+                            </div>
+                        </div>
+
+                        <div class="theme-group">
+                            <div class="theme-group-title">Premium</div>
+                            <div class="theme-grid">
+                                <button class="theme-tile locked-theme" data-theme="violet">Violet doux</button>
+                                <button class="theme-tile locked-theme" data-theme="emerald">Émeraude légère</button>
+                                <button class="theme-tile locked-theme" data-theme="sunset">Sunset soft</button>
+                            </div>
+                        </div>
+
+                        <div class="theme-group">
+                            <div class="theme-group-title">Élite</div>
+                            <div class="theme-grid">
+                                <button class="theme-tile locked-theme prestige-theme" data-theme="royal">Cour Royale</button>
+                                <button class="theme-tile locked-theme prestige-theme" data-theme="kyoto">Jade Kyoto</button>
+                                <button class="theme-tile locked-theme prestige-theme" data-theme="coast">Sunset Coast</button>
+                            </div>
+                        </div>
+
+                        <div class="theme-group">
+                            <div class="theme-group-title">Prestige</div>
+                            <div class="theme-grid">
+                                <button class="theme-tile locked-theme elite-theme" data-theme="imperial">Cour Impériale</button>
+                                <button class="theme-tile locked-theme elite-theme" data-theme="feudal">Japon féodal</button>
+                                <button class="theme-tile locked-theme elite-theme" data-theme="sunlight">Sunlight</button>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="rewards-note">
+                        <p id="unlockHint">
+                            Gagne de l’XP pour débloquer de nouveaux thèmes et badges.
+                        </p>
+                    </div>
+                </section>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const sendBtn = document.getElementById("sendBtn");
+        const memoryBtn = document.getElementById("memoryBtn");
+        const clearBtn = document.getElementById("clearBtn");
+        const themeBtn = document.getElementById("themeBtn");
+        const devModeBtn = document.getElementById("devModeBtn");
+
+        const studentNameEl = document.getElementById("student_name");
+        const niveauEl = document.getElementById("niveau");
+        const matiereEl = document.getElementById("matiere");
+        const modeEl = document.getElementById("mode");
+        const learningStyleEl = document.getElementById("learning_style");
+        const weaknessesEl = document.getElementById("weaknesses");
+        const coursEl = document.getElementById("cours");
+        const previousResponseEl = document.getElementById("previous_response");
+        const messageEl = document.getElementById("message");
+
+        const answerEl = document.getElementById("answer");
+        const answerStateEl = document.getElementById("answerState");
+        const memoryRenderEl = document.getElementById("studentMemory");
+        const modeBadgeEl = document.getElementById("modeBadge");
+
+        const profileLevelEl = document.getElementById("profileLevel");
+        const xpValueEl = document.getElementById("xpValue");
+        const xpBarEl = document.getElementById("xpBar");
+        const rewardBadgeEl = document.getElementById("rewardBadge");
+        const themeBadgeEl = document.getElementById("themeBadge");
+        const userAuraEl = document.getElementById("userAura");
+
+        const statMessagesEl = document.getElementById("statMessages");
+        const statQuizEl = document.getElementById("statQuiz");
+        const statCorrectionEl = document.getElementById("statCorrection");
+        const streakBadgeEl = document.getElementById("streakBadge");
+
+        const timelineCardsEl = document.getElementById("timelineCards");
+        const unlockHintEl = document.getElementById("unlockHint");
+        const appShellEl = document.getElementById("appShell");
+
+        const labQuickEl = document.getElementById("labQuick");
+        const labFullEl = document.getElementById("labFull");
+        const labUltraEl = document.getElementById("labUltra");
+        const labCoverageEl = document.getElementById("labCoverage");
+        const labStatusEl = document.getElementById("labStatus");
+        const labHintEl = document.getElementById("labHint");
+
+        const modeButtons = document.querySelectorAll(".mode-chip");
+        const themeTiles = document.querySelectorAll(".theme-tile");
+
+        function getOrCreateStudentId() {
+            let studentId = localStorage.getItem("assistant_student_id");
+            if (!studentId) {
+                studentId = "student_" + Date.now() + "_" + Math.random().toString(36).slice(2, 10);
+                localStorage.setItem("assistant_student_id", studentId);
+            }
+            return studentId;
+        }
+
+        function getAppStats() {
+            const raw = localStorage.getItem("assistant_app_stats_v2");
+            if (raw) {
+                try {
+                    return JSON.parse(raw);
+                } catch (_) {}
+            }
+
+            return {
+                messages: 0,
+                quizCount: 0,
+                correctionCount: 0,
+                xp: 0,
+                streak: 0,
+                timeline: [],
+                theme: "default",
+                devMode: false,
+                lab: {
+                    quick: "—",
+                    full: "—",
+                    ultra: "—",
+                    coverage: "—",
+                    status: "Prêt",
+                    hint: "Aucune donnée labo locale pour l’instant."
+                }
+            };
+        }
+
+        function saveAppStats(stats) {
+            localStorage.setItem("assistant_app_stats_v2", JSON.stringify(stats));
+        }
+
+        function rewardFromXp(xp) {
+            if (xp >= 1800) return { level: "Légende", badge: "Légende", aura: "✦" };
+            if (xp >= 1300) return { level: "Maître", badge: "Maître", aura: "◆" };
+            if (xp >= 900) return { level: "Prestige", badge: "Prestige", aura: "■" };
+            if (xp >= 500) return { level: "Expert", badge: "Expert", aura: "▲" };
+            if (xp >= 280) return { level: "Confirmé", badge: "Confirmé", aura: "●" };
+            return { level: "Apprenti", badge: "Début", aura: "●" };
+        }
+
+        function getUnlockedThemes(xp, devMode=false) {
+            if (devMode) {
+                return {
+                    default: true,
+                    violet: true,
+                    emerald: true,
+                    sunset: true,
+                    royal: true,
+                    kyoto: true,
+                    coast: true
+                };
+            }
+
+            return {
+                default: true,
+                violet: xp >= 120,
+                emerald: xp >= 280,
+                sunset: xp >= 500,
+                royal: xp >= 900,
+                kyoto: xp >= 1300,
+                coast: xp >= 1800
+            };
+        }
+
+        function getThemeLabel(theme) {
+            const labels = {
+                default: "Nuit Premium",
+                violet: "Violet doux",
+                emerald: "Émeraude légère",
+                sunset: "Sunset soft",
+                royal: "Cour Royale",
+                kyoto: "Jade Kyoto",
+                coast: "Sunset Coast"
+            };
+            return labels[theme] || "Nuit Premium";
+        }
+
+        function xpProgress(xp) {
+            const localXp = xp % 100;
+            return Math.max(6, Math.min(100, localXp));
+        }
+
+        function prettifyKey(key) {
+            return key.replaceAll("_", " ").replace(/\b\w/g, c => c.toUpperCase());
+        }
+
+        function prettifyValue(value) {
+            if (value === null || value === undefined) return "Aucune donnée";
+            if (typeof value === "string") return value;
+            if (typeof value === "number" || typeof value === "boolean") return String(value);
+            if (Array.isArray(value)) return value.join(" • ");
+            return JSON.stringify(value);
+        }
+
+        function renderStats() {
+            const stats = getAppStats();
+            const reward = rewardFromXp(stats.xp);
+            const unlocked = getUnlockedThemes(stats.xp, stats.devMode);
+
+            statMessagesEl.textContent = stats.messages;
+            statQuizEl.textContent = stats.quizCount;
+            statCorrectionEl.textContent = stats.correctionCount;
+            streakBadgeEl.textContent = stats.streak;
+
+            profileLevelEl.textContent = reward.level;
+            xpValueEl.textContent = `${stats.xp} XP`;
+            xpBarEl.style.width = `${xpProgress(stats.xp)}%`;
+            rewardBadgeEl.textContent = reward.badge;
+            const auraByTheme = {
+                default: reward.aura,
+                violet: "✦",
+                emerald: "◈",
+                sunset: "◇",
+                royal: "✠",
+                kyoto: "❖",
+                coast: "◐"
+            };
+            userAuraEl.textContent = auraByTheme[stats.theme] || reward.aura;
+            themeBadgeEl.textContent = getThemeLabel(stats.theme);
+
+            appShellEl.className = `app-shell theme-${stats.theme}`;
+
+            themeTiles.forEach(tile => {
+                const theme = tile.dataset.theme;
+                const allowed = unlocked[theme];
+                tile.classList.remove("active-theme", "locked-theme");
+
+                if (!allowed) {
+                    tile.classList.add("locked-theme");
+                } else if (theme === stats.theme) {
+                    tile.classList.add("active-theme");
+                }
+            });
+
+            unlockHintEl.textContent = stats.devMode
+                ? "Mode développeur actif : tous les thèmes sont ouverts."
+                : (unlocked.coast
+                    ? "Tous les thèmes prestige sont débloqués."
+                    : unlocked.royal
+                        ? "Les thèmes prestige commencent à se débloquer."
+                        : "Continue à gagner de l’XP pour débloquer les univers prestige.");
+
+            devModeBtn.textContent = stats.devMode ? "Dev mode activé" : "Mode développeur";
+
+            labQuickEl.textContent = stats.lab.quick;
+            labFullEl.textContent = stats.lab.full;
+            labUltraEl.textContent = stats.lab.ultra;
+            labCoverageEl.textContent = stats.lab.coverage;
+            labStatusEl.textContent = stats.lab.status;
+            labHintEl.textContent = stats.lab.hint;
+
+            renderTimeline(stats.timeline);
+        }
+
+        function renderTimeline(items) {
+            if (!items.length) {
+                timelineCardsEl.innerHTML = `<div class="empty-state">Aucune activité pour l’instant.</div>`;
+                return;
+            }
+
+            timelineCardsEl.innerHTML = items.map(item => `
+                <div class="timeline-card">
+                    <div class="timeline-meta">${item.time}</div>
+                    <strong>${item.title}</strong>
+                    <p>${item.text}</p>
+                </div>
+            `).join("");
+        }
+
+        function pushTimeline(stats, title, text) {
+            stats.timeline.unshift({
+                time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+                title,
+                text
+            });
+            stats.timeline = stats.timeline.slice(0, 8);
+        }
+
+        function updateModeBadge() {
+            const label = modeEl.options[modeEl.selectedIndex]?.text || "Mode";
+            modeBadgeEl.textContent = label;
+        }
+
+        function renderTagList(items) {
+            if (!items || !items.length) return `<div class="empty-state compact">Aucune donnée.</div>`;
+            return `<div class="memory-tag-list">${items.map(item => `<span class="memory-tag">${item}</span>`).join("")}</div>`;
+        }
+
+        function renderFrequentModes(frequentModes) {
+            const entries = Object.entries(frequentModes || {});
+            if (!entries.length) return `<div class="empty-state compact">Aucune donnée.</div>`;
+
+            return `
+                <div class="memory-grid-2">
+                    ${entries.map(([mode, count]) => `
+                        <div class="memory-info-card">
+                            <span>${mode}</span>
+                            <strong>${count}</strong>
+                        </div>
+                    `).join("")}
+                </div>
+            `;
+        }
+
+        function renderProgressClues(value, fallbackFrequentModes) {
+            const v = value && typeof value === "object" ? value : {};
+            const entries = Object.entries(v);
+
+            if (entries.length) {
+                return `
+                    <div class="memory-grid-2">
+                        ${entries.map(([k, val]) => `
+                            <div class="memory-info-card">
+                                <span>${prettifyKey(k)}</span>
+                                <strong>${prettifyValue(val)}</strong>
+                            </div>
+                        `).join("")}
+                    </div>
+                `;
+            }
+
+            const fm = Object.entries(fallbackFrequentModes || {});
+            if (fm.length) {
+                return `
+                    <div class="memory-grid-2">
+                        <div class="memory-info-card">
+                            <span>Modes actifs</span>
+                            <strong>${fm.length}</strong>
+                        </div>
+                        <div class="memory-info-card">
+                            <span>Mode principal</span>
+                            <strong>${fm.sort((a, b) => b[1] - a[1])[0][0]}</strong>
+                        </div>
+                    </div>
+                `;
+            }
+
+            return `<div class="empty-state compact">Aucune donnée.</div>`;
+        }
+
+        function renderSessions(sessions) {
+            if (!sessions || !sessions.length) return `<div class="empty-state compact">Aucune session récente.</div>`;
+
+            return `
+                <div class="session-list">
+                    ${sessions.slice(-4).reverse().map(session => `
+                        <div class="session-card">
+                            <div class="session-top">
+                                <span class="session-mode">${session.mode || "mode"}</span>
+                                <span class="session-time">${session.timestamp ? session.timestamp.slice(0, 16).replace("T", " ") : ""}</span>
+                            </div>
+                            <div class="session-question">${session.question || ""}</div>
+                            <div class="session-hint">${session.answer_hint || ""}</div>
+                        </div>
+                    `).join("")}
+                </div>
+            `;
+        }
+
+        function parseMaybeJson(value) {
+            if (typeof value !== "string") return value;
+            try {
+                return JSON.parse(value);
+            } catch (_) {
+                return value;
+            }
+        }
+
+        function splitBulletString(value) {
+            if (Array.isArray(value)) return value;
+            if (typeof value !== "string") return [];
+            return value.split(" • ").map(x => x.trim()).filter(Boolean);
+        }
+
+        function normalizeMemory(data) {
+            const rawProgress = data.progress_clues || data["Progress Clues"] || {};
+            const progressObj = (rawProgress && typeof rawProgress === "object" && !Array.isArray(rawProgress))
+                ? { ...rawProgress }
+                : {};
+
+            const nestedFrequentModes =
+                parseMaybeJson(progressObj["FREQUENT MODES"]) ||
+                parseMaybeJson(progressObj["Frequent Modes"]) ||
+                parseMaybeJson(progressObj["frequent_modes"]) ||
+                parseMaybeJson(progressObj["modes_frequents"]) ||
+                {};
+
+            const nestedRecentDifficulties =
+                splitBulletString(
+                    progressObj["RECENT DIFFICULTIES"] ||
+                    progressObj["Recent Difficulties"] ||
+                    progressObj["recent_difficulties"] ||
+                    progressObj["difficultes_recentes"] ||
+                    progressObj["difficultés récentes"]
+                );
+
+            const nestedRecentStrengths =
+                splitBulletString(
+                    progressObj["RECENT STRENGTHS"] ||
+                    progressObj["Recent Strengths"] ||
+                    progressObj["recent_strengths"] ||
+                    progressObj["forces_recentes"] ||
+                    progressObj["forces récentes"]
+                );
+
+            const nestedSessions =
+                progressObj["SESSIONS"] ||
+                progressObj["Sessions"] ||
+                progressObj["sessions"] ||
+                [];
+
+            const keys_to_remove = [
+                "FREQUENT MODES", "Frequent Modes", "frequent_modes", "modes_frequents",
+                "RECENT DIFFICULTIES", "Recent Difficulties", "recent_difficulties", "difficultes_recentes", "difficultés récentes",
+                "RECENT STRENGTHS", "Recent Strengths", "recent_strengths", "forces_recentes", "forces récentes",
+                "SESSIONS", "Sessions", "sessions"
+            ];
+
+            keys_to_remove.forEach(k => { delete progressObj[k]; });
+
+            return {
+                display_name: data.display_name || data.student_name || data["Nom"] || "",
+                niveau: data.niveau || data["Niveau"] || "",
+                matiere: data.matiere || data["Matière principale"] || data["matiere_principale"] || "",
+                frequent_modes:
+                    data.frequent_modes ||
+                    data["Frequent Modes"] ||
+                    data["frequent_modes"] ||
+                    data["modes_frequents"] ||
+                    data["Modes fréquents"] ||
+                    nestedFrequentModes ||
+                    {},
+                recent_difficulties:
+                    data.recent_difficulties ||
+                    data["Recent Difficulties"] ||
+                    data["recent_difficulties"] ||
+                    data["difficultes_recentes"] ||
+                    data["Difficultés récentes"] ||
+                    nestedRecentDifficulties ||
+                    [],
+                recent_strengths:
+                    data.recent_strengths ||
+                    data["Recent Strengths"] ||
+                    data["recent_strengths"] ||
+                    data["forces_recentes"] ||
+                    data["Forces récentes"] ||
+                    nestedRecentStrengths ||
+                    [],
+                sessions:
+                    data.sessions ||
+                    data["Sessions"] ||
+                    data["sessions"] ||
+                    nestedSessions ||
+                    [],
+                progress_clues: progressObj
+            };
+        }
+
+        function renderStudentMemory(rawData) {
+            if (!rawData || typeof rawData !== "object" || !Object.keys(rawData).length) {
+                memoryRenderEl.innerHTML = `<div class="empty-state">Aucune mémoire affichée.</div>`;
+                return;
+            }
+
+            const data = normalizeMemory(rawData);
+
+            const topCards = `
+                <div class="memory-grid-2">
+                    <div class="memory-info-card">
+                        <span>Nom</span>
+                        <strong>${data.display_name || studentNameEl.value || "Étudiant"}</strong>
+                    </div>
+                    <div class="memory-info-card">
+                        <span>Niveau</span>
+                        <strong>${data.niveau || niveauEl.value || "Non défini"}</strong>
+                    </div>
+                    <div class="memory-info-card">
+                        <span>Matière principale</span>
+                        <strong>${data.matiere || matiereEl.value || "Variable"}</strong>
+                    </div>
+                    <div class="memory-info-card">
+                        <span>Modes fréquents</span>
+                        <strong>${Object.keys(data.frequent_modes).length ? Object.keys(data.frequent_modes).join(", ") : "Aucune donnée"}</strong>
+                    </div>
+                </div>
+            `;
+
+            memoryRenderEl.innerHTML = `
+                <div class="memory-master-card">
+                    ${topCards}
+
+                    <details class="memory-fold" open>
+                        <summary>Indices de progression</summary>
+                        ${renderProgressClues(data.progress_clues, data.frequent_modes)}
+                    </details>
+
+                    <details class="memory-fold">
+                        <summary>Modes fréquents</summary>
+                        ${renderFrequentModes(data.frequent_modes)}
+                    </details>
+
+                    <details class="memory-fold">
+                        <summary>Difficultés récentes</summary>
+                        ${renderTagList(data.recent_difficulties)}
+                    </details>
+
+                    <details class="memory-fold">
+                        <summary>Forces récentes</summary>
+                        ${renderTagList(data.recent_strengths)}
+                    </details>
+
+                    <details class="memory-fold">
+                        <summary>Sessions récentes</summary>
+                        ${renderSessions(data.sessions)}
+                    </details>
+                </div>
+            `;
+        }
+
+        async function sendMessage() {
+            const payload = {
+                student_id: getOrCreateStudentId(),
+                student_name: studentNameEl.value.trim(),
+                niveau: niveauEl.value,
+                matiere: matiereEl.value.trim(),
+                mode: modeEl.value,
+                learning_style: learningStyleEl.value.trim(),
+                weaknesses: weaknessesEl.value.trim(),
+                cours: coursEl.value.trim(),
+                previous_response: previousResponseEl.value.trim(),
+                message: messageEl.value.trim()
+            };
+
+            if (!payload.message) {
+                answerStateEl.textContent = "Vide";
+                answerEl.textContent = "Écris une demande.";
+                return;
+            }
+
+            answerStateEl.textContent = "Chargement";
+            answerEl.textContent = "Chargement...";
+
+            try {
+                const response = await fetch("/chat", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(payload)
+                });
+
+                const data = await response.json();
+                answerEl.textContent = data.answer || "Aucune réponse.";
+                answerStateEl.textContent = "Réponse";
+
+                const stats = getAppStats();
+                stats.messages += 1;
+                stats.streak += 1;
+                stats.xp += 12;
+
+                if (payload.mode === "quiz") {
+                    stats.quizCount += 1;
+                    stats.xp += 10;
+                }
+
+                if (payload.mode === "corriger") {
+                    stats.correctionCount += 1;
+                    stats.xp += 14;
+                }
+
+                if (payload.mode === "exam" || payload.mode === "reviser" || payload.mode === "notions_centrales") {
+                    stats.xp += 8;
+                }
+
+                pushTimeline(
+                    stats,
+                    `${payload.mode} • ${payload.matiere || "matière libre"}`,
+                    payload.message.slice(0, 100)
+                );
+
+                saveAppStats(stats);
+                renderStats();
+            } catch (error) {
+                answerStateEl.textContent = "Erreur";
+                answerEl.textContent = "Erreur pendant l’envoi.";
+            }
+        }
+
+        async function loadStudentMemory() {
+            const payload = { student_id: getOrCreateStudentId() };
+
+            try {
+                memoryRenderEl.innerHTML = `<div class="empty-state">Chargement de la mémoire...</div>`;
+
+                const response = await fetch("/student-memory", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(payload)
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    renderStudentMemory({ erreur: data.error || "Mémoire introuvable." });
+                    return;
+                }
+
+                renderStudentMemory(data);
+            } catch (error) {
+                renderStudentMemory({ erreur: "Erreur de chargement de la mémoire." });
+            }
+        }
+
+        function clearForm() {
+            coursEl.value = "";
+            previousResponseEl.value = "";
+            messageEl.value = "";
+            answerStateEl.textContent = "Attente";
+            answerEl.textContent = "Aucune réponse pour l’instant.";
+        }
+
+        function cycleTheme() {
+            const stats = getAppStats();
+            const unlocked = getUnlockedThemes(stats.xp, stats.devMode);
+            const order = ["default", "violet", "emerald", "sunset", "royal", "kyoto", "coast"];
+            const allowed = order.filter(theme => unlocked[theme]);
+            const currentIndex = allowed.indexOf(stats.theme);
+            const nextTheme = allowed[(currentIndex + 1) % allowed.length] || "default";
+            stats.theme = nextTheme;
+            saveAppStats(stats);
+            renderStats();
+        }
+
+        function chooseTheme(theme) {
+            const stats = getAppStats();
+            const unlocked = getUnlockedThemes(stats.xp, stats.devMode);
+            if (!unlocked[theme]) return;
+            stats.theme = theme;
+            saveAppStats(stats);
+            renderStats();
+        }
+
+        function toggleDevMode() {
+            const stats = getAppStats();
+            stats.devMode = !stats.devMode;
+            saveAppStats(stats);
+            renderStats();
+        }
+
+        modeButtons.forEach(btn => {
+            btn.addEventListener("click", () => {
+                modeEl.value = btn.dataset.mode;
+                updateModeBadge();
+            });
+        });
+
+        themeTiles.forEach(tile => {
+            tile.addEventListener("click", () => chooseTheme(tile.dataset.theme));
+        });
+
+        modeEl.addEventListener("change", updateModeBadge);
+        sendBtn.addEventListener("click", sendMessage);
+        memoryBtn.addEventListener("click", loadStudentMemory);
+        clearBtn.addEventListener("click", clearForm);
+        themeBtn.addEventListener("click", cycleTheme);
+        devModeBtn.addEventListener("click", toggleDevMode);
+
+        updateModeBadge();
+        renderStats();
+    </script>
+    <script src="{{ url_for('static', filename='v29.js') }}"></script>
+</body>
+</html>

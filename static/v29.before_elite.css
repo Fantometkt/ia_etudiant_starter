@@ -1,0 +1,179 @@
+/* =========================
+   V2.9 — XP + IMMERSION LÉGÈRE ÉLITE UNIQUEMENT
+   ========================= */
+
+:root {
+    --mx: 0;
+    --my: 0;
+}
+
+.progression-extended {
+    margin-top: 12px;
+    display: grid;
+    gap: 10px;
+}
+
+.xp-next-card,
+.xp-help-card {
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,0.08);
+    background: rgba(255,255,255,0.035);
+    padding: 12px;
+}
+
+.xp-next-card strong,
+.xp-help-card strong {
+    display: block;
+    color: var(--white);
+    margin-bottom: 6px;
+    font-size: 14px;
+}
+
+.xp-next-card p,
+.xp-help-card p {
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.5;
+    font-size: 13px;
+}
+
+.xp-mini-bar {
+    margin-top: 10px;
+    height: 8px;
+    border-radius: 999px;
+    overflow: hidden;
+    background: rgba(255,255,255,0.08);
+}
+
+.xp-mini-fill {
+    height: 100%;
+    width: 0%;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--accent), var(--accent-3));
+    transition: width 0.28s ease;
+}
+
+.unlock-theme-name {
+    color: color-mix(in srgb, var(--accent-3) 78%, white 22%);
+    font-weight: 800;
+}
+
+.dev-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 8px;
+    font-size: 12px;
+    font-weight: 800;
+    color: var(--muted);
+}
+
+/* couche de profondeur élite uniquement */
+.theme-depth-layer {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+    display: none;
+}
+
+.theme-depth-layer span {
+    position: absolute;
+    display: block;
+    border-radius: 999px;
+    filter: blur(3px);
+    opacity: 0;
+    transition:
+        transform 0.18s ease-out,
+        opacity 0.25s ease,
+        background 0.25s ease;
+}
+
+.app-shell.elite-live .theme-depth-layer {
+    display: block;
+}
+
+.app-shell.elite-live .theme-depth-layer span {
+    opacity: 0.18;
+}
+
+.theme-depth-layer .d1 {
+    width: 180px;
+    height: 180px;
+    left: 7%;
+    top: 12%;
+    transform: translate3d(calc(var(--mx) * -12px), calc(var(--my) * -10px), 0);
+}
+
+.theme-depth-layer .d2 {
+    width: 220px;
+    height: 220px;
+    right: 8%;
+    top: 18%;
+    transform: translate3d(calc(var(--mx) * 14px), calc(var(--my) * -12px), 0);
+}
+
+.theme-depth-layer .d3 {
+    width: 260px;
+    height: 260px;
+    left: 40%;
+    bottom: 4%;
+    transform: translate3d(calc(var(--mx) * 8px), calc(var(--my) * 12px), 0);
+}
+
+.app-shell.elite-live .theme-depth-layer .d1 {
+    background: radial-gradient(circle at center, rgba(255,255,255,0.18), transparent 62%);
+}
+.app-shell.elite-live .theme-depth-layer .d2 {
+    background: radial-gradient(circle at center, color-mix(in srgb, var(--accent) 38%, white 62%), transparent 64%);
+}
+.app-shell.elite-live .theme-depth-layer .d3 {
+    background: radial-gradient(circle at center, color-mix(in srgb, var(--accent-3) 42%, white 58%), transparent 68%);
+}
+
+/* léger relief seulement sur les thèmes élite */
+.app-shell.elite-live .glass {
+    transform-style: preserve-3d;
+    will-change: transform;
+    transition:
+        transform 0.16s ease-out,
+        box-shadow 0.22s ease,
+        border-color 0.22s ease;
+}
+
+.app-shell.elite-live .glass:hover {
+    box-shadow:
+        0 28px 70px rgba(0,0,0,0.34),
+        0 0 0 1px rgba(255,255,255,0.04) inset;
+}
+
+.app-shell.elite-live .hero-card,
+.app-shell.elite-live .brand-card {
+    overflow: hidden;
+}
+
+/* cartes info cohérentes avec les élites */
+.theme-imperial .xp-next-card,
+.theme-imperial .xp-help-card {
+    background: rgba(54, 22, 72, 0.46);
+    border-color: rgba(245, 208, 254, 0.14);
+}
+
+.theme-feudal .xp-next-card,
+.theme-feudal .xp-help-card {
+    background: rgba(62, 18, 32, 0.46);
+    border-color: rgba(254, 205, 211, 0.14);
+}
+
+.theme-sunlight .xp-next-card,
+.theme-sunlight .xp-help-card {
+    background: rgba(66, 34, 12, 0.46);
+    border-color: rgba(253, 230, 138, 0.14);
+}
+
+@media (max-width: 760px) {
+    .theme-depth-layer {
+        display: none !important;
+    }
+}

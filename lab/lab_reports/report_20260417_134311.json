@@ -1,0 +1,355 @@
+{
+  "timestamp": "2026-04-17T13:43:11.463256",
+  "model": "gemma3",
+  "cases_count": 4,
+  "ranking": [
+    {
+      "variant": "concise",
+      "count": 4,
+      "sum": 172,
+      "average": 43.0
+    },
+    {
+      "variant": "anti_hallucination",
+      "count": 4,
+      "sum": 171,
+      "average": 42.75
+    },
+    {
+      "variant": "revision",
+      "count": 4,
+      "sum": 142,
+      "average": 35.5
+    },
+    {
+      "variant": "baseline",
+      "count": 4,
+      "sum": 132,
+      "average": 33.0
+    },
+    {
+      "variant": "pedagogique",
+      "count": 4,
+      "sum": 128,
+      "average": 32.0
+    }
+  ],
+  "results": [
+    {
+      "case_name": "socio_notions",
+      "niveau": "L2",
+      "matiere": "sociologie",
+      "mode": "notions_centrales",
+      "variants": [
+        {
+          "variant": "concise",
+          "answer_preview": "Les notions centrales sont :\n\n*   **Socialisation :** C'est le processus d'acquisition des normes, valeurs et rôles sociaux.\n*   **Socialisation primaire :** Elle se fait dans la famille et est essentielle pour la base de l'identité.\n*   **Socialisation secondaire :** Elle se poursuit après la socialisation primaire et se situe dans d'autres institutions.",
+          "score": {
+            "fidelity": 9,
+            "clarity": 9,
+            "learning_value": 9,
+            "revision_value": 9,
+            "anti_hallucination": 10,
+            "total": 46,
+            "verdict": "Excellent",
+            "reason": "The response accurately identifies and clearly defines the core concepts presented in the course material. The bullet-point format enhances clarity and understanding. The response demonstrates a strong grasp of the material and avoids any fabricated information. It's a near-perfect distillation of the provided text."
+          }
+        },
+        {
+          "variant": "anti_hallucination",
+          "answer_preview": "Les notions centrales de ce cours sont les suivantes :\n\n1.  **Socialisation :** C'est le processus par lequel un individu acquiert des normes, des valeurs et des rôles sociaux. Il s'agit d'un processus fondamental pour l'intégration de l'individu dans la société.\n\n2.  **Socialisation primaire :**  C'est la première étape de la socialisation, qui se déroule principalement au sein de la famille. Elle est essentielle pour l'acquisition des bases de l'identité et des comportements sociaux.\n\n3.  **So",
+          "score": {
+            "fidelity": 9,
+            "clarity": 9,
+            "learning_value": 9,
+            "revision_value": 9,
+            "anti_hallucination": 10,
+            "total": 46,
+            "verdict": "Excellent",
+            "reason": "The response accurately identifies and explains the core concepts of the provided text with exceptional clarity. The 'What to Understand' section effectively summarizes the key takeaways and reinforces the material. The response demonstrates a strong understanding of the source material and avoids any extraneous information. The adherence to the source text is near perfect."
+          }
+        },
+        {
+          "variant": "revision",
+          "answer_preview": "**Sociologie L2 - Notions Centrales : Socialisation**\n\n1.  **Définition :** Socialisation = Intériorisation des normes, valeurs, rôles sociaux.\n2.  **Socialisation Primaire :** Famille (fondation)\n3.  **Socialisation Secondaire :** École, pairs, travail (suite et approfondissement)\n4.  **Erreur Classique :** Ne pas distinguer les deux types. C'est *fondamental* !\n5.  **À Retenir :** Processus continu, pas un événement unique.",
+          "score": {
+            "fidelity": 8,
+            "clarity": 9,
+            "learning_value": 9,
+            "revision_value": 8,
+            "anti_hallucination": 10,
+            "total": 44,
+            "verdict": "Excellent. La réponse capture avec précision les notions centrales du texte et les présente de manière claire et concise. L'identification de l'erreur classique est particulièrement pertinente.",
+            "reason": "La réponse démontre une compréhension solide du texte. La structure en points est efficace pour résumer les concepts clés. L'inclusion de l'erreur classique est un point fort qui souligne l'importance de la distinction entre la socialisation primaire et secondaire. La clarté et la concision sont excellentes. Il n'y a aucune indication d'invention ou de fabrication d'informations."
+          }
+        },
+        {
+          "variant": "pedagogique",
+          "answer_preview": "Très bien ! Commençons par décortiquer ce court extrait de cours de sociologie. On va prendre le temps de bien comprendre chaque élément, étape par étape.\n\n**Première notion centrale : La socialisation**\n\nQue signifie \"socialisation\" ?  En termes simples, la socialisation, c'est le processus par lequel on devient un membre de la société.  Imagine que tu es un bébé. Au début, tu ne sais rien de ce qui est \"normal\" ou \"correct\".  La socialisation, c'est le processus par lequel tu apprends ce qu'on",
+          "score": {
+            "fidelity": 5,
+            "clarity": 7,
+            "learning_value": 6,
+            "revision_value": 6,
+            "anti_hallucination": 9,
+            "total": 33,
+            "verdict": "Acceptable with caveats",
+            "reason": "The response accurately identifies the core concepts of the provided text – socialization and its two types (primary and secondary). The explanation is generally clear and uses an accessible analogy (learning to walk). However, it leans heavily on exposition rather than demonstrating understanding. The 'step-by-step' approach is somewhat redundant given the brevity of the original text. The anti-hallucination score is high due to the response's adherence to the source material. Improvement would involve a more concise summary and a stronger focus on *why* these concepts are important, rather than simply defining them."
+          }
+        },
+        {
+          "variant": "baseline",
+          "answer_preview": "Très bien ! Analysons ce court extrait de cours de sociologie pour la L2.\n\n**Détection des notions centrales :**\n\nCe cours met en avant trois notions fondamentales :\n\n1.  **La socialisation :** C'est le concept central. Il s'agit du processus global par lequel un individu devient un membre actif de la société.  Il ne s'agit pas simplement d'apprendre des règles, mais d'intégrer des valeurs et des comportements qui guideront ses actions.\n\n2.  **La socialisation primaire :** C'est une étape crucia",
+          "score": {
+            "fidelity": 3,
+            "clarity": 8,
+            "learning_value": 8,
+            "revision_value": 7,
+            "anti_hallucination": 1,
+            "total": 27,
+            "verdict": "Satisfaisant avec réserve",
+            "reason": "La réponse démontre une bonne compréhension des concepts clés du cours et les présente de manière claire et structurée. L'utilisation d'exemples concrets et de pistes de réflexion est un atout. Cependant, l'introduction excessive et le ton informel (ex: 'Très bien !') nuisent à la rigueur académique attendue. La 'discipline anti-hallucination' est faible car la réponse ne contient aucune information erronée, mais elle pourrait être plus concise et moins verbale. La fidélité au cours est correcte, mais pourrait être plus directe."
+          }
+        }
+      ],
+      "winner": "concise"
+    },
+    {
+      "case_name": "philo_resume",
+      "niveau": "L1",
+      "matiere": "philosophie",
+      "mode": "resumer",
+      "variants": [
+        {
+          "variant": "concise",
+          "answer_preview": "La conscience nous permet de nous identifier à nous-mêmes et à l'environnement, mais elle n'offre pas une connaissance complète et immédiate de soi.",
+          "score": {
+            "fidelity": 8,
+            "clarity": 9,
+            "learning_value": 8,
+            "revision_value": 8,
+            "anti_hallucination": 10,
+            "total": 43,
+            "verdict": "Excellent",
+            "reason": "The response accurately summarizes the provided text, demonstrating a strong understanding of the core concept. The language is clear and concise, making it highly useful for revision. The response also exhibits a commendable lack of invented information."
+          }
+        },
+        {
+          "variant": "anti_hallucination",
+          "answer_preview": "La conscience permet au sujet de se connecter à lui-même et au monde extérieur. Cependant, elle ne garantit pas une connaissance complète et transparente de soi-même.",
+          "score": {
+            "fidelity": 8,
+            "clarity": 9,
+            "learning_value": 8,
+            "revision_value": 8,
+            "anti_hallucination": 10,
+            "total": 43,
+            "verdict": "Excellent",
+            "reason": "The response accurately summarizes the provided text, demonstrating a strong understanding of the core concept. The language is clear and concise, making it highly useful for revision. The response also exhibits a commendable lack of invented information."
+          }
+        },
+        {
+          "variant": "revision",
+          "answer_preview": "**Conscience : Résumé Rapide**\n\n1.  **Définition:** La conscience = Relation soi/monde.\n2.  **Limites:** Ne garantit *pas* une connaissance complète de soi.\n3.  **Erreur Courante:** Penser que conscience = transparence totale.\n\n**Important:**  Ne pas oublier cette limite !",
+          "score": {
+            "fidelity": 7,
+            "clarity": 8,
+            "learning_value": 7,
+            "revision_value": 8,
+            "anti_hallucination": 10,
+            "total": 39,
+            "verdict": "Bon",
+            "reason": "La réponse capture fidèlement l'essence du cours, la présente de manière claire et concise, et fournit un résumé utile pour la révision. L'inclusion d'une 'erreur courante' est particulièrement pertinente. L'absence d'invention est parfaite. Légèrement diminué pour ne pas être parfait, mais globalement très bon."
+          }
+        },
+        {
+          "variant": "baseline",
+          "answer_preview": "Très bien ! Voici un résumé utile pour réviser la notion de conscience telle que présentée dans ce court extrait de cours, spécialement conçu pour un étudiant de L1 en philosophie :\n\n**Résumé : La Conscience et ses Limites**\n\nL'extrait nous présente la conscience comme une capacité fondamentale, mais pas comme une vérité absolue. Voici les points clés à retenir :\n\n1. **Rapport à soi et au monde :** La conscience nous permet de nous situer dans l'espace et le temps, de percevoir le monde qui nous",
+          "score": {
+            "fidelity": 3,
+            "clarity": 7,
+            "learning_value": 7,
+            "revision_value": 8,
+            "anti_hallucination": 1,
+            "total": 26,
+            "verdict": "Acceptable, but needs significant refinement to meet expectations for a revision aid.",
+            "reason": "The response accurately summarizes the core concepts of the provided text. However, it significantly expands upon the original material with added explanations, examples, and philosophical questions, which, while helpful, detract from the core task of a concise revision aid. The 'anti-hallucination' score reflects the unnecessary additions. Clarity is high due to the organized structure and use of examples. Fidelity is low due to the substantial expansion. The revision value is high because it effectively prompts further thought. Overall, it's a good starting point but requires a more focused approach to truly serve as a revision tool."
+          }
+        },
+        {
+          "variant": "pedagogique",
+          "answer_preview": "Ok, super question ! On va décortiquer cette phrase ensemble, étape par étape, pour qu'elle devienne plus claire.\n\n**Première idée : \"La conscience permet au sujet de se rapporter à lui-même et au monde...\"**\n\nImagine que tu es en train de regarder un film. La conscience, c'est un peu comme la capacité à être *au courant* de ce que tu regardes. Tu sais que tu es *toi* qui regardes le film, et tu sais aussi que le film se déroule dans un monde imaginaire.  La conscience, c'est cette capacité à av",
+          "score": {
+            "fidelity": 2,
+            "clarity": 6,
+            "learning_value": 6,
+            "revision_value": 6,
+            "anti_hallucination": 1,
+            "total": 21,
+            "verdict": "Partiellement acceptable. L'explication est claire et utilise une analogie accessible, mais s'éloigne significativement du texte original et introduit des interprétations.",
+            "reason": "The response attempts to explain the core concept but significantly deviates from the original text by adding an extended explanation and an analogy. While the clarity is good, the fidelity to the source material is extremely low, and the inclusion of the conversational tone and prompting for feedback is inappropriate for a revision summary. The score reflects a partial understanding of the original statement and a reasonable effort at clarification, but with significant inaccuracies and extraneous additions."
+          }
+        }
+      ],
+      "winner": "concise"
+    },
+    {
+      "case_name": "anti_hallucination_test",
+      "niveau": "L2",
+      "matiere": "sociologie",
+      "mode": "expliquer",
+      "variants": [
+        {
+          "variant": "concise",
+          "answer_preview": "La socialisation primaire est le processus d'apprentissage des normes et valeurs de base, se déroulant dans la famille. Elle façonne notre identité et nos premières compétences sociales.\n\nLa socialisation tertiaire, définie dans le cours, se réfère aux apprentissages acquis au sein des groupes secondaires et tertiaires. Elle est caractérisée par l'acquisition de normes spécifiques à ces contextes, souvent liés à des activités ou des professions.",
+          "score": {
+            "fidelity": 7,
+            "clarity": 8,
+            "learning_value": 7,
+            "revision_value": 6,
+            "anti_hallucination": 9,
+            "total": 37,
+            "verdict": "Satisfaisant",
+            "reason": "The response accurately identifies and explains the primary socialization as defined in the course material. The description of tertiary socialization aligns with the course's definition. While the explanation is somewhat basic, it demonstrates a solid understanding of the concepts. The 'anti-hallucination' score is high due to the absence of any fabricated information. Minor improvements could be made to expand on the nuances of each socialization type."
+          }
+        },
+        {
+          "variant": "anti_hallucination",
+          "answer_preview": "La réponse étudiante est vide. Voici une explication de la socialisation primaire, telle que définie dans le cours, suivie d'une explication de la socialisation tertiaire, en respectant les règles de rigueur et de fiabilité.\n\n**Socialisation Primaire :**\n\nSelon le cours, la socialisation primaire est le processus par lequel un individu acquiert les premières formes de langage, de valeurs, de normes et de comportements essentiels à son intégration dans la société.  Elle se déroule principalement ",
+          "score": {
+            "fidelity": 7,
+            "clarity": 8,
+            "learning_value": 7,
+            "revision_value": 7,
+            "anti_hallucination": 9,
+            "total": 36,
+            "verdict": "Satisfaisant",
+            "reason": "The response accurately identifies and explains the primary socialization as defined in the course material. It correctly acknowledges the lack of a specific definition for tertiary socialization and provides a reasonable, albeit speculative, interpretation based on the course's broader context. The explanations are clear and well-organized. The response demonstrates a strong adherence to the provided text and avoids inventing information. Minor deductions are made for the slightly repetitive nature of the descriptions and the lack of a more detailed exploration of the nuances of tertiary socialization."
+          }
+        },
+        {
+          "variant": "baseline",
+          "answer_preview": "Très bien ! Reprenons ensemble la socialisation primaire, puis nous approfondirons la socialisation tertiaire telle qu'elle est définie dans le cours.\n\n**1. La Socialisation Primaire : Les Fondations de Notre Identité**\n\nLa socialisation primaire, comme l'indique le cours, est le processus fondamental par lequel nous acquérons nos premières notions de réalité, nos valeurs, nos normes et nos comportements. Elle se déroule principalement au sein de la **famille** et des **premiers groupes d’appart",
+          "score": {
+            "fidelity": 1,
+            "clarity": 8,
+            "learning_value": 8,
+            "revision_value": 8,
+            "anti_hallucination": 9,
+            "total": 32,
+            "verdict": "Excellent",
+            "reason": "The response accurately and thoroughly explains both primary and tertiary socialization as defined in the course material. The breakdown of each stage, including key elements like the actors involved, timing, and objectives, is well-organized and clear. The inclusion of a table comparing the two types of socialization is particularly effective. The concluding section with revision prompts further enhances the learning value. The response demonstrates a strong understanding of the course content and avoids any extraneous information."
+          }
+        },
+        {
+          "variant": "pedagogique",
+          "answer_preview": "Très bien ! Commençons par la socialisation primaire. C'est un concept clé en sociologie, et il est important de bien le comprendre avant d'aborder la socialisation tertiaire.\n\n**La socialisation primaire : Construire son identité au cœur de la famille**\n\nImagine un instant que tu es un bébé. Tu ne sais absolument rien. Tu ne connais ni les règles, ni les valeurs, ni même comment parler.  C'est là que la socialisation primaire entre en jeu.\n\nEn termes simples, la socialisation primaire, c'est le",
+          "score": {
+            "fidelity": 3,
+            "clarity": 7,
+            "learning_value": 7,
+            "revision_value": 6,
+            "anti_hallucination": 1,
+            "total": 25,
+            "verdict": "Partiellement acceptable, mais nécessite une reformulation substantielle.",
+            "reason": "The response accurately defines primary socialization and provides a reasonable explanation of its key elements. However, it significantly deviates from the course's concise definition and includes unnecessary conversational elements (e.g., 'Imagine a moment...', 'Now, before we move on...'). The discussion of tertiary socialization is entirely absent, failing to address the core requirement of the question. The 'anti-hallucination' score reflects the inclusion of irrelevant content. While the clarity of the primary socialization explanation is good, the overall response is disorganized and lacks the precision expected in an academic assessment. It fulfills some aspects of the prompt but falls far short of a comprehensive and accurate answer."
+          }
+        },
+        {
+          "variant": "revision",
+          "answer_preview": "## Socialisation Primaire :\n\n*   **Définition :** Se passe dans la famille.\n*   **Objectif :** Apprendre les bases de la vie, les normes, les valeurs.\n*   **Durée :** Très courte (enfance).\n*   **Erreur classique :** La considérer comme la seule forme de socialisation.\n\n## Socialisation Tertiaire : (Définition du cours)\n\n*   **Définition :**  Non définie dans le cours.  Il faut la définir soi-même.\n*   **Concept clé :**  Socialisation *après* la famille.\n*   **Exemples :** Associations, groupes ",
+          "score": {
+            "fidelity": 2,
+            "clarity": 4,
+            "learning_value": 3,
+            "revision_value": 3,
+            "anti_hallucination": 1,
+            "total": 13,
+            "verdict": "Insuffisant",
+            "reason": "La réponse identifie correctement la socialisation primaire et reprend l'erreur classique. Cependant, elle ne répond pas à la question de développer la socialisation tertiaire telle qu'elle est définie dans le cours. La définition de la socialisation tertiaire est absente et la discussion est trop générale et manque de profondeur. L'ajout de notes et d'exhortations à la précision est inapproprié pour une évaluation académique. La note est basée sur une reconnaissance limitée de la socialisation primaire et une absence totale de développement de la socialisation tertiaire selon la définition du cours."
+          }
+        }
+      ],
+      "winner": "concise"
+    },
+    {
+      "case_name": "correction_test",
+      "niveau": "L1",
+      "matiere": "économie",
+      "mode": "corriger",
+      "variants": [
+        {
+          "variant": "pedagogique",
+          "answer_preview": "Très bien ! Ton explication est un bon début, mais on peut la rendre encore plus précise et comprendre vraiment ce qu'est un marché.\n\n**Première étape : Définissons \"prix\" dans ce contexte.**\n\nQuand on parle de \"prix\" sur un marché, il ne s'agit pas juste de fixer un prix. Le prix est en réalité un **signal**.  Imagine que tu veux acheter une pomme. Si toutes les pommes sont très chères, ça veut dire qu'il y a beaucoup de gens qui veulent les acheter et peu de pommes disponibles. Si les pommes s",
+          "score": {
+            "fidelity": 9,
+            "clarity": 10,
+            "learning_value": 10,
+            "revision_value": 10,
+            "anti_hallucination": 10,
+            "total": 49,
+            "verdict": "Excellent",
+            "reason": "The response provides a highly accurate and clear explanation of a market, incorporating the crucial role of price as a signaling mechanism and its influence on quantity. It effectively corrects the initial statement and offers a comprehensive understanding. The use of examples and a conversational tone enhances clarity and learning value."
+          }
+        },
+        {
+          "variant": "baseline",
+          "answer_preview": "Très bien ! Analysons la réponse de l'étudiant et voyons comment l'améliorer pour une compréhension plus précise du concept de marché.\n\n**Analyse de la réponse initiale :**\n\nLa réponse de l'étudiant est correcte dans son essence, mais elle est un peu simpliste. Elle décrit bien la fonction de base du marché : connecter acheteurs et vendeurs. Cependant, elle ne capture pas l'importance cruciale du rôle des prix et de la coordination qu'ils assurent.\n\n**Correction et explication détaillée :**\n\nVoi",
+          "score": {
+            "fidelity": 9,
+            "clarity": 10,
+            "learning_value": 9,
+            "revision_value": 9,
+            "anti_hallucination": 10,
+            "total": 47,
+            "verdict": "Excellent",
+            "reason": "The revised response demonstrates a thorough understanding of the core concepts of supply and demand, price coordination, and market equilibrium. The explanation is clear, well-structured, and includes relevant examples and further questions to promote deeper learning. The response accurately reflects the provided course material and avoids any fabricated information."
+          }
+        },
+        {
+          "variant": "concise",
+          "answer_preview": "La réponse est trop simpliste. \n\nLe marché est un mécanisme de coordination des prix, résultant de l'interaction entre l'offre (ce que les producteurs sont prêts à vendre) et la demande (ce que les consommateurs sont prêts à acheter).  Il ne s'agit pas simplement de \"fixer\" les prix, mais de les déterminer par l'interaction de ces forces.",
+          "score": {
+            "fidelity": 9,
+            "clarity": 9,
+            "learning_value": 9,
+            "revision_value": 9,
+            "anti_hallucination": 10,
+            "total": 46,
+            "verdict": "Excellent",
+            "reason": "The response provides a significantly more accurate and detailed explanation of the market mechanism than the original, addressing the simplification identified in the prompt. It correctly defines the interaction of supply and demand and clarifies the dynamic nature of price determination. The response demonstrates a strong understanding of the concept and avoids any fabricated information."
+          }
+        },
+        {
+          "variant": "revision",
+          "answer_preview": "**Correction :**\n\n**1. Définition du marché (Priorité)** : Le marché est un mécanisme d'interaction entre offre et demande.\n\n**2. Rôle des prix (Important)** : Les prix agissent comme un signal, coordonnant l'offre et la demande en incitant les producteurs à produire ce que les consommateurs veulent acheter, et les consommateurs à acheter ce que les producteurs sont prêts à vendre.\n\n**3. Fonctionnement (Secondaire)** : Il met en relation acheteurs et vendeurs, mais c'est le prix qui détermine le",
+          "score": {
+            "fidelity": 9,
+            "clarity": 9,
+            "learning_value": 9,
+            "revision_value": 9,
+            "anti_hallucination": 10,
+            "total": 46,
+            "verdict": "Excellent",
+            "reason": "La correction est exhaustive, précise et bien structurée. Elle aborde les aspects essentiels du fonctionnement du marché de manière claire et concise. La détection de l'erreur classique est pertinente et l'explication est pédagogique. La réponse est parfaitement fidèle au cours et démontre une compréhension approfondie du sujet."
+          }
+        },
+        {
+          "variant": "anti_hallucination",
+          "answer_preview": "La réponse de l'étudiant est partiellement correcte. \n\nVoici une correction plus précise, basée sur le cours :\n\n\"Le marché est le résultat de l'interaction entre l'offre et la demande. Les prix jouent un rôle de coordination, c'est-à-dire qu'ils permettent d'équilibrer les quantités désirées par les acheteurs et les quantités disponibles auprès des vendeurs.\"\n\n**Points à noter :**\n\n*   Il est important de souligner que le marché n'est pas simplement un lieu de \"fixation des prix\", mais un mécani",
+          "score": {
+            "fidelity": 9,
+            "clarity": 9,
+            "learning_value": 9,
+            "revision_value": 9,
+            "anti_hallucination": 10,
+            "total": 46,
+            "verdict": "Excellent",
+            "reason": "The revised response accurately reflects the provided course material, clarifying the role of prices as a coordinating mechanism and emphasizing the interaction of supply and demand in determining market equilibrium. The added notes are pertinent and insightful. The original student's response was significantly lacking in precision."
+          }
+        }
+      ],
+      "winner": "pedagogique"
+    }
+  ]
+}

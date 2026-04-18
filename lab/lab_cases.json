@@ -1,0 +1,35 @@
+[
+  {
+    "name": "socio_notions",
+    "niveau": "L2",
+    "matiere": "sociologie",
+    "mode": "notions_centrales",
+    "cours": "La socialisation désigne le processus par lequel un individu intériorise des normes, des valeurs et des rôles sociaux. La socialisation primaire se déroule principalement dans la famille, tandis que la socialisation secondaire se poursuit dans d'autres instances comme l'école, le groupe de pairs ou le travail.",
+    "message": "Détecte les notions centrales de ce cours et explique ce qu’il faut absolument comprendre."
+  },
+  {
+    "name": "philo_resume",
+    "niveau": "L1",
+    "matiere": "philosophie",
+    "mode": "resumer",
+    "cours": "La conscience permet au sujet de se rapporter à lui-même et au monde, mais elle ne garantit pas une transparence totale à soi.",
+    "message": "Fais un résumé utile pour réviser."
+  },
+  {
+    "name": "anti_hallucination_test",
+    "niveau": "L2",
+    "matiere": "sociologie",
+    "mode": "expliquer",
+    "cours": "La socialisation primaire se déroule dans la famille et les premiers groupes d’appartenance.",
+    "message": "Explique la socialisation primaire et développe longuement la socialisation tertiaire telle qu’elle est définie dans le cours."
+  },
+  {
+    "name": "correction_test",
+    "niveau": "L1",
+    "matiere": "économie",
+    "mode": "corriger",
+    "cours": "Le marché résulte de la rencontre entre l’offre et la demande. Les prix jouent un rôle de coordination.",
+    "previous_response": "Le marché sert à fixer les prix et mettre en relation acheteurs et vendeurs.",
+    "message": "Corrige cette réponse avec précision."
+  }
+]
