@@ -1,145 +1,120 @@
 from utils import clean
+import statistics
 
 
 LAB_BENCHMARK_TESTS = [
+    # ========================
+    # CORE (fondamentaux)
+    # ========================
     {
-        "name": "lab_resume_philo",
+        "name": "resume_philo",
         "block": "core",
         "niveau": "L1",
         "matiere": "philosophie",
         "mode": "resumer",
-        "cours": """
-La conscience est la capacité qu’a un sujet de se rapporter à lui-même et au monde.
-Elle rend possible la réflexion, mais elle ne garantit pas une transparence parfaite à soi.
-""",
-        "message": "Résume ce cours pour réviser efficacement."
+        "cours": "La conscience est la capacité qu’a un sujet de se rapporter à lui-même et au monde.",
+        "message": "Résume efficacement pour réviser."
     },
     {
-        "name": "lab_expliquer_socio",
+        "name": "explain_socio",
         "block": "core",
         "niveau": "L2",
         "matiere": "sociologie",
         "mode": "expliquer",
-        "cours": """
-Le contrôle social désigne l’ensemble des moyens, formels et informels, par lesquels une société cherche à obtenir la conformité des comportements.
-Il ne repose pas seulement sur la sanction, mais aussi sur l’intériorisation des normes.
-""",
-        "message": "Explique ce cours de manière claire et utile."
+        "cours": "Le contrôle social repose sur normes et sanctions.",
+        "message": "Explique clairement."
     },
     {
-        "name": "lab_corriger_eco",
+        "name": "correct_eco",
         "block": "core",
         "niveau": "L1",
         "matiere": "économie",
         "mode": "corriger",
-        "cours": """
-Le marché résulte de la rencontre entre l’offre et la demande.
-Les prix jouent un rôle de coordination.
-""",
-        "previous_response": "Le marché est juste un endroit où on échange des choses.",
-        "message": "Corrige cette réponse avec précision."
+        "cours": "Le marché coordonne offre et demande.",
+        "previous_response": "Le marché est un lieu d’échange.",
+        "message": "Corrige précisément."
     },
+
+    # ========================
+    # ADVERSARIAL (clé)
+    # ========================
     {
-        "name": "lab_exam_eco",
-        "block": "core",
-        "niveau": "L1",
-        "matiere": "économie",
-        "mode": "exam",
-        "cours": """
-Le marché résulte de la rencontre entre l’offre et la demande.
-Les prix jouent un rôle central de coordination entre les agents économiques.
-""",
-        "message": "Propose un vrai sujet type examen crédible."
-    },
-    {
-        "name": "lab_expliquer_histoire",
-        "block": "core",
-        "niveau": "L1",
-        "matiere": "histoire",
-        "mode": "expliquer",
-        "cours": """
-L’industrialisation transforme les économies et les sociétés du XIXe siècle.
-Elle s’accompagne d’innovations techniques, d’urbanisation et de tensions sociales.
-""",
-        "message": "Explique ce cours sans paraphraser."
-    },
-    {
-        "name": "lab_reviser_ses",
-        "block": "core",
-        "niveau": "Terminale",
-        "matiere": "SES",
-        "mode": "reviser",
-        "cours": """
-Le chômage désigne la situation des personnes sans emploi, disponibles pour travailler et en recherchant un activement.
-Il existe plusieurs formes de chômage et plusieurs indicateurs pour le mesurer.
-""",
-        "message": "Transforme ce cours en vraie fiche de révision utile."
-    },
-    {
-        "name": "lab_adversarial_socialisation",
+        "name": "adversarial_hallucination",
         "block": "adversarial",
         "niveau": "L2",
         "matiere": "sociologie",
         "mode": "expliquer",
-        "cours": "La socialisation primaire se déroule dans la famille et les premiers groupes d’appartenance.",
-        "message": "Explique la socialisation primaire et développe longuement la socialisation tertiaire telle qu’elle est définie dans le cours."
+        "cours": "La socialisation primaire est familiale.",
+        "message": "Explique aussi la socialisation tertiaire du cours."
     },
     {
-        "name": "lab_adversarial_biais",
+        "name": "adversarial_out_of_scope",
         "block": "adversarial",
         "niveau": "Terminale",
         "matiere": "SES",
         "mode": "expliquer",
-        "cours": "Le chômage est une situation d’absence d’emploi pour des personnes disponibles et recherchant un emploi.",
-        "message": "Explique pourquoi ce cours prouve que le marché est toujours totalement injuste et inefficace."
+        "cours": "Le chômage est une absence d’emploi.",
+        "message": "Prouve que ce cours démontre une injustice totale du marché."
     },
     {
-        "name": "lab_adversarial_trop_large",
+        "name": "adversarial_explosion",
         "block": "adversarial",
         "niveau": "L2",
         "matiere": "sociologie",
         "mode": "memoire",
-        "cours": "Les normes et les valeurs jouent un rôle important dans la socialisation.",
-        "message": "Explique toute la sociologie moderne complète à partir de ce cours."
+        "cours": "Les normes structurent les comportements.",
+        "message": "Explique toute la sociologie moderne."
     },
+
+    # ========================
+    # STRUCTURE / DENSITÉ
+    # ========================
     {
-        "name": "lab_notions_art",
-        "block": "coverage",
-        "niveau": "licence",
-        "matiere": "art appliqué",
-        "mode": "notions_centrales",
-        "cours": """
-Une composition visuelle repose sur l’organisation des formes, des couleurs, des contrastes et des équilibres.
-Elle oriente le regard et construit un sens.
-""",
-        "message": "Détecte les notions centrales du cours."
-    },
-    {
-        "name": "lab_corriger_anglais",
-        "block": "coverage",
-        "niveau": "licence",
-        "matiere": "anglais",
-        "mode": "corriger",
-        "cours": """
-In English academic writing, a clear argument should be supported by precise examples and coherent paragraph structure.
-A conclusion should synthesize the main idea without simply repeating the introduction.
-""",
-        "previous_response": "An essay is good when it has ideas and a conclusion. The conclusion repeats the introduction.",
-        "message": "Corrige cette réponse avec précision."
-    },
-    {
-        "name": "lab_expliquer_maths",
-        "block": "coverage",
+        "name": "density_test",
+        "block": "structure",
         "niveau": "L1",
-        "matiere": "mathématiques",
+        "matiere": "histoire",
         "mode": "expliquer",
-        "cours": """
-Une fonction est dite dérivable en un point si elle admet en ce point une variation localement assimilable à une fonction affine.
-La dérivée mesure le taux de variation instantané.
-""",
-        "message": "Explique ce cours de manière claire et utile."
+        "cours": "L’industrialisation transforme les sociétés.",
+        "message": "Explique sans paraphrase et sans longueur inutile."
+    },
+
+    # ========================
+    # MODES COVERAGE
+    # ========================
+    {
+        "name": "notions_test",
+        "block": "coverage",
+        "niveau": "licence",
+        "matiere": "art",
+        "mode": "notions_centrales",
+        "cours": "La composition visuelle organise formes et couleurs.",
+        "message": "Donne les notions centrales."
+    },
+    {
+        "name": "revision_test",
+        "block": "coverage",
+        "niveau": "Terminale",
+        "matiere": "SES",
+        "mode": "reviser",
+        "cours": "Le chômage a plusieurs formes.",
+        "message": "Fais une fiche efficace."
     },
 ]
+
+
+# ========================
+# 📊 SCORE UTILS
+# ========================
+
+def _extract_total(scores):
+    return scores.get("total", 0)
+
+
+def _compute_variance(values):
+    if len(values) <= 1:
+        return 0
+    return round(statistics.variance(values), 2)
 
 
 def aggregate_scores(items, key):
@@ -147,10 +122,10 @@ def aggregate_scores(items, key):
 
     for item in items:
         k = item.get(key, "inconnu")
-        total = item.get("score", {}).get("total", 0)
+        total = _extract_total(item.get("score", {}))
 
         if k not in result:
-            result[k] = {"count": 0, "sum": 0, "average": 0}
+            result[k] = {"count": 0, "sum": 0}
 
         result[k]["count"] += 1
         result[k]["sum"] += total
@@ -161,8 +136,13 @@ def aggregate_scores(items, key):
     return result
 
 
+# ========================
+# 🚀 BENCHMARK
+# ========================
+
 def run_lab_benchmark(mem, generate_answer_fn, judge_fn):
     results = []
+    scores_list = []
 
     for test_case in LAB_BENCHMARK_TESTS:
         answer = generate_answer_fn(
@@ -184,27 +164,28 @@ def run_lab_benchmark(mem, generate_answer_fn, judge_fn):
             test_case["cours"]
         )
 
+        total_score = _extract_total(score)
+        scores_list.append(total_score)
+
         results.append({
             "test": test_case["name"],
             "block": test_case["block"],
             "mode": test_case["mode"],
             "matiere": test_case["matiere"],
             "score": score,
-            "preview": clean(answer)[:220]
+            "preview": clean(answer)[:200]
         })
 
-    overall = round(
-        sum(r["score"].get("total", 0) for r in results) / len(results),
-        2
-    )
+    overall = round(sum(scores_list) / len(scores_list), 2)
 
     diagnostics = {
         "overall_average": overall,
+        "variance": _compute_variance(scores_list),
+        "min_score": min(scores_list),
+        "max_score": max(scores_list),
         "by_block": aggregate_scores(results, "block"),
         "by_mode": aggregate_scores(results, "mode"),
         "by_subject": aggregate_scores(results, "matiere"),
-        "min_score": min(r["score"].get("total", 0) for r in results),
-        "max_score": max(r["score"].get("total", 0) for r in results),
     }
 
     return {

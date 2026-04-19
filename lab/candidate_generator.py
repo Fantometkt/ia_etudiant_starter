@@ -10,16 +10,37 @@ def _append_rule(text, rule_block):
     return text + "\n\n" + rule_block.strip() + "\n"
 
 
+def _replace_section(text, old, new):
+    if old in text:
+        return text.replace(old, new)
+    return _append_rule(text, new)
+
+
+def _compress_text(text):
+    lines = [line.strip() for line in text.split("\n") if line.strip()]
+    seen = set()
+    cleaned = []
+    for line in lines:
+        if line not in seen:
+            cleaned.append(line)
+            seen.add(line)
+    return "\n".join(cleaned)
+
+
+# ========================
+# 🔴 MUTATIONS MODES
+# ========================
+
 def mutate_resume(mode_instructions):
     mi = copy.deepcopy(mode_instructions)
     mi["resumer"] = _append_rule(
         mi["resumer"],
         """
 RÈGLES STRICTES SUPPLÉMENTAIRES :
-- Maximum 4 points utiles
-- Pas de section redondante
-- Pas de mini-fiche déguisée
-- Coupe tout ce qui n’aide pas directement à réviser
+- Maximum 4 points
+- Chaque point doit apporter une idée différente
+- Supprime toute redondance
+- Refuse toute dérive vers une fiche
 """
     )
     return mi
@@ -31,9 +52,9 @@ def mutate_explain(mode_instructions):
         mi["expliquer"],
         """
 RÈGLES STRICTES SUPPLÉMENTAIRES :
-- Fais ressortir le mécanisme central
-- Évite la simple reformulation du cours
-- Si le cours est court, ne gonfle pas artificiellement
+- Identifie le mécanisme central avant d’expliquer
+- Si le cours est flou, clarifie sans inventer
+- Priorise compréhension > exhaustivité
 """
     )
     return mi
@@ -45,9 +66,9 @@ def mutate_correction(mode_instructions):
         mi["corriger"],
         """
 RÈGLES STRICTES SUPPLÉMENTAIRES :
-- Distingue très nettement juste / faux / incomplet
-- Donne une réponse améliorée plus dense
-- Évite les commentaires vagues
+- Sépare clairement juste / faux / incomplet
+- Chaque critique doit être justifiée
+- La réponse améliorée doit être supérieure, pas juste corrigée
 """
     )
     return mi
@@ -59,9 +80,9 @@ def mutate_exam(mode_instructions):
         mi["exam"],
         """
 RÈGLES STRICTES SUPPLÉMENTAIRES :
-- Évite les consignes trop longues
-- Sujet crédible, compact et directement exploitable
-- Réduis les répétitions entre attentes, notions et pièges
+- Teste la compréhension, pas la récitation
+- Évite toute redondance entre sections
+- Sujet compact et crédible
 """
     )
     return mi
@@ -73,42 +94,95 @@ def mutate_notions(mode_instructions):
         mi["notions_centrales"],
         """
 RÈGLES STRICTES SUPPLÉMENTAIRES :
-- Classe les notions par ordre d’importance
+- Classe strictement du plus important au moins important
 - Maximum 5 notions
-- Pas d’explication décorative
-- Donne une ossature, pas un mini-cours
+- Refuse toute explication inutile
 """
     )
     return mi
 
 
-def mutate_base_prompt(base_system_prompt):
-    return _append_rule(
-        base_system_prompt,
+def mutate_reviser(mode_instructions):
+    mi = copy.deepcopy(mode_instructions)
+    mi["reviser"] = _append_rule(
+        mi["reviser"],
         """
-RÈGLES D'AUTO-AMÉLIORATION :
-- Récompense la densité utile
-- Réduis la structure décorative
-- Sur les questions piégeuses, pose une limite claire et recentre sur le cours
-- En matière créative ou visuelle, privilégie la hiérarchisation des concepts plutôt que la paraphrase
+RÈGLES STRICTES SUPPLÉMENTAIRES :
+- Favorise mémorisation rapide
+- Supprime toute phrase inutile
+- Structure uniquement si utile
+"""
+    )
+    return mi
+
+
+# ========================
+# 🧠 MUTATIONS BASE SYSTEM
+# ========================
+
+def mutate_base_density(base_prompt):
+    return _append_rule(
+        base_prompt,
+        """
+RÈGLE CRITIQUE :
+- Toute phrase doit apporter une information utile
+- Supprime toute redondance implicite
 """
     )
 
 
+def mutate_base_strategy(base_prompt):
+    return _append_rule(
+        base_prompt,
+        """
+AVANT DE RÉPONDRE :
+- Identifie l’objectif réel de la demande
+- Priorise ce qui aide à comprendre ou réussir
+"""
+    )
+
+
+def mutate_base_safety(base_prompt):
+    return _append_rule(
+        base_prompt,
+        """
+SÉCURITÉ RENFORCÉE :
+- Si une information est absente du cours, ne la complète pas
+- Signale toute incertitude clairement
+"""
+    )
+
+
+def mutate_base_cleanup(base_prompt):
+    return _compress_text(base_prompt)
+
+
+# ========================
+# 🎲 MUTATEURS
+# ========================
+
 MUTATORS = [
     ("resumer", "mode_resumer", mutate_resume, 3),
     ("expliquer", "mode_expliquer", mutate_explain, 4),
-    ("corriger", "mode_corriger", mutate_correction, 2),
+    ("corriger", "mode_corriger", mutate_correction, 3),
     ("exam", "mode_exam", mutate_exam, 4),
     ("notions_centrales", "mode_notions", mutate_notions, 5),
-    ("base_system", "base_prompt", mutate_base_prompt, 1),
+    ("reviser", "mode_reviser", mutate_reviser, 3),
+
+    ("base_density", "base_prompt", mutate_base_density, 2),
+    ("base_strategy", "base_prompt", mutate_base_strategy, 3),
+    ("base_safety", "base_prompt", mutate_base_safety, 2),
+    ("base_cleanup", "base_prompt", mutate_base_cleanup, 1),
 ]
 
 
+# ========================
+# 🧬 GÉNÉRATION
+# ========================
+
 def generate_candidate():
-    choices = MUTATORS
-    weights = [item[3] for item in choices]
-    mutation_label, target, mutator, _weight = random.choices(choices, weights=weights, k=1)[0]
+    weights = [item[3] for item in MUTATORS]
+    mutation_label, target, mutator, _ = random.choices(MUTATORS, weights=weights, k=1)[0]
 
     base_prompt = generator.BASE_SYSTEM_PROMPT
     mode_instructions = copy.deepcopy(generator.MODE_INSTRUCTIONS)

@@ -1,4 +1,5 @@
 import json
+import statistics
 from datetime import datetime
 from pathlib import Path
 
@@ -39,15 +40,16 @@ def call_ollama(messages, temp=0.2):
         "model": MODEL_NAME,
         "messages": messages,
         "stream": False,
-        "options": {
-            "temperature": temp
-        }
+        "options": {"temperature": temp}
     }
     r = requests.post(OLLAMA_URL, json=payload)
     r.raise_for_status()
-    data = r.json()
-    return data.get("message", {}).get("content", "").strip()
+    return r.json().get("message", {}).get("content", "").strip()
 
+
+# ========================
+# 🧠 PROMPT USER
+# ========================
 
 def build_user_prompt(case):
     return f"""
@@ -70,27 +72,38 @@ Question :
 """
 
 
+# ========================
+# ⚖️ JUGE ULTRA STRICT
+# ========================
+
 def judge_response(case, answer):
     judge_prompt = f"""
-Tu es un évaluateur sévère.
+Tu es un évaluateur ÉLITE extrêmement sévère.
 
-Tu notes cette réponse sur 5 critères de 0 à 10 :
-- fidélité au cours
-- clarté
-- utilité pour apprendre
-- utilité pour réviser
-- discipline anti-invention
+RÈGLES :
+- 5 = moyen
+- 7 = bon
+- 8 = très bon
+- 9+ = exceptionnel (rare)
+- pénalise fortement :
+  - paraphrase
+  - longueur inutile
+  - hors sujet
+  - invention
+  - manque de hiérarchisation
 
-Réponds UNIQUEMENT en JSON :
+FORMAT JSON STRICT :
+
 {{
   "fidelity": 0,
   "clarity": 0,
   "learning_value": 0,
   "revision_value": 0,
   "anti_hallucination": 0,
+  "structure_quality": 0,
+  "density": 0,
   "total": 0,
-  "verdict": "",
-  "reason": ""
+  "risk_flags": []
 }}
 
 Cours :
@@ -102,52 +115,65 @@ Question :
 Réponse :
 {answer}
 """
+
     messages = [
-        {"role": "system", "content": "Tu es un juge académique strict. Réponds uniquement en JSON valide."},
+        {"role": "system", "content": "Tu es un juge académique strict. JSON uniquement."},
         {"role": "user", "content": judge_prompt},
     ]
 
     try:
         raw = call_ollama(messages, temp=0.0)
+
         start = raw.find("{")
         end = raw.rfind("}")
-        if start != -1 and end != -1 and end > start:
-            parsed = json.loads(raw[start:end + 1])
-            return parsed
+        parsed = json.loads(raw[start:end + 1])
+
+        # 🔥 recalcul du total
+        scores = [
+            parsed.get("fidelity", 0),
+            parsed.get("clarity", 0),
+            parsed.get("learning_value", 0),
+            parsed.get("revision_value", 0),
+            parsed.get("anti_hallucination", 0),
+            parsed.get("structure_quality", 0),
+            parsed.get("density", 0),
+        ]
+
+        parsed["total"] = sum(scores)
+
+        return parsed
+
     except Exception:
-        pass
+        return {
+            "fidelity": 3,
+            "clarity": 3,
+            "learning_value": 3,
+            "revision_value": 3,
+            "anti_hallucination": 3,
+            "structure_quality": 3,
+            "density": 3,
+            "total": 21,
+            "risk_flags": ["judge_error"]
+        }
 
-    return {
-        "fidelity": 4,
-        "clarity": 4,
-        "learning_value": 4,
-        "revision_value": 4,
-        "anti_hallucination": 4,
-        "total": 20,
-        "verdict": "fallback",
-        "reason": "Le juge n’a pas renvoyé un JSON valide."
-    }
 
+# ========================
+# 🚀 LAB LOOP
+# ========================
 
 def run_lab():
     cases = load_cases()
+
     if not cases:
-        report = {
-            "timestamp": now_iso(),
-            "error": "Aucun cas de test dans lab_cases.json"
-        }
-        path = save_report(report)
-        print(f"Rapport enregistré : {path}")
+        path = save_report({"error": "no cases"})
+        print(path)
         return
 
     all_results = []
 
     for case in cases:
         case_result = {
-            "case_name": case.get("name", "sans_nom"),
-            "niveau": case.get("niveau", ""),
-            "matiere": case.get("matiere", ""),
-            "mode": case.get("mode", ""),
+            "case_name": case.get("name", ""),
             "variants": []
         }
 
@@ -161,62 +187,66 @@ def run_lab():
                 answer = call_ollama(messages, temp=0.2)
                 score = judge_response(case, answer)
             except Exception as e:
-                answer = f"Erreur : {str(e)}"
-                score = {
-                    "fidelity": 0,
-                    "clarity": 0,
-                    "learning_value": 0,
-                    "revision_value": 0,
-                    "anti_hallucination": 0,
-                    "total": 0,
-                    "verdict": "error",
-                    "reason": str(e)
-                }
+                answer = str(e)
+                score = {"total": 0, "risk_flags": ["runtime_error"]}
 
             case_result["variants"].append({
                 "variant": variant_name,
-                "answer_preview": answer[:500],
-                "score": score
+                "score": score,
+                "preview": answer[:200]
             })
 
+        # tri
         case_result["variants"].sort(
-            key=lambda x: x["score"].get("total", 0),
+            key=lambda x: x["score"]["total"],
             reverse=True
         )
 
         case_result["winner"] = case_result["variants"][0]["variant"]
         all_results.append(case_result)
 
+    # ========================
+    # 📊 GLOBAL ANALYSIS
+    # ========================
+
     global_scores = {}
-    for case_result in all_results:
-        for variant in case_result["variants"]:
-            name = variant["variant"]
-            total = variant["score"].get("total", 0)
+    all_totals = []
+
+    for case in all_results:
+        for v in case["variants"]:
+            name = v["variant"]
+            total = v["score"]["total"]
+            all_totals.append(total)
+
             if name not in global_scores:
-                global_scores[name] = {"count": 0, "sum": 0, "average": 0}
-            global_scores[name]["count"] += 1
-            global_scores[name]["sum"] += total
+                global_scores[name] = []
 
-    for name in global_scores:
-        s = global_scores[name]
-        s["average"] = round(s["sum"] / s["count"], 2)
+            global_scores[name].append(total)
 
-    ranking = sorted(
-        [{"variant": k, **v} for k, v in global_scores.items()],
-        key=lambda x: x["average"],
-        reverse=True
-    )
+    ranking = []
+
+    for name, scores in global_scores.items():
+        ranking.append({
+            "variant": name,
+            "average": round(sum(scores) / len(scores), 2),
+            "min": min(scores),
+            "max": max(scores),
+            "variance": round(statistics.variance(scores), 2) if len(scores) > 1 else 0
+        })
+
+    ranking.sort(key=lambda x: x["average"], reverse=True)
 
     report = {
         "timestamp": now_iso(),
         "model": MODEL_NAME,
-        "cases_count": len(cases),
+        "cases": len(cases),
         "ranking": ranking,
+        "global_variance": round(statistics.variance(all_totals), 2) if len(all_totals) > 1 else 0,
         "results": all_results
     }
 
     path = save_report(report)
-    print(f"Rapport enregistré : {path}")
+    print(f"Rapport : {path}")
 
 
 if __name__ == "__main__":
