@@ -1,44 +1,22 @@
-import os
 import json
 
-REPORTS_DIR = "lab_reports"
-
-def load_reports():
-    reports = []
-    for file in os.listdir(REPORTS_DIR):
-        if file.endswith(".json"):
-            path = os.path.join(REPORTS_DIR, file)
-            try:
-                with open(path, "r") as f:
-                    data = json.load(f)
-                    reports.append(data)
-            except:
-                continue
-    return reports
+from lab.candidate_registry import load_promoted
+from lab.lab_config import BEST_FILE
 
 
-def score_candidate(report):
-    # Score basé sur les métriques du juge
-    return report.get("average_score", 0)
+def _score_candidate(candidate):
+    return candidate.get("candidate_decision_score", candidate.get("candidate_average", 0))
 
 
 def select_best():
-    reports = load_reports()
+    promoted = load_promoted()
 
-    if not reports:
-        print("Aucun rapport trouvé.")
+    if not promoted:
+        print("Aucun candidat promu trouvé.")
         return None
 
-    best = None
-    best_score = -1
-
-    for r in reports:
-        score = score_candidate(r)
-        if score > best_score:
-            best = r
-            best_score = score
-
-    print(f"Meilleur score : {best_score}")
+    best = max(promoted, key=_score_candidate)
+    print(f"Meilleur score : {_score_candidate(best)}")
     return best
 
 
@@ -46,7 +24,8 @@ def save_best(best):
     if not best:
         return
 
-    with open("best_candidate.json", "w") as f:
-        json.dump(best, f, indent=2)
+    BEST_FILE.parent.mkdir(parents=True, exist_ok=True)
+    with open(BEST_FILE, "w", encoding="utf-8") as f:
+        json.dump(best, f, indent=2, ensure_ascii=False)
 
-    print("Meilleur candidat sauvegardé.")
+    print(f"Meilleur candidat sauvegardé : {BEST_FILE}")

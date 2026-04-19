@@ -1,43 +1,48 @@
-from lab.config import STATE_FILES, MAX_ACTIVE_CANDIDATES, MAX_PROMOTED_HISTORY, MAX_REJECTED_HISTORY
-from lab.lab_utils import load_json, save_json, now_iso
+import json
+from datetime import datetime
+
+from lab.lab_config import PROMOTED_FILE, REJECTED_FILE
 
 
-def load_candidates():
-    return load_json(STATE_FILES["candidates"], [])
+def _now():
+    return datetime.utcnow().isoformat()
 
 
-def save_candidates(candidates):
-    save_json(STATE_FILES["candidates"], candidates)
+def _load_json(path):
+    if not path.exists():
+        return []
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except Exception:
+        return []
 
 
-def register_candidate(candidate):
-    candidates = load_candidates()
-    candidate["created_at"] = now_iso()
-    candidates.append(candidate)
-    candidates = candidates[-MAX_ACTIVE_CANDIDATES:]
-    save_candidates(candidates)
-    return candidate
+def _save_json(path, data):
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(data, f, indent=2, ensure_ascii=False)
 
 
-def load_promoted():
-    return load_json(STATE_FILES["promoted"], [])
+def _append(path, candidate):
+    data = _load_json(path)
+    candidate = dict(candidate)
+    candidate["saved_at"] = _now()
+    data.append(candidate)
+    _save_json(path, data)
 
 
 def add_promoted(candidate):
-    promoted = load_promoted()
-    candidate["promoted_at"] = now_iso()
-    promoted.append(candidate)
-    promoted = promoted[-MAX_PROMOTED_HISTORY:]
-    save_json(STATE_FILES["promoted"], promoted)
-
-
-def load_rejected():
-    return load_json(STATE_FILES["rejected"], [])
+    _append(PROMOTED_FILE, candidate)
 
 
 def add_rejected(candidate):
-    rejected = load_rejected()
-    candidate["rejected_at"] = now_iso()
-    rejected.append(candidate)
-    rejected = rejected[-MAX_REJECTED_HISTORY:]
-    save_json(STATE_FILES["rejected"], rejected)
+    _append(REJECTED_FILE, candidate)
+
+
+def load_promoted():
+    return _load_json(PROMOTED_FILE)
+
+
+def load_rejected():
+    return _load_json(REJECTED_FILE)
