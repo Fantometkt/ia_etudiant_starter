@@ -46,3 +46,20 @@ def load_promoted():
 
 def load_rejected():
     return _load_json(REJECTED_FILE)
+
+def register_candidate(candidate, decision):
+    """
+    Enregistre un candidat selon la décision du lab.
+    """
+
+    if decision == "promote" or decision == "soft_promote":
+        add_promoted(candidate)
+
+    elif decision == "reject":
+        add_rejected(candidate)
+
+    else:
+        # sécurité
+        candidate = dict(candidate)
+        candidate["warning"] = f"unknown decision: {decision}"
+        add_rejected(candidate)

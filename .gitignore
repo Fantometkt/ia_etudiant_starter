@@ -1,4 +1,13 @@
-.env
-.venv/
+.DS_Store
+*.log
+course_cache.json
+memory.json
+lab/state/*.json
+*.before_*.py
+*.before_*.css
+*.before_*.html
+*.before_*.js
+templates/*.txt
 __pycache__/
 *.pyc
+node_modules/

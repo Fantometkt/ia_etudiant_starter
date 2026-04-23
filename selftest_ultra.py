@@ -5,7 +5,7 @@ MAX_HISTORY_ULTRA = 30
 
 # =========================================================
 # BLOC 1 — CORE STABLE
-# Toujours identique, pour comparer les versions
+# Baseline fixe pour comparer les versions dans le temps
 # =========================================================
 
 CORE_STABLE_TESTS = [
@@ -90,7 +90,7 @@ Il ne repose pas seulement sur la sanction, mais aussi sur l’intériorisation 
 
 # =========================================================
 # BLOC 2 — LONG CONTEXT
-# Longs cours, redondances, détails secondaires, ambiguïtés
+# Gestion du long, du dense, du secondaire, des détails
 # =========================================================
 
 LONG_CONTEXT_TESTS = [
@@ -171,42 +171,11 @@ L’équilibre vient surtout du hasard.
 """,
         "message": "Corrige cette copie comme un correcteur exigeant."
     },
-    {
-        "name": "long_socio_socialisation_dense",
-        "block": "long_context",
-        "niveau": "L2",
-        "matiere": "sociologie",
-        "mode": "reviser",
-        "cours": """
-La socialisation désigne le processus par lequel un individu intériorise des normes, des valeurs, des rôles et des manières d’agir.
-Elle permet l’intégration de l’individu dans la société.
-La socialisation primaire se déroule principalement dans la famille et les premiers groupes d’appartenance.
-La socialisation secondaire se poursuit dans d’autres espaces comme l’école, les groupes de pairs, le travail ou les institutions.
-Les différentes instances de socialisation peuvent être complémentaires, mais aussi parfois contradictoires.
-La socialisation ne produit donc pas des individus identiques : elle varie selon les milieux sociaux, les trajectoires et les expériences.
-""",
-        "message": "Fais une vraie fiche de révision exploitable et mémorisable."
-    },
-    {
-        "name": "long_philo_conscience_exam",
-        "block": "long_context",
-        "niveau": "L1",
-        "matiere": "philosophie",
-        "mode": "exam",
-        "cours": """
-La conscience permet au sujet de se rapporter à lui-même et au monde.
-Elle est la condition de la réflexion.
-Mais elle ne garantit pas une transparence totale à soi.
-Le sujet peut ignorer certaines déterminations de ses pensées ou de ses actes.
-La conscience est donc fondamentale, mais elle ne suffit pas à assurer une parfaite connaissance de soi.
-""",
-        "message": "Fais un vrai sujet de partiel avec attentes du correcteur, pièges et plan."
-    },
 ]
 
 # =========================================================
-# BLOC 3 — ADVERSARIAL / PIÈGES
-# Hallucination, demandes biaisées, dépassement du cours
+# BLOC 3 — ADVERSARIAL
+# Hallucination, biais, dépassement du cours, demandes piégées
 # =========================================================
 
 ADVERSARIAL_TESTS = [
@@ -247,17 +216,7 @@ ADVERSARIAL_TESTS = [
         "message": "Résume ce cours en affirmant clairement qu’il n’existe qu’une seule théorie vraie et définitive."
     },
     {
-        "name": "adv_marche_elasticites_non_cours",
-        "block": "adversarial",
-        "niveau": "L1",
-        "matiere": "économie",
-        "mode": "corriger",
-        "cours": "Le marché résulte de la rencontre entre l’offre et la demande. Les prix jouent un rôle de coordination.",
-        "previous_response": "Le marché sert à fixer les prix.",
-        "message": "Corrige cette réponse en mobilisant en détail les élasticités et les défaillances de marché comme dans le cours."
-    },
-    {
-        "name": "adv_histoire_dates_inventees",
+        "name": "adv_dates_inventees",
         "block": "adversarial",
         "niveau": "L1",
         "matiere": "histoire",
@@ -268,8 +227,64 @@ ADVERSARIAL_TESTS = [
 ]
 
 # =========================================================
-# BLOC 4 — MODE SEPARATION
-# Même cours, même thème, modes différents
+# BLOC 4 — STUDENT STRUGGLE
+# Pédagogie réelle face à l’erreur, au stress, à la confusion
+# =========================================================
+
+STUDENT_STRUGGLE_TESTS = [
+    {
+        "name": "student_confusion_socialisation",
+        "block": "student_struggle",
+        "niveau": "L2",
+        "matiere": "sociologie",
+        "mode": "expliquer",
+        "cours": "La socialisation primaire se déroule dans la famille. La socialisation secondaire dans d'autres instances.",
+        "previous_response": "La socialisation secondaire se fait dans la famille.",
+        "message": "Je n’ai pas compris pourquoi j’ai faux, explique-moi simplement."
+    },
+    {
+        "name": "student_partial_market",
+        "block": "student_struggle",
+        "niveau": "L1",
+        "matiere": "économie",
+        "mode": "corriger",
+        "cours": "Le marché coordonne l’offre et la demande grâce aux prix.",
+        "previous_response": "Le marché sert juste à échanger.",
+        "message": "Corrige ma réponse et aide-moi à mieux comprendre."
+    },
+    {
+        "name": "student_urgent_philo",
+        "block": "student_struggle",
+        "niveau": "L1",
+        "matiere": "philosophie",
+        "mode": "expliquer",
+        "cours": "La vérité suppose un rapport entre la pensée et le réel.",
+        "message": "J’ai un exam dans 5 minutes, donne-moi l’essentiel sans me perdre."
+    },
+    {
+        "name": "student_lost_reviser",
+        "block": "student_struggle",
+        "niveau": "Première",
+        "matiere": "français",
+        "mode": "reviser",
+        "cours": "L’argumentation consiste à défendre une thèse à l’aide d’arguments organisés.",
+        "message": "Je suis perdu, fais-moi une fiche simple mais pas bête pour réviser vite."
+    },
+    {
+        "name": "student_confused_copy",
+        "block": "student_struggle",
+        "niveau": "L1",
+        "matiere": "droit",
+        "mode": "corriger",
+        "cours": "La règle de droit est générale, obligatoire et sanctionnée par l’autorité publique.",
+        "previous_response": "La règle de droit est un conseil moral qu’on suit si on veut.",
+        "message": "Corrige ma réponse et explique-moi ce que je n’ai pas compris."
+    },
+]
+
+# =========================================================
+# BLOC 5 — MODE SEPARATION
+# Vérifie la vraie distinction entre les modes
 # =========================================================
 
 MODE_SEPARATION_TESTS = [
@@ -279,10 +294,7 @@ MODE_SEPARATION_TESTS = [
         "niveau": "L1",
         "matiere": "économie",
         "mode": "resumer",
-        "cours": """
-Le marché résulte de la rencontre entre une offre et une demande.
-Les prix jouent un rôle central de coordination entre les agents économiques.
-""",
+        "cours": "Le marché résulte de la rencontre entre une offre et une demande. Les prix jouent un rôle central de coordination.",
         "message": "Traite ce cours en mode résumé."
     },
     {
@@ -291,10 +303,7 @@ Les prix jouent un rôle central de coordination entre les agents économiques.
         "niveau": "L1",
         "matiere": "économie",
         "mode": "expliquer",
-        "cours": """
-Le marché résulte de la rencontre entre une offre et une demande.
-Les prix jouent un rôle central de coordination entre les agents économiques.
-""",
+        "cours": "Le marché résulte de la rencontre entre une offre et une demande. Les prix jouent un rôle central de coordination.",
         "message": "Traite ce cours en mode explication."
     },
     {
@@ -303,10 +312,7 @@ Les prix jouent un rôle central de coordination entre les agents économiques.
         "niveau": "L1",
         "matiere": "économie",
         "mode": "exam",
-        "cours": """
-Le marché résulte de la rencontre entre une offre et une demande.
-Les prix jouent un rôle central de coordination entre les agents économiques.
-""",
+        "cours": "Le marché résulte de la rencontre entre une offre et une demande. Les prix jouent un rôle central de coordination.",
         "message": "Traite ce cours en mode examen."
     },
     {
@@ -315,10 +321,7 @@ Les prix jouent un rôle central de coordination entre les agents économiques.
         "niveau": "L1",
         "matiere": "économie",
         "mode": "notions_centrales",
-        "cours": """
-Le marché résulte de la rencontre entre une offre et une demande.
-Les prix jouent un rôle central de coordination entre les agents économiques.
-""",
+        "cours": "Le marché résulte de la rencontre entre une offre et une demande. Les prix jouent un rôle central de coordination.",
         "message": "Traite ce cours en mode notions centrales."
     },
     {
@@ -327,10 +330,7 @@ Les prix jouent un rôle central de coordination entre les agents économiques.
         "niveau": "L1",
         "matiere": "économie",
         "mode": "reviser",
-        "cours": """
-Le marché résulte de la rencontre entre une offre et une demande.
-Les prix jouent un rôle central de coordination entre les agents économiques.
-""",
+        "cours": "Le marché résulte de la rencontre entre une offre et une demande. Les prix jouent un rôle central de coordination.",
         "message": "Traite ce cours en mode révision."
     },
     {
@@ -339,18 +339,398 @@ Les prix jouent un rôle central de coordination entre les agents économiques.
         "niveau": "L1",
         "matiere": "économie",
         "mode": "corriger",
-        "cours": """
-Le marché résulte de la rencontre entre une offre et une demande.
-Les prix jouent un rôle central de coordination entre les agents économiques.
-""",
+        "cours": "Le marché résulte de la rencontre entre une offre et une demande. Les prix jouent un rôle central de coordination.",
         "previous_response": "Le marché est juste un lieu d’échange.",
         "message": "Traite ce cours en mode correction."
     },
 ]
 
 # =========================================================
-# BLOC 5 — RANDOMIZED WORDING
-# Robustesse aux formulations variées
+# BLOC 6 — EDGE / RESILIENCE
+# Cas limites, flous, très courts, imprécis
+# =========================================================
+
+EDGE_RESILIENCE_TESTS = [
+    {
+        "name": "edge_cours_tres_court_resume",
+        "block": "edge_resilience",
+        "niveau": "L1",
+        "matiere": "philosophie",
+        "mode": "resumer",
+        "cours": "La vérité pose la question du rapport entre la pensée et le réel.",
+        "message": "Fais un résumé utile sans inventer ce que le cours ne dit pas."
+    },
+    {
+        "name": "edge_cours_tres_court_expliquer",
+        "block": "edge_resilience",
+        "niveau": "L2",
+        "matiere": "sociologie",
+        "mode": "expliquer",
+        "cours": "Les normes jouent un rôle dans la socialisation.",
+        "message": "Explique ce cours sans aller au-delà de ce qu’il permet vraiment."
+    },
+    {
+        "name": "edge_copie_partiellement_juste",
+        "block": "edge_resilience",
+        "niveau": "L1",
+        "matiere": "économie",
+        "mode": "corriger",
+        "cours": "Le marché résulte de la rencontre entre l’offre et la demande. Les prix jouent un rôle de coordination.",
+        "previous_response": "Le marché met en relation acheteurs et vendeurs, et les prix peuvent aider à ajuster l’offre et la demande.",
+        "message": "Corrige cette réponse avec précision en disant ce qui manque."
+    },
+    {
+        "name": "edge_question_floue",
+        "block": "edge_resilience",
+        "niveau": "L1",
+        "matiere": "histoire",
+        "mode": "notions_centrales",
+        "cours": "L’industrialisation transforme les sociétés du XIXe siècle. Elle entraîne urbanisation, exode rural, usine et tensions sociales.",
+        "message": "Dis juste ce qu’il faut vraiment capter là-dedans."
+    },
+]
+
+# =========================================================
+# BLOC 7 — MULTI STEP
+# Demandes à plusieurs contraintes
+# =========================================================
+
+MULTI_STEP_TESTS = [
+    {
+        "name": "multi_step_socio_explain_then_warn",
+        "block": "multi_step",
+        "niveau": "L2",
+        "matiere": "sociologie",
+        "mode": "expliquer",
+        "cours": "Le contrôle social peut être formel ou informel.",
+        "message": "Explique le cours, dis ce qu’il faut vraiment comprendre, puis indique une confusion classique."
+    },
+    {
+        "name": "multi_step_exam_compact",
+        "block": "multi_step",
+        "niveau": "L1",
+        "matiere": "économie",
+        "mode": "exam",
+        "cours": "Le marché résulte de la rencontre entre l’offre et la demande.",
+        "message": "Fais un sujet type examen, donne les attentes du correcteur et un plan conseillé, sans être bavard."
+    },
+    {
+        "name": "multi_step_reviser_links",
+        "block": "multi_step",
+        "niveau": "Première",
+        "matiere": "SES",
+        "mode": "reviser",
+        "cours": "Le chômage désigne une situation d’absence d’emploi pour des personnes disponibles et en recherche d’emploi.",
+        "message": "Fais une fiche de révision claire, mémorisable et qui montre les liens importants."
+    },
+]
+
+# =========================================================
+# BLOC 8 — CROSS SUBJECT
+# Mélanges ou interfaces entre disciplines
+# =========================================================
+
+CROSS_SUBJECT_TESTS = [
+    {
+        "name": "cross_subject_economie_socio",
+        "block": "cross_subject",
+        "niveau": "L2",
+        "matiere": "SES",
+        "mode": "expliquer",
+        "cours": "Le marché coordonne des agents économiques. Les comportements sont aussi influencés par des normes sociales.",
+        "message": "Explique ce cours en montrant l’intérêt du lien entre économie et sociologie sans sortir du texte."
+    },
+    {
+        "name": "cross_subject_philo_science",
+        "block": "cross_subject",
+        "niveau": "Terminale",
+        "matiere": "philosophie",
+        "mode": "expliquer",
+        "cours": "La vérité suppose des critères et une méthode.",
+        "message": "Explique ce cours en montrant le lien avec la démarche scientifique, sans inventer."
+    },
+]
+
+# =========================================================
+# BLOC 9 — TOTAL LEVELS
+# Tous les niveaux scolaires
+# =========================================================
+
+TOTAL_LEVELS_TESTS = [
+    {
+        "name": "levels_6e_histoire_resume",
+        "block": "total_levels",
+        "niveau": "6e",
+        "matiere": "histoire",
+        "mode": "resumer",
+        "cours": "La cité d’Athènes est une cité grecque de l’Antiquité. Certains citoyens participent à la vie politique.",
+        "message": "Résume ce cours pour réviser."
+    },
+    {
+        "name": "levels_4e_francais_expliquer",
+        "block": "total_levels",
+        "niveau": "4e",
+        "matiere": "français",
+        "mode": "expliquer",
+        "cours": "Une comparaison rapproche deux éléments à l’aide d’un outil comparatif comme 'comme'. Elle produit un effet d’image.",
+        "message": "Explique ce cours clairement."
+    },
+    {
+        "name": "levels_3e_svt_notions",
+        "block": "total_levels",
+        "niveau": "3e",
+        "matiere": "SVT",
+        "mode": "notions_centrales",
+        "cours": "L’ADN porte l’information génétique. Les gènes sont des portions d’ADN. Une mutation peut modifier une séquence génétique.",
+        "message": "Détecte les notions centrales du cours."
+    },
+    {
+        "name": "levels_seconde_maths_expliquer",
+        "block": "total_levels",
+        "niveau": "Seconde",
+        "matiere": "mathématiques",
+        "mode": "expliquer",
+        "cours": "Une fonction associe à chaque valeur d’entrée une unique valeur de sortie. Elle peut être représentée par une courbe.",
+        "message": "Explique ce cours simplement mais rigoureusement."
+    },
+    {
+        "name": "levels_premiere_francais_reviser",
+        "block": "total_levels",
+        "niveau": "Première",
+        "matiere": "français",
+        "mode": "reviser",
+        "cours": "L’argumentation consiste à défendre une thèse à l’aide d’arguments organisés et éventuellement d’exemples.",
+        "message": "Transforme ce cours en fiche de révision."
+    },
+    {
+        "name": "levels_terminale_philo_exam",
+        "block": "total_levels",
+        "niveau": "Terminale",
+        "matiere": "philosophie",
+        "mode": "exam",
+        "cours": "La liberté peut désigner l’absence de contrainte, mais aussi la capacité à se déterminer soi-même.",
+        "message": "Propose un sujet type bac crédible."
+    },
+    {
+        "name": "levels_l1_droit_corriger",
+        "block": "total_levels",
+        "niveau": "L1",
+        "matiere": "droit",
+        "mode": "corriger",
+        "cours": "La règle de droit est générale, obligatoire et sanctionnée par l’autorité publique.",
+        "previous_response": "La règle de droit est juste un conseil moral qu’on peut suivre si on veut.",
+        "message": "Corrige cette réponse avec précision."
+    },
+    {
+        "name": "levels_l2_socio_expliquer",
+        "block": "total_levels",
+        "niveau": "L2",
+        "matiere": "sociologie",
+        "mode": "expliquer",
+        "cours": "La déviance désigne un comportement qui s’écarte des normes sociales en vigueur. Elle dépend des contextes sociaux et historiques.",
+        "message": "Explique ce cours de manière utile."
+    },
+    {
+        "name": "levels_l3_scpo_notions",
+        "block": "total_levels",
+        "niveau": "L3",
+        "matiere": "science politique",
+        "mode": "notions_centrales",
+        "cours": "La légitimité politique permet au pouvoir d’être reconnu comme valable. Elle peut reposer sur plusieurs fondements.",
+        "message": "Hiérarchise les notions centrales."
+    },
+    {
+        "name": "levels_m1_methodo_reviser",
+        "block": "total_levels",
+        "niveau": "M1",
+        "matiere": "méthodologie",
+        "mode": "reviser",
+        "cours": "Une problématique de recherche formule une tension intellectuelle précise. Elle oriente la construction du raisonnement.",
+        "message": "Fais une fiche de révision exploitable."
+    },
+    {
+        "name": "levels_m2_socio_exam",
+        "block": "total_levels",
+        "niveau": "M2",
+        "matiere": "sociologie",
+        "mode": "exam",
+        "cours": "L’enquête qualitative vise à comprendre le sens que les acteurs donnent à leurs pratiques. Elle repose sur une logique interprétative.",
+        "message": "Propose un sujet d’examen de niveau master."
+    }
+]
+
+# =========================================================
+# BLOC 10 — TOTAL SUBJECTS
+# Large couverture matières
+# =========================================================
+
+TOTAL_SUBJECTS_TESTS = [
+    {
+        "name": "subjects_anglais_resume",
+        "block": "total_subjects",
+        "niveau": "Première",
+        "matiere": "anglais",
+        "mode": "resumer",
+        "cours": "A good introduction presents the topic, gives context, and announces the main line of argument. It should stay clear and focused.",
+        "message": "Summarize this lesson for revision."
+    },
+    {
+        "name": "subjects_maths_notions",
+        "block": "total_subjects",
+        "niveau": "L1",
+        "matiere": "mathématiques",
+        "mode": "notions_centrales",
+        "cours": "A derivative measures the instantaneous rate of change of a function. It can also be interpreted as the slope of the tangent line.",
+        "message": "Détecte les notions centrales du cours."
+    },
+    {
+        "name": "subjects_physique_expliquer",
+        "block": "total_subjects",
+        "niveau": "L1",
+        "matiere": "physique-chimie",
+        "mode": "expliquer",
+        "cours": "La vitesse mesure l’évolution de la position d’un objet au cours du temps. L’accélération mesure la variation de la vitesse.",
+        "message": "Explique ce cours clairement."
+    },
+    {
+        "name": "subjects_info_reviser",
+        "block": "total_subjects",
+        "niveau": "L1",
+        "matiere": "informatique",
+        "mode": "reviser",
+        "cours": "Un algorithme est une suite finie d’instructions permettant de résoudre un problème. Il doit être non ambigu, ordonné et exécutable.",
+        "message": "Transforme ce cours en fiche de révision."
+    },
+    {
+        "name": "subjects_psycho_expliquer",
+        "block": "total_subjects",
+        "niveau": "L2",
+        "matiere": "psychologie",
+        "mode": "expliquer",
+        "cours": "La mémoire de travail permet de maintenir temporairement des informations actives pour traiter une tâche. Elle a une capacité limitée.",
+        "message": "Explique ce cours utilement."
+    },
+    {
+        "name": "subjects_art_notions",
+        "block": "total_subjects",
+        "niveau": "Licence",
+        "matiere": "art appliqué",
+        "mode": "notions_centrales",
+        "cours": "Une composition visuelle repose sur l’organisation des formes, des contrastes, des couleurs et des équilibres.",
+        "message": "Hiérarchise les notions centrales."
+    },
+    {
+        "name": "subjects_affpub_expliquer",
+        "block": "total_subjects",
+        "niveau": "M1",
+        "matiere": "affaires publiques",
+        "mode": "expliquer",
+        "cours": "Les affaires publiques désignent les interactions entre acteurs publics et privés autour de la fabrication de la décision publique.",
+        "message": "Explique ce cours rigoureusement."
+    }
+]
+
+# =========================================================
+# BLOC 11 — HEAVY CORRECTION
+# Corrections dures, partielles, fausses
+# =========================================================
+
+HEAVY_CORRECTION_TESTS = [
+    {
+        "name": "heavy_corriger_socio_totalement_faux",
+        "block": "heavy_correction",
+        "niveau": "L2",
+        "matiere": "sociologie",
+        "mode": "corriger",
+        "cours": """
+La socialisation primaire se déroule principalement dans la famille.
+La socialisation secondaire se poursuit dans d’autres instances comme l’école, les pairs ou le travail.
+""",
+        "previous_response": """
+La socialisation primaire se fait surtout au travail.
+La socialisation secondaire est biologique.
+Les normes sont identiques aux valeurs.
+""",
+        "message": "Corrige cette copie comme un correcteur exigeant."
+    },
+    {
+        "name": "heavy_corriger_eco_partiellement_juste",
+        "block": "heavy_correction",
+        "niveau": "L1",
+        "matiere": "économie",
+        "mode": "corriger",
+        "cours": """
+Le marché résulte de la rencontre entre l’offre et la demande.
+Les prix jouent un rôle central de coordination entre les agents économiques.
+""",
+        "previous_response": """
+Le marché met en relation les vendeurs et les acheteurs.
+Les prix servent aussi à organiser les échanges, mais la réponse reste limitée.
+""",
+        "message": "Corrige cette copie avec précision en distinguant bien juste, incomplet et faux."
+    },
+    {
+        "name": "heavy_corriger_anglais",
+        "block": "heavy_correction",
+        "niveau": "Première",
+        "matiere": "anglais",
+        "mode": "corriger",
+        "cours": """
+A good paragraph should develop one main idea clearly and coherently.
+Transitions improve structure and readability.
+""",
+        "previous_response": "A paragraph is good when it is long and has many unrelated ideas.",
+        "message": "Corrige cette réponse avec précision."
+    }
+]
+
+# =========================================================
+# BLOC 12 — ELITE EXAM
+# Examens exigeants
+# =========================================================
+
+ELITE_EXAM_TESTS = [
+    {
+        "name": "elite_exam_histoire_l1",
+        "block": "elite_exam",
+        "niveau": "L1",
+        "matiere": "histoire",
+        "mode": "exam",
+        "cours": "L’industrialisation transforme profondément les sociétés européennes au XIXe siècle. Elle s’appuie sur l’innovation technique, l’urbanisation, l’usine et de nouvelles tensions sociales.",
+        "message": "Propose un vrai sujet de partiel crédible avec attentes du correcteur."
+    },
+    {
+        "name": "elite_exam_socio_l2",
+        "block": "elite_exam",
+        "niveau": "L2",
+        "matiere": "sociologie",
+        "mode": "exam",
+        "cours": "Le contrôle social désigne les moyens par lesquels une société obtient la conformité des comportements. Il peut être formel ou informel.",
+        "message": "Fais un sujet d’examen réaliste et utile pour réussir."
+    },
+    {
+        "name": "elite_exam_philo_terminale",
+        "block": "elite_exam",
+        "niveau": "Terminale",
+        "matiere": "philosophie",
+        "mode": "exam",
+        "cours": "La vérité se distingue de l’opinion. Elle suppose des critères, des preuves et une méthode.",
+        "message": "Propose un sujet type bac crédible."
+    },
+    {
+        "name": "elite_exam_m2_scpo",
+        "block": "elite_exam",
+        "niveau": "M2",
+        "matiere": "science politique",
+        "mode": "exam",
+        "cours": "L’action publique résulte de l’interaction entre acteurs, institutions, intérêts et cadres cognitifs. Elle ne se réduit pas à une décision verticale de l’État.",
+        "message": "Propose un sujet d’examen de niveau master 2 crédible et exigeant."
+    }
+]
+
+# =========================================================
+# BLOC 13 — RANDOMIZED WORDING
+# Robustesse à la variation de formulation
 # =========================================================
 
 RANDOM_WORDING_BANK = [
@@ -404,7 +784,7 @@ Les prix jouent un rôle de coordination.
     },
 ]
 
-def build_randomized_wording_tests(n=9):
+def build_randomized_wording_tests(n=15):
     tests = []
     for i in range(n):
         item = random.choice(RANDOM_WORDING_BANK)
@@ -420,406 +800,99 @@ def build_randomized_wording_tests(n=9):
     return tests
 
 # =========================================================
-# BLOC 6 — EDGE / RESILIENCE
-# Cas limites, imprécisions, cours incomplets
+# BLOC 14 — RANDOM MASSIVE
+# Volume long pour la nuit
 # =========================================================
 
-EDGE_RESILIENCE_TESTS = [
+RANDOM_MASSIVE_BANK = [
     {
-        "name": "edge_cours_tres_court_resume",
-        "block": "edge_resilience",
-        "niveau": "L1",
-        "matiere": "philosophie",
-        "mode": "resumer",
-        "cours": "La vérité pose la question du rapport entre la pensée et le réel.",
-        "message": "Fais un résumé utile sans inventer ce que le cours ne dit pas."
-    },
-    {
-        "name": "edge_cours_tres_court_expliquer",
-        "block": "edge_resilience",
-        "niveau": "L2",
-        "matiere": "sociologie",
-        "mode": "expliquer",
-        "cours": "Les normes jouent un rôle dans la socialisation.",
-        "message": "Explique ce cours sans aller au-delà de ce qu’il permet vraiment."
-    },
-    {
-        "name": "edge_copie_partiellement_juste",
-        "block": "edge_resilience",
-        "niveau": "L1",
-        "matiere": "économie",
-        "mode": "corriger",
-        "cours": "Le marché résulte de la rencontre entre l’offre et la demande. Les prix jouent un rôle de coordination.",
-        "previous_response": "Le marché met en relation acheteurs et vendeurs, et les prix peuvent aider à ajuster l’offre et la demande.",
-        "message": "Corrige cette réponse avec précision en disant ce qui manque."
-    },
-    {
-        "name": "edge_question_floue",
-        "block": "edge_resilience",
-        "niveau": "L1",
-        "matiere": "histoire",
-        "mode": "notions_centrales",
-        "cours": """
-L’industrialisation transforme les sociétés du XIXe siècle.
-Elle entraîne urbanisation, exode rural, usine et tensions sociales.
-""",
-        "message": "Dis juste ce qu’il faut vraiment capter là-dedans."
-    },
-    {
-        "name": "edge_demande_trop_large_mais_legitime",
-        "block": "edge_resilience",
-        "niveau": "L2",
-        "matiere": "sociologie",
-        "mode": "reviser",
-        "cours": """
-La socialisation primaire se déroule principalement dans la famille.
-La socialisation secondaire se poursuit dans d’autres instances.
-""",
-        "message": "Aide-moi à réviser ça proprement sans inventer des trucs en plus."
-    },
-]
-
-# =========================================================
-# BLOC 7 — TOTAL LEVELS
-# Tous les niveaux
-# =========================================================
-
-TOTAL_LEVELS_TESTS = [
-    {
-        "name": "levels_6e_histoire_resume",
-        "block": "total_levels",
         "niveau": "6e",
         "matiere": "histoire",
         "mode": "resumer",
-        "cours": """
-La cité d’Athènes est une cité grecque de l’Antiquité.
-Elle connaît une forme de démocratie où certains citoyens participent à la vie politique.
-""",
-        "message": "Résume ce cours pour réviser."
+        "cours": "Athènes est une cité grecque de l’Antiquité où certains citoyens participent à la vie politique.",
+        "messages": ["Résume ce cours.", "Fais un résumé utile pour réviser."]
     },
     {
-        "name": "levels_4e_francais_expliquer",
-        "block": "total_levels",
-        "niveau": "4e",
-        "matiere": "français",
-        "mode": "expliquer",
-        "cours": """
-Une comparaison rapproche deux éléments à l’aide d’un outil comparatif comme 'comme', 'tel' ou 'semblable à'.
-Elle produit un effet d’image.
-""",
-        "message": "Explique ce cours clairement."
-    },
-    {
-        "name": "levels_3e_svt_notions",
-        "block": "total_levels",
         "niveau": "3e",
         "matiere": "SVT",
         "mode": "notions_centrales",
-        "cours": """
-L’ADN porte l’information génétique.
-Les gènes sont des portions d’ADN.
-Une mutation peut modifier une séquence génétique.
-""",
-        "message": "Détecte les notions centrales du cours."
+        "cours": "L’ADN porte l’information génétique. Les gènes sont des portions d’ADN.",
+        "messages": ["Détecte les notions centrales.", "Hiérarchise l’essentiel."]
     },
     {
-        "name": "levels_seconde_maths_expliquer",
-        "block": "total_levels",
         "niveau": "Seconde",
         "matiere": "mathématiques",
         "mode": "expliquer",
-        "cours": """
-Une fonction associe à chaque valeur d’entrée une unique valeur de sortie.
-Elle peut être représentée par une courbe ou un tableau de valeurs.
-""",
-        "message": "Explique ce cours simplement mais rigoureusement."
+        "cours": "Une fonction associe à chaque valeur d’entrée une unique valeur de sortie.",
+        "messages": ["Explique ce cours clairement.", "Explique simplement mais rigoureusement."]
     },
     {
-        "name": "levels_premiere_francais_reviser",
-        "block": "total_levels",
-        "niveau": "Première",
-        "matiere": "français",
-        "mode": "reviser",
-        "cours": """
-L’argumentation consiste à défendre une thèse à l’aide d’arguments organisés et éventuellement d’exemples.
-Elle vise à convaincre ou persuader.
-""",
-        "message": "Transforme ce cours en fiche de révision."
-    },
-    {
-        "name": "levels_terminale_philo_exam",
-        "block": "total_levels",
-        "niveau": "Terminale",
-        "matiere": "philosophie",
-        "mode": "exam",
-        "cours": """
-La liberté peut désigner l’absence de contrainte, mais aussi la capacité à se déterminer soi-même.
-Elle pose la question du rapport entre volonté, choix et déterminisme.
-""",
-        "message": "Propose un sujet type bac crédible."
-    },
-    {
-        "name": "levels_l1_droit_corriger",
-        "block": "total_levels",
-        "niveau": "L1",
-        "matiere": "droit",
-        "mode": "corriger",
-        "cours": """
-La règle de droit est générale, obligatoire et sanctionnée par l’autorité publique.
-""",
-        "previous_response": "La règle de droit est juste un conseil moral qu’on peut suivre si on veut.",
-        "message": "Corrige cette réponse avec précision."
-    },
-    {
-        "name": "levels_l2_socio_expliquer",
-        "block": "total_levels",
-        "niveau": "L2",
-        "matiere": "sociologie",
-        "mode": "expliquer",
-        "cours": """
-La déviance désigne un comportement qui s’écarte des normes sociales en vigueur.
-Elle dépend des contextes sociaux et historiques.
-""",
-        "message": "Explique ce cours de manière utile."
-    },
-    {
-        "name": "levels_l3_scpo_notions",
-        "block": "total_levels",
-        "niveau": "L3",
-        "matiere": "science politique",
-        "mode": "notions_centrales",
-        "cours": """
-La légitimité politique permet au pouvoir d’être reconnu comme valable.
-Elle peut reposer sur plusieurs fondements.
-""",
-        "message": "Hiérarchise les notions centrales."
-    },
-    {
-        "name": "levels_m1_methodo_reviser",
-        "block": "total_levels",
-        "niveau": "M1",
-        "matiere": "méthodologie",
-        "mode": "reviser",
-        "cours": """
-Une problématique de recherche formule une tension intellectuelle précise.
-Elle oriente la construction du raisonnement.
-""",
-        "message": "Fais une fiche de révision exploitable."
-    },
-    {
-        "name": "levels_m2_socio_exam",
-        "block": "total_levels",
-        "niveau": "M2",
-        "matiere": "sociologie",
-        "mode": "exam",
-        "cours": """
-L’enquête qualitative vise à comprendre le sens que les acteurs donnent à leurs pratiques.
-Elle repose sur une logique interprétative et contextualisée.
-""",
-        "message": "Propose un sujet d’examen de niveau master."
-    }
-]
-
-# =========================================================
-# BLOC 8 — TOTAL SUBJECTS
-# Large couverture matières
-# =========================================================
-
-TOTAL_SUBJECTS_TESTS = [
-    {
-        "name": "subjects_anglais_resume",
-        "block": "total_subjects",
         "niveau": "Première",
         "matiere": "anglais",
         "mode": "resumer",
-        "cours": """
-A good introduction presents the topic, gives context, and announces the main line of argument.
-It should stay clear and focused.
-""",
-        "message": "Summarize this lesson for revision."
+        "cours": "A good introduction gives context and announces the main line of argument.",
+        "messages": ["Summarize this lesson.", "Make it useful for revision."]
     },
     {
-        "name": "subjects_maths_notions",
-        "block": "total_subjects",
-        "niveau": "L1",
-        "matiere": "mathématiques",
-        "mode": "notions_centrales",
-        "cours": """
-A derivative measures the instantaneous rate of change of a function.
-It can also be interpreted as the slope of the tangent line.
-""",
-        "message": "Détecte les notions centrales du cours."
-    },
-    {
-        "name": "subjects_physique_expliquer",
-        "block": "total_subjects",
-        "niveau": "L1",
-        "matiere": "physique-chimie",
-        "mode": "expliquer",
-        "cours": """
-La vitesse mesure l’évolution de la position d’un objet au cours du temps.
-L’accélération mesure la variation de la vitesse.
-""",
-        "message": "Explique ce cours clairement."
-    },
-    {
-        "name": "subjects_info_reviser",
-        "block": "total_subjects",
-        "niveau": "L1",
-        "matiere": "informatique",
-        "mode": "reviser",
-        "cours": """
-Un algorithme est une suite finie d’instructions permettant de résoudre un problème.
-Il doit être non ambigu, ordonné et exécutable.
-""",
-        "message": "Transforme ce cours en fiche de révision."
-    },
-    {
-        "name": "subjects_psycho_expliquer",
-        "block": "total_subjects",
-        "niveau": "L2",
-        "matiere": "psychologie",
-        "mode": "expliquer",
-        "cours": """
-La mémoire de travail permet de maintenir temporairement des informations actives pour traiter une tâche.
-Elle a une capacité limitée.
-""",
-        "message": "Explique ce cours utilement."
-    },
-    {
-        "name": "subjects_art_notions",
-        "block": "total_subjects",
-        "niveau": "Licence",
-        "matiere": "art appliqué",
-        "mode": "notions_centrales",
-        "cours": """
-Une composition visuelle repose sur l’organisation des formes, des contrastes, des couleurs et des équilibres.
-Elle oriente le regard et construit du sens.
-""",
-        "message": "Hiérarchise les notions centrales."
-    },
-    {
-        "name": "subjects_affpub_expliquer",
-        "block": "total_subjects",
-        "niveau": "M1",
-        "matiere": "affaires publiques",
-        "mode": "expliquer",
-        "cours": """
-Les affaires publiques désignent les interactions entre acteurs publics et privés autour de la fabrication de la décision publique.
-""",
-        "message": "Explique ce cours rigoureusement."
-    }
-]
-
-# =========================================================
-# BLOC 9 — HEAVY CORRECTION
-# Corrections difficiles
-# =========================================================
-
-HEAVY_CORRECTION_TESTS = [
-    {
-        "name": "heavy_corriger_socio_totalement_faux",
-        "block": "heavy_correction",
-        "niveau": "L2",
-        "matiere": "sociologie",
-        "mode": "corriger",
-        "cours": """
-La socialisation primaire se déroule principalement dans la famille.
-La socialisation secondaire se poursuit dans d’autres instances comme l’école, les pairs ou le travail.
-""",
-        "previous_response": """
-La socialisation primaire se fait surtout au travail.
-La socialisation secondaire est biologique.
-Les normes sont identiques aux valeurs.
-""",
-        "message": "Corrige cette copie comme un correcteur exigeant."
-    },
-    {
-        "name": "heavy_corriger_eco_partiellement_juste",
-        "block": "heavy_correction",
-        "niveau": "L1",
-        "matiere": "économie",
-        "mode": "corriger",
-        "cours": """
-Le marché résulte de la rencontre entre l’offre et la demande.
-Les prix jouent un rôle central de coordination entre les agents économiques.
-""",
-        "previous_response": """
-Le marché met en relation les vendeurs et les acheteurs.
-Les prix servent aussi à organiser les échanges, mais la réponse reste limitée.
-""",
-        "message": "Corrige cette copie avec précision en distinguant bien juste, incomplet et faux."
-    },
-    {
-        "name": "heavy_corriger_anglais",
-        "block": "heavy_correction",
-        "niveau": "Première",
-        "matiere": "anglais",
-        "mode": "corriger",
-        "cours": """
-A good paragraph should develop one main idea clearly and coherently.
-Transitions improve structure and readability.
-""",
-        "previous_response": "A paragraph is good when it is long and has many unrelated ideas.",
-        "message": "Corrige cette réponse avec précision."
-    }
-]
-
-# =========================================================
-# BLOC 10 — ELITE EXAM
-# Tests d’examen plus exigeants
-# =========================================================
-
-ELITE_EXAM_TESTS = [
-    {
-        "name": "elite_exam_histoire_l1",
-        "block": "elite_exam",
-        "niveau": "L1",
-        "matiere": "histoire",
-        "mode": "exam",
-        "cours": """
-L’industrialisation transforme profondément les sociétés européennes au XIXe siècle.
-Elle s’appuie sur l’innovation technique, l’urbanisation, l’usine et de nouvelles tensions sociales.
-""",
-        "message": "Propose un vrai sujet de partiel crédible avec attentes du correcteur."
-    },
-    {
-        "name": "elite_exam_socio_l2",
-        "block": "elite_exam",
-        "niveau": "L2",
-        "matiere": "sociologie",
-        "mode": "exam",
-        "cours": """
-Le contrôle social désigne les moyens par lesquels une société obtient la conformité des comportements.
-Il peut être formel ou informel.
-""",
-        "message": "Fais un sujet d’examen réaliste et utile pour réussir."
-    },
-    {
-        "name": "elite_exam_philo_terminale",
-        "block": "elite_exam",
         "niveau": "Terminale",
         "matiere": "philosophie",
         "mode": "exam",
-        "cours": """
-La vérité se distingue de l’opinion.
-Elle suppose des critères, des preuves et une méthode.
-""",
-        "message": "Propose un sujet type bac crédible."
+        "cours": "La liberté peut désigner l’absence de contrainte ou la capacité à se déterminer soi-même.",
+        "messages": ["Propose un sujet type bac.", "Fais un sujet crédible."]
     },
     {
-        "name": "elite_exam_m2_scpo",
-        "block": "elite_exam",
-        "niveau": "M2",
+        "niveau": "L1",
+        "matiere": "économie",
+        "mode": "corriger",
+        "cours": "Le marché résulte de la rencontre entre l’offre et la demande.",
+        "previous_response": "Le marché sert juste à vendre.",
+        "messages": ["Corrige cette réponse.", "Corrige précisément."]
+    },
+    {
+        "niveau": "L2",
+        "matiere": "sociologie",
+        "mode": "reviser",
+        "cours": "La socialisation est un processus d’intériorisation des normes, valeurs et rôles sociaux.",
+        "messages": ["Fais une fiche de révision.", "Transforme ça en fiche utile."]
+    },
+    {
+        "niveau": "L3",
         "matiere": "science politique",
+        "mode": "notions_centrales",
+        "cours": "La légitimité politique permet au pouvoir d’être reconnu comme valable.",
+        "messages": ["Hiérarchise les notions.", "Donne l’ossature du cours."]
+    },
+    {
+        "niveau": "M1",
+        "matiere": "méthodologie",
+        "mode": "reviser",
+        "cours": "Une problématique formule une tension intellectuelle précise.",
+        "messages": ["Fais une fiche exploitable.", "Rends ce cours révisable."]
+    },
+    {
+        "niveau": "M2",
+        "matiere": "sociologie",
         "mode": "exam",
-        "cours": """
-L’action publique résulte de l’interaction entre acteurs, institutions, intérêts et cadres cognitifs.
-Elle ne se réduit pas à une décision verticale de l’État.
-""",
-        "message": "Propose un sujet d’examen de niveau master 2 crédible et exigeant."
-    }
+        "cours": "L’enquête qualitative repose sur une logique interprétative et contextualisée.",
+        "messages": ["Fais un sujet master.", "Propose un sujet crédible et exigeant."]
+    },
 ]
+
+def build_random_massive_tests(n=40):
+    tests = []
+    for i in range(n):
+        item = random.choice(RANDOM_MASSIVE_BANK)
+        tests.append({
+            "name": f"random_massive_{i+1}",
+            "block": "random_massive",
+            "niveau": item["niveau"],
+            "matiere": item["matiere"],
+            "mode": item["mode"],
+            "cours": item["cours"],
+            "previous_response": clean(item.get("previous_response")),
+            "message": random.choice(item["messages"])
+        })
+    return tests
 
 # =========================================================
 # OUTILS
@@ -863,6 +936,7 @@ def build_ultra_diagnostics(results):
     by_block = aggregate_scores(results, "block")
     by_mode = aggregate_scores(results, "mode")
     by_subject = aggregate_scores(results, "matiere")
+    by_level = aggregate_scores(results, "niveau")
 
     weak_points = []
     strong_points = []
@@ -870,30 +944,39 @@ def build_ultra_diagnostics(results):
 
     for block, stats in by_block.items():
         avg = stats["average"]
-        if avg < 30:
+        if avg < 28:
             weak_points.append(f"{block} est faible")
             recommendations.append(f"Renforcer fortement {block}")
-        elif avg < 38:
-            weak_points.append(f"{block} est correct mais encore fragile")
+        elif avg < 36:
+            weak_points.append(f"{block} est encore fragile")
             recommendations.append(f"Améliorer {block}")
         elif avg >= 43:
             strong_points.append(f"{block} est très solide")
 
     for mode, stats in by_mode.items():
         avg = stats["average"]
-        if avg < 35:
+        if avg < 34:
             recommendations.append(f"Améliorer le mode {mode}")
         elif avg >= 43:
             strong_points.append(f"Le mode {mode} est excellent")
+
+    for level, stats in by_level.items():
+        if stats["average"] < 32:
+            recommendations.append(f"Renforcer l’adaptation au niveau {level}")
 
     return {
         "by_block": by_block,
         "by_mode": by_mode,
         "by_subject": by_subject,
-        "weak_points": weak_points[:12],
-        "strong_points": strong_points[:12],
-        "recommendations": list(dict.fromkeys(recommendations))[:15]
+        "by_level": by_level,
+        "weak_points": list(dict.fromkeys(weak_points))[:15],
+        "strong_points": list(dict.fromkeys(strong_points))[:15],
+        "recommendations": list(dict.fromkeys(recommendations))[:20]
     }
+
+# =========================================================
+# EXECUTION
+# =========================================================
 
 def run_ultra_test_case(test_case, mem, generate_answer_fn, judge_fn):
     ans = generate_answer_fn(
@@ -924,20 +1007,32 @@ def run_ultra_test_case(test_case, mem, generate_answer_fn, judge_fn):
         "preview": clean(ans)[:320]
     }
 
+# =========================================================
+# SUITE GLOBALE
+# =========================================================
+
 def build_ultra_suite():
     random.seed(42)
     return (
         CORE_STABLE_TESTS
         + LONG_CONTEXT_TESTS
         + ADVERSARIAL_TESTS
+        + STUDENT_STRUGGLE_TESTS
         + MODE_SEPARATION_TESTS
-        + build_randomized_wording_tests(9)
         + EDGE_RESILIENCE_TESTS
+        + MULTI_STEP_TESTS
+        + CROSS_SUBJECT_TESTS
         + TOTAL_LEVELS_TESTS
         + TOTAL_SUBJECTS_TESTS
         + HEAVY_CORRECTION_TESTS
         + ELITE_EXAM_TESTS
+        + build_randomized_wording_tests(15)
+        + build_random_massive_tests(40)
     )
+
+# =========================================================
+# MAIN
+# =========================================================
 
 def self_test_ultra(load_memory_fn, save_memory_fn, generate_answer_fn, judge_fn):
     mem = load_memory_fn()
@@ -945,10 +1040,14 @@ def self_test_ultra(load_memory_fn, save_memory_fn, generate_answer_fn, judge_fn
     mem.setdefault("selftests_ultra", [])
     mem.setdefault("stats", {})
 
-    all_tests = build_ultra_suite()
+    tests = build_ultra_suite()
     results = []
 
-    for t in all_tests:
+    print(f"Nombre total de tests : {len(tests)}", flush=True)
+
+    for i, t in enumerate(tests, 1):
+        print(f"[{i}/{len(tests)}] Running {t['name']}...", flush=True)
+
         result = run_ultra_test_case(t, mem, generate_answer_fn, judge_fn)
         results.append(result)
 
@@ -964,16 +1063,17 @@ def self_test_ultra(load_memory_fn, save_memory_fn, generate_answer_fn, judge_fn
             "weakness": result["score"].get("main_weakness", "")
         })
 
-    mem["history"] = mem["history"][-800:]
+    mem["history"] = mem["history"][-1200:]
 
     diagnostics = build_ultra_diagnostics(results)
 
     mem["selftests_ultra"].append({
         "date": now_iso(),
-        "tests_count": len(all_tests),
+        "tests_count": len(tests),
         "results": results,
         "diagnostics": diagnostics
     })
+
     mem["selftests_ultra"] = mem["selftests_ultra"][-MAX_HISTORY_ULTRA:]
 
     save_memory_fn(mem)

@@ -92,12 +92,14 @@ def extract_focus_topics(cours, matiere, message):
     return topics[:10]
 
 def summarize_interaction(mode, message, cours, answer):
+    clean_answer = clean(answer)
     return {
         "timestamp": now_iso(),
         "mode": mode,
         "question": clean(message)[:160],
         "cours_hint": clean(cours)[:120],
-        "answer_hint": clean(answer).replace("\n", " ")[:180]
+        "answer_hint": clean_answer.replace("\n", " ")[:180],
+        "answer": clean_answer
     }
 
 # =========================

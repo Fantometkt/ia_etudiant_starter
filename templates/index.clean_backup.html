@@ -76,79 +76,59 @@
                 </div>
             </section>
 
-            
-
-            
-
-            <section class="glass panel compact-panel sidebar-atmosphere-card">
-                <div class="sidebar-atmosphere-top">
-                    <p class="eyebrow">Ambiance</p>
-                    <span class="mini-badge subtle">Premium</span>
+            <section class="glass panel compact-panel">
+                <div class="panel-head">
+                    <h2>Modes rapides</h2>
+                    <span class="mini-badge subtle">Action</span>
                 </div>
 
-                <div class="sidebar-orbital">
-                    <span class="orb orb-a"></span>
-                    <span class="orb orb-b"></span>
-                    <span class="orb orb-c"></span>
-                </div>
-
-                <div class="sidebar-atmosphere-content">
-                    <strong>Espace étudiant</strong>
-                    <p>
-                        Une interface pensée pour réviser dans un cadre clair, calme et motivant.
-                    </p>
+                <div class="quick-modes">
+                    <button type="button" class="mode-chip" data-mode="expliquer">Expliquer</button>
+                    <button type="button" class="mode-chip" data-mode="resumer">Résumé</button>
+                    <button type="button" class="mode-chip" data-mode="reviser">Réviser</button>
+                    <button type="button" class="mode-chip" data-mode="quiz">Quiz</button>
+                    <button type="button" class="mode-chip" data-mode="corriger">Corriger</button>
+                    <button type="button" class="mode-chip" data-mode="exam">Examen</button>
+                    <button type="button" class="mode-chip" data-mode="notions_centrales">Notions</button>
+                    <button type="button" class="mode-chip" data-mode="a_retenir">À retenir</button>
                 </div>
             </section>
 
-<section class="glass rewards-card">
-                    <div class="panel-head">
-                        <h2>Récompenses & thèmes</h2>
-                        <span class="mini-badge">Unlocks</span>
+            <section class="glass panel compact-panel">
+                <div class="panel-head">
+                    <h2>Lab</h2>
+                    <span class="mini-badge">Système</span>
+                </div>
+
+                <div class="lab-grid">
+                    <div class="lab-box">
+                        <span>Quick</span>
+                        <strong id="labQuick">—</strong>
                     </div>
-
-                    <div class="theme-groups">
-                        <div class="theme-group">
-                            <div class="theme-group-title">Base</div>
-                            <div class="theme-grid">
-                                <button class="theme-tile active-theme" data-theme="default">Nuit Premium</button>
-                            </div>
-                        </div>
-
-                        <div class="theme-group">
-                            <div class="theme-group-title">Premium</div>
-                            <div class="theme-grid">
-                                <button class="theme-tile locked-theme" data-theme="violet">Violet doux</button>
-                                <button class="theme-tile locked-theme" data-theme="emerald">Émeraude légère</button>
-                                <button class="theme-tile locked-theme" data-theme="sunset">Sunset soft</button>
-                            </div>
-                        </div>
-
-                        <div class="theme-group">
-                            <div class="theme-group-title">Prestige</div>
-                            <div class="theme-grid">
-                                <button class="theme-tile locked-theme prestige-theme" data-theme="royal">Cour Royale</button>
-                                <button class="theme-tile locked-theme prestige-theme" data-theme="kyoto">Jade Kyoto</button>
-                                <button class="theme-tile locked-theme prestige-theme" data-theme="coast">Sunset Coast</button>
-                            </div>
-                        </div>
-
-                        <div class="theme-group">
-                            <div class="theme-group-title">Élite</div>
-                            <div class="theme-grid">
-                                <button class="theme-tile locked-theme elite-theme" data-theme="imperial">Cour Impériale</button>
-                                <button class="theme-tile locked-theme elite-theme" data-theme="feudal">Japon féodal</button>
-                                <button class="theme-tile locked-theme elite-theme" data-theme="sunlight">Sunlight</button>
-                            </div>
-                        </div>
+                    <div class="lab-box">
+                        <span>Full</span>
+                        <strong id="labFull">—</strong>
                     </div>
-
-                    <div class="rewards-note">
-                        <p id="unlockHint">
-                            Gagne de l’XP pour débloquer de nouveaux thèmes et badges.
-                        </p>
+                    <div class="lab-box">
+                        <span>Ultra</span>
+                        <strong id="labUltra">—</strong>
                     </div>
-                </section>
+                    <div class="lab-box">
+                        <span>Coverage</span>
+                        <strong id="labCoverage">—</strong>
+                    </div>
+                </div>
 
+                <div class="lab-status-card">
+                    <div class="lab-status-top">
+                        <span>État labo</span>
+                        <strong id="labStatus">Prêt</strong>
+                    </div>
+                    <p id="labHint" class="muted-paragraph">
+                        Le laboratoire affichera ici tes derniers signaux utiles.
+                    </p>
+                </div>
+            </section>
         </aside>
 
         <section class="main-column">
@@ -230,70 +210,14 @@
                     </div>
                 </details>
 
-                <div class="intent-selector">
-                    <button type="button" class="intent-card active" data-intent="course">
-                        <span class="intent-kicker">Avec support</span>
-                        <strong>Cours + question</strong>
-                        <p>Pour travailler à partir d’un cours, d’un extrait ou de notes.</p>
-                    </button>
+                <label for="cours">Cours / notes</label>
+                <textarea id="cours" rows="8" placeholder="Colle ici ton cours, tes notes ou un extrait utile..."></textarea>
 
-                    <button type="button" class="intent-card" data-intent="question">
-                        <span class="intent-kicker">Direct</span>
-                        <strong>Question seule</strong>
-                        <p>Pour demander une explication sans ajouter de cours.</p>
-                    </button>
+                <label for="previous_response">Ma réponse à corriger</label>
+                <textarea id="previous_response" rows="5" placeholder="Colle ici ta réponse si tu veux une correction détaillée."></textarea>
 
-                    <button type="button" class="intent-card" data-intent="correction">
-                        <span class="intent-kicker">Analyse</span>
-                        <strong>Correction</strong>
-                        <p>Pour faire corriger ta réponse de façon claire et détaillée.</p>
-                    </button>
-                </div>
-
-                <div id="modeBlockCourse" class="mode-block active-mode-block">
-                    <div class="mode-block-head">
-                        <span class="mode-dot"></span>
-                        <div>
-                            <h3>Cours + question</h3>
-                            <p>Ajoute ton support puis pose ta demande.</p>
-                        </div>
-                    </div>
-
-                    <label for="cours">Cours / notes</label>
-                    <textarea id="cours" rows="8" placeholder="Colle ici ton cours, tes notes ou un extrait utile..."></textarea>
-
-                    <label for="message">Ta demande</label>
-                    <textarea id="message" rows="4" placeholder="Exemple : explique-moi la socialisation primaire à partir du cours ci-dessus."></textarea>
-                </div>
-
-                <div id="modeBlockQuestion" class="mode-block">
-                    <div class="mode-block-head">
-                        <span class="mode-dot"></span>
-                        <div>
-                            <h3>Question seule</h3>
-                            <p>Pose directement ta question, sans support ajouté.</p>
-                        </div>
-                    </div>
-
-                    <label for="messageSolo">Ta demande</label>
-                    <textarea id="messageSolo" rows="7" placeholder="Exemple : explique-moi simplement ce qu’est la socialisation primaire."></textarea>
-                </div>
-
-                <div id="modeBlockCorrection" class="mode-block">
-                    <div class="mode-block-head">
-                        <span class="mode-dot"></span>
-                        <div>
-                            <h3>Correction</h3>
-                            <p>Colle ta réponse pour recevoir une correction utile et lisible.</p>
-                        </div>
-                    </div>
-
-                    <label for="previous_response">Ma réponse à corriger</label>
-                    <textarea id="previous_response" rows="8" placeholder="Colle ici ta réponse si tu veux une correction détaillée."></textarea>
-
-                    <label for="messageCorrection">Consigne complémentaire</label>
-                    <textarea id="messageCorrection" rows="3" placeholder="Exemple : corrige sévèrement, note sur 20, donne-moi les points à améliorer."></textarea>
-                </div>
+                <label for="message">Ta demande</label>
+                <textarea id="message" rows="4" placeholder="Exemple : explique-moi la socialisation primaire à partir du cours ci-dessus."></textarea>
 
                 <div class="cta-row">
                     <button id="sendBtn" class="primary-btn" type="button">Envoyer</button>
@@ -301,17 +225,15 @@
                 </div>
             </section>
 
-            <section class="glass answer-card answer-focus-card">
-                <div class="panel-head">
-                    <h2>Réponse</h2>
-                    <span class="mini-badge accent" id="answerState">Attente</span>
-                </div>
-                <div class="answer-focus-shell">
-                    <div id="answer" class="answer-rich">Aucune réponse pour l’instant.</div>
-                </div>
-            </section>
+            <div class="dashboard-grid">
+                <section class="glass answer-card">
+                    <div class="panel-head">
+                        <h2>Réponse</h2>
+                        <span class="mini-badge accent" id="answerState">Attente</span>
+                    </div>
+                    <pre id="answer">Aucune réponse pour l’instant.</pre>
+                </section>
 
-            <div class="dashboard-grid memory-only-grid">
                 <section class="glass memory-card">
                     <div class="panel-head">
                         <h2>Ma mémoire</h2>
@@ -324,21 +246,66 @@
             </div>
 
             <div class="dashboard-grid lower-grid">
-                
+                <section class="glass history-card">
+                    <div class="panel-head">
+                        <h2>Historique récent</h2>
+                        <span class="mini-badge subtle">Session</span>
+                    </div>
+                    <div id="timelineCards" class="timeline-cards">
+                        <div class="empty-state">Aucune activité pour l’instant.</div>
+                    </div>
+                </section>
 
-                
+                <section class="glass rewards-card">
+                    <div class="panel-head">
+                        <h2>Récompenses & thèmes</h2>
+                        <span class="mini-badge">Unlocks</span>
+                    </div>
+
+                    <div class="theme-groups">
+                        <div class="theme-group">
+                            <div class="theme-group-title">Base</div>
+                            <div class="theme-grid">
+                                <button class="theme-tile active-theme" data-theme="default">Nuit Premium</button>
+                            </div>
+                        </div>
+
+                        <div class="theme-group">
+                            <div class="theme-group-title">Premium</div>
+                            <div class="theme-grid">
+                                <button class="theme-tile locked-theme" data-theme="violet">Violet doux</button>
+                                <button class="theme-tile locked-theme" data-theme="emerald">Émeraude légère</button>
+                                <button class="theme-tile locked-theme" data-theme="sunset">Sunset soft</button>
+                            </div>
+                        </div>
+
+                        <div class="theme-group">
+                            <div class="theme-group-title">Prestige</div>
+                            <div class="theme-grid">
+                                <button class="theme-tile locked-theme prestige-theme" data-theme="royal">Cour Royale</button>
+                                <button class="theme-tile locked-theme prestige-theme" data-theme="kyoto">Jade Kyoto</button>
+                                <button class="theme-tile locked-theme prestige-theme" data-theme="coast">Sunset Coast</button>
+                            </div>
+                        </div>
+
+                        <div class="theme-group">
+                            <div class="theme-group-title">Élite</div>
+                            <div class="theme-grid">
+                                <button class="theme-tile locked-theme elite-theme" data-theme="imperial">Cour Impériale</button>
+                                <button class="theme-tile locked-theme elite-theme" data-theme="feudal">Japon féodal</button>
+                                <button class="theme-tile locked-theme elite-theme" data-theme="sunlight">Sunlight</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="rewards-note">
+                        <p id="unlockHint">
+                            Gagne de l’XP pour débloquer de nouveaux thèmes et badges.
+                        </p>
+                    </div>
+                </section>
             </div>
         </section>
-
-    <div id="levelUpToast" class="levelup-toast">
-        <div class="levelup-inner">
-            <span class="levelup-kicker">Progression</span>
-            <strong id="levelUpTitle">Nouveau palier atteint</strong>
-            <p id="levelUpText">Tu viens de débloquer une nouvelle étape.</p>
-        </div>
-    </div>
-
-
     </main>
 
     <script>
@@ -492,8 +459,6 @@
         }
 
         function renderTimeline(items) {
-            if (!timelineCardsEl) return;
-
             if (!items.length) {
                 timelineCardsEl.innerHTML = `<div class="empty-state">Aucune activité pour l’instant.</div>`;
                 return;
@@ -639,22 +604,14 @@
 
             devModeBtn.textContent = stats.devMode ? "Dev mode activé" : "Mode développeur";
 
-            if (labQuickEl && stats.lab) labQuickEl.textContent = stats.lab.quick;
-            if (labFullEl && stats.lab) labFullEl.textContent = stats.lab.full;
-            if (labUltraEl && stats.lab) labUltraEl.textContent = stats.lab.ultra;
-            if (labCoverageEl && stats.lab) labCoverageEl.textContent = stats.lab.coverage;
-            if (labStatusEl && stats.lab) labStatusEl.textContent = stats.lab.status;
-            if (labHintEl && stats.lab) labHintEl.textContent = stats.lab.hint;
+            labQuickEl.textContent = stats.lab.quick;
+            labFullEl.textContent = stats.lab.full;
+            labUltraEl.textContent = stats.lab.ultra;
+            labCoverageEl.textContent = stats.lab.coverage;
+            labStatusEl.textContent = stats.lab.status;
+            labHintEl.textContent = stats.lab.hint;
 
             renderTimeline(stats.timeline);
-
-            if (!window.lastLevel) window.lastLevel = profileLevelEl.textContent;
-
-            if (window.lastLevel !== reward.level && typeof showLevelUp === "function") {
-                showLevelUp(reward.level);
-                window.lastLevel = reward.level;
-            }
-
         }
 
         function updateModeBadge() {
@@ -687,7 +644,7 @@
 
             if (!payload.message) {
                 answerStateEl.textContent = "Vide";
-                if (window.setAnswerContent) { window.setAnswerContent("Écris une demande."); } else { answerEl.textContent = "Écris une demande."; }
+                answerEl.textContent = "Écris une demande.";
                 return;
             }
 
@@ -702,13 +659,13 @@
                 });
 
                 const data = await response.json();
-                if (window.setAnswerContent) { window.setAnswerContent(data.answer || "Aucune réponse."); } else { answerEl.textContent = data.answer || "Aucune réponse."; }
+                answerEl.textContent = data.answer || "Aucune réponse.";
                 answerStateEl.textContent = "Réponse";
 
                 const stats = getAppStats();
                 stats.messages += 1;
                 stats.streak += 1;
-                const gainedXp = 12; stats.xp += gainedXp; if (typeof showXpGain === "function") showXpGain(gainedXp);
+                stats.xp += 12;
 
                 if (payload.mode === "quiz") {
                     stats.quizCount += 1;
@@ -734,7 +691,7 @@
                 renderStats();
             } catch (error) {
                 answerStateEl.textContent = "Erreur";
-                if (window.setAnswerContent) { window.setAnswerContent("Erreur pendant l’envoi."); } else { answerEl.textContent = "Erreur pendant l’envoi."; }
+                answerEl.textContent = "Erreur pendant l’envoi.";
             }
         }
 
@@ -791,213 +748,10 @@
         devModeBtn.addEventListener("click", toggleDevMode);
         modeEl.addEventListener("change", updateModeBadge);
 
-        const intentCards = document.querySelectorAll(".intent-card");
-        const modeBlockCourse = document.getElementById("modeBlockCourse");
-        const modeBlockQuestion = document.getElementById("modeBlockQuestion");
-        const modeBlockCorrection = document.getElementById("modeBlockCorrection");
-        const messageSoloEl = document.getElementById("messageSolo");
-        const messageCorrectionEl = document.getElementById("messageCorrection");
-
-        function setIntent(intent) {
-            intentCards.forEach(card => {
-                card.classList.toggle("active", card.dataset.intent === intent);
-            });
-
-            modeBlockCourse.classList.toggle("active-mode-block", intent === "course");
-            modeBlockQuestion.classList.toggle("active-mode-block", intent === "question");
-            modeBlockCorrection.classList.toggle("active-mode-block", intent === "correction");
-
-            if (intent === "correction") {
-                modeEl.value = "corriger";
-            } else if (modeEl.value === "corriger") {
-                modeEl.value = "expliquer";
-            }
-
-            updateModeBadge();
-        }
-
-        intentCards.forEach(card => {
-            card.addEventListener("click", () => setIntent(card.dataset.intent));
-        });
-
-        sendBtn.addEventListener("click", () => {
-            const activeIntent = document.querySelector(".intent-card.active")?.dataset.intent || "course";
-
-            if (activeIntent === "question") {
-                messageEl.value = messageSoloEl?.value || "";
-                previousResponseEl.value = "";
-                coursEl.value = "";
-            } else if (activeIntent === "correction") {
-                messageEl.value = messageCorrectionEl?.value || "";
-                coursEl.value = "";
-            }
-        }, true);
-
-        const originalClearForm = clearForm;
-        clearForm = function () {
-            originalClearForm();
-            if (messageSoloEl) messageSoloEl.value = "";
-            if (messageCorrectionEl) messageCorrectionEl.value = "";
-            setIntent("course");
-        };
-
-        setIntent("course");
-
         updateModeBadge();
         renderStats();
-
-        
-        function escapeHtml(value) {
-            return (value || "")
-                .replace(/&/g, "&amp;")
-                .replace(/</g, "&lt;")
-                .replace(/>/g, "&gt;");
-        }
-
-        function renderAnswerHtml(raw) {
-            if (!raw) return "Aucune réponse pour l’instant.";
-            if (raw === "Chargement..." || raw === "Erreur pendant l’envoi." || raw === "Écris une demande.") {
-                return escapeHtml(raw);
-            }
-
-            let text = escapeHtml(raw).replace(/\r\n/g, "\n");
-
-            text = text.replace(/^### (.+)$/gm, "<h4>$1</h4>");
-            text = text.replace(/^## (.+)$/gm, "<h3>$1</h3>");
-            text = text.replace(/^# (.+)$/gm, "<h2>$1</h2>");
-            text = text.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
-            text = text.replace(/\*(.+?)\*/g, "<em>$1</em>");
-
-            const lines = text.split("\n");
-            let html = "";
-            let inList = false;
-
-            for (const line of lines) {
-                const trimmed = line.trim();
-
-                if (/^[-•]\s+/.test(trimmed)) {
-                    if (!inList) {
-                        html += "<ul>";
-                        inList = true;
-                    }
-                    html += `<li>${trimmed.replace(/^[-•]\s+/, "")}</li>`;
-                    continue;
-                }
-
-                if (inList) {
-                    html += "</ul>";
-                    inList = false;
-                }
-
-                if (!trimmed) {
-                    html += '<div class="answer-gap"></div>';
-                    continue;
-                }
-
-                if (/^<h[234]>/.test(trimmed)) {
-                    html += trimmed;
-                } else {
-                    html += `<p>${trimmed}</p>`;
-                }
-            }
-
-            if (inList) html += "</ul>";
-            return html || "Aucune réponse pour l’instant.";
-        }
-
-        function beautifyAnswer() {
-            const answer = document.getElementById("answer");
-            if (!answer) return;
-            const raw = answer.textContent || "";
-            answer.innerHTML = renderAnswerHtml(raw);
-        }
-
-        const answerObserverTarget = document.getElementById("answer");
-        if (answerObserverTarget) {
-            beautifyAnswer();
-        }
-
-        function renderSessions(sessions) {
-            window.__memorySessions = Array.isArray(sessions) ? sessions : [];
-
-            if (!window.__memorySessions.length) {
-                return `<div class="empty-state compact">Aucune session récente.</div>`;
-            }
-
-            const buttons = window.__memorySessions
-                .slice(-8)
-                .reverse()
-                .map((session, idx) => {
-                    const realIndex = window.__memorySessions.length - 1 - idx;
-                    return `
-                        <button type="button" class="session-entry" onclick="openMemorySession(${realIndex})">
-                            <div class="session-entry-top">
-                                <span class="session-mode">${session.mode || "mode"}</span>
-                                <span class="session-time">${session.timestamp ? session.timestamp.slice(0,16).replace("T"," ") : ""}</span>
-                            </div>
-                            <strong>${session.question || session.message || "Session"}</strong>
-                            <p>${session.answer_hint || session.answer || "Voir le détail complet"}</p>
-                        </button>
-                    `;
-                }).join("");
-
-            return `
-                <div class="session-browser">
-                    <div class="session-entry-list">${buttons}</div>
-                    <div id="memorySessionDetail" class="session-detail-card">
-                        <div class="session-detail-empty">Clique sur une session pour afficher tout le détail.</div>
-                    </div>
-                </div>
-            `;
-        }
-
-        function openMemorySession(index) {
-            const sessions = window.__memorySessions || [];
-            const session = sessions[index];
-            const target = document.getElementById("memorySessionDetail");
-            if (!session || !target) return;
-
-            const time = session.timestamp ? session.timestamp.slice(0,16).replace("T"," ") : "Sans horaire";
-            const question = session.question || session.message || "Aucune question";
-            const answer = session.answer || session.answer_hint || "Aucune réponse enregistrée.";
-
-            target.innerHTML = `
-                <div class="session-detail-top">
-                    <span class="session-mode">${session.mode || "mode"}</span>
-                    <span class="session-time">${time}</span>
-                </div>
-                <div class="session-detail-block">
-                    <span class="detail-label">Question</span>
-                    <div class="detail-box">${escapeHtml(question)}</div>
-                </div>
-                <div class="session-detail-block">
-                    <span class="detail-label">Réponse</span>
-                    <div class="detail-box detail-answer">${renderAnswerHtml(answer)}</div>
-                </div>
-            `;
-        }
-
-        window.openMemorySession = openMemorySession;
-
-        function showXpGain(amount) {
-            const xpPopup = document.createElement("div");
-            xpPopup.className = "xp-popup";
-            xpPopup.textContent = `+${amount} XP`;
-            document.body.appendChild(xpPopup);
-            setTimeout(() => xpPopup.classList.add("xp-popup-show"), 10);
-            setTimeout(() => xpPopup.remove(), 1200);
-        }
-
-        function showLevelUp(level) {
-            const el = document.createElement("div");
-            el.className = "level-up-popup";
-            el.textContent = `Niveau ${level} atteint`;
-            document.body.appendChild(el);
-            setTimeout(() => el.classList.add("show"), 10);
-            setTimeout(() => el.remove(), 2000);
-        }
-
     </script>
+
     <script src="{{ url_for('static', filename='v29.js') }}"></script>
 </body>
 </html>

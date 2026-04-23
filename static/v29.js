@@ -1,18 +1,22 @@
 (function () {
     const THEMES = [
         { key: "default", label: "Nuit Premium", xp: 0, tier: "base" },
-        { key: "violet", label: "Violet doux", xp: 120, tier: "early" },
-        { key: "emerald", label: "Émeraude légère", xp: 280, tier: "early" },
-        { key: "sunset", label: "Sunset soft", xp: 500, tier: "early" },
-        { key: "royal", label: "Cour Royale", xp: 900, tier: "transition" },
-        { key: "kyoto", label: "Jade Kyoto", xp: 1300, tier: "transition" },
-        { key: "coast", label: "Sunset Coast", xp: 1800, tier: "transition" },
+        { key: "violet", label: "Violet doux", xp: 120, tier: "premium" },
+        { key: "emerald", label: "Émeraude légère", xp: 280, tier: "premium" },
+        { key: "sunset", label: "Sunset soft", xp: 500, tier: "premium" },
+        { key: "royal", label: "Cour Royale", xp: 900, tier: "prestige" },
+        { key: "kyoto", label: "Jade Kyoto", xp: 1300, tier: "prestige" },
+        { key: "coast", label: "Sunset Coast", xp: 1800, tier: "prestige" },
         { key: "imperial", label: "Cour Impériale", xp: 2600, tier: "elite" },
         { key: "feudal", label: "Japon féodal", xp: 3400, tier: "elite" },
         { key: "sunlight", label: "Sunlight", xp: 4300, tier: "elite" }
     ];
 
     const ELITE_THEMES = new Set(["imperial", "feudal", "sunlight"]);
+
+    function getShell() {
+        return document.getElementById("appShell");
+    }
 
     function getStats() {
         try {
@@ -56,42 +60,16 @@
         return "default";
     }
 
-    function applyTheme(themeKey) {
-        const shell = document.getElementById("appShell");
-        if (!shell) return;
-
-        const stats = getStats();
-        stats.theme = themeKey;
-        saveStats(stats);
-
-        const currentClasses = Array.from(shell.classList).filter(c => !c.startsWith("theme-"));
-        shell.className = [...currentClasses, `theme-${themeKey}`].join(" ");
-
-        shell.classList.remove("elite-live");
-        if (ELITE_THEMES.has(themeKey)) {
-            shell.classList.add("elite-live");
-        }
-
-        const themeBadge = document.getElementById("themeBadge");
-        if (themeBadge) {
-            const theme = findTheme(themeKey);
-            themeBadge.textContent = theme ? theme.label : "Nuit Premium";
-        }
-
-        syncThemeButtons();
-        renderXpInfo();
-    }
-
     function ensureEliteButtons() {
         const groups = Array.from(document.querySelectorAll(".theme-group"));
-        const prestigeGroup = groups.find(group => {
+        const eliteGroup = groups.find(group => {
             const title = group.querySelector(".theme-group-title");
-            return title && title.textContent.trim() === "Prestige";
+            return title && title.textContent.trim() === "Élite";
         });
 
-        if (!prestigeGroup) return;
+        if (!eliteGroup) return;
 
-        const grid = prestigeGroup.querySelector(".theme-grid");
+        const grid = eliteGroup.querySelector(".theme-grid");
         if (!grid) return;
 
         const wanted = [
@@ -122,17 +100,22 @@
             const unlocked = isUnlocked(key, xp, devMode);
 
             btn.classList.remove("active-theme", "locked-theme");
-            if (!unlocked) btn.classList.add("locked-theme");
-            if (currentTheme === key) btn.classList.add("active-theme");
 
-            if (!btn.dataset.boundV29) {
+            if (!unlocked) {
+                btn.classList.add("locked-theme");
+            }
+
+            if (currentTheme === key && unlocked) {
+                btn.classList.add("active-theme");
+            }
+
+            if (!btn.dataset.boundTheme) {
                 btn.addEventListener("click", () => {
                     const fresh = getStats();
-                    const allowed = isUnlocked(key, Number(fresh.xp || 0), !!fresh.devMode);
-                    if (!allowed) return;
+                    if (!isUnlocked(key, Number(fresh.xp || 0), !!fresh.devMode)) return;
                     applyTheme(key);
                 });
-                btn.dataset.boundV29 = "1";
+                btn.dataset.boundTheme = "1";
             }
         });
     }
@@ -153,12 +136,14 @@
                 <div class="xp-next-card">
                     <strong>Prochain déblocage</strong>
                     <p id="xpNextText">Chargement...</p>
-                    <div class="xp-mini-bar"><div id="xpMiniFill" class="xp-mini-fill"></div></div>
+                    <div class="xp-mini-bar">
+                        <div id="xpMiniFill" class="xp-mini-fill"></div>
+                    </div>
                 </div>
                 <div class="xp-help-card">
                     <strong>Comment gagner de l’XP</strong>
-                    <p id="xpHelpText">Tu gagnes de l’XP en utilisant les modes de travail, en révisant, en lançant des quiz, des corrections et des sessions régulières.</p>
-                    <div class="dev-pill">Progression liée à l’activité sur la plateforme</div>
+                    <p id="xpHelpText">Tu gagnes de l’XP en envoyant des demandes, en utilisant les quiz, les corrections, les fiches de révision et les modes avancés.</p>
+                    <div class="dev-pill">Progression liée à ton activité</div>
                 </div>
             `;
             progressPanel.appendChild(wrapper);
@@ -166,7 +151,7 @@
     }
 
     function renderXpInfo() {
-        const shell = document.getElementById("appShell");
+        const shell = getShell();
         if (!shell) return;
 
         const stats = getStats();
@@ -184,6 +169,7 @@
                 const span = Math.max(1, next.xp - prev);
                 const progress = Math.max(0, Math.min(100, ((xp - prev) / span) * 100));
                 const remain = Math.max(0, next.xp - xp);
+
                 nextText.innerHTML = `Encore <span class="unlock-theme-name">${remain} XP</span> avant <span class="unlock-theme-name">${next.label}</span>.`;
                 miniFill.style.width = `${progress}%`;
             }
@@ -206,12 +192,38 @@
         }
     }
 
+    function applyTheme(themeKey) {
+        const shell = getShell();
+        if (!shell) return;
+
+        const stats = getStats();
+        stats.theme = themeKey;
+        saveStats(stats);
+
+        const currentClasses = Array.from(shell.classList).filter(c => !c.startsWith("theme-") && c !== "elite-live");
+        shell.className = [...currentClasses, `theme-${themeKey}`].join(" ");
+
+        if (ELITE_THEMES.has(themeKey)) {
+            shell.classList.add("elite-live");
+        }
+
+        const themeBadge = document.getElementById("themeBadge");
+        if (themeBadge) {
+            const theme = findTheme(themeKey);
+            themeBadge.textContent = theme ? theme.label : "Nuit Premium";
+        }
+
+        syncThemeButtons();
+        renderXpInfo();
+    }
+
     function attachEliteMotion() {
-        const shell = document.getElementById("appShell");
+        const shell = getShell();
         if (!shell) return;
 
         ensureDepthLayer(shell);
 
+        const targetSelectors = [".hero-card", ".brand-card", ".rewards-card", ".memory-card"];
         let raf = null;
         let tx = 0;
         let ty = 0;
@@ -225,20 +237,18 @@
             ty = (e.clientY - cy) / Math.max(1, rect.height / 2);
 
             if (raf) return;
+
             raf = requestAnimationFrame(() => {
                 shell.style.setProperty("--mx", tx.toFixed(3));
                 shell.style.setProperty("--my", ty.toFixed(3));
 
                 if (shell.classList.contains("elite-live")) {
-                    shell.querySelectorAll(".glass").forEach((card, idx) => {
-                        const factor = idx % 3 === 0 ? 3.5 : idx % 3 === 1 ? 2.8 : 2.1;
+                    const cards = shell.querySelectorAll(targetSelectors.join(","));
+                    cards.forEach((card, idx) => {
+                        const factor = idx === 0 ? 2.8 : idx === 1 ? 2.2 : 1.6;
                         const rx = (-ty * factor).toFixed(2);
                         const ry = (tx * factor).toFixed(2);
                         card.style.transform = `perspective(1200px) rotateX(${rx}deg) rotateY(${ry}deg) translateZ(0)`;
-                    });
-                } else {
-                    shell.querySelectorAll(".glass").forEach(card => {
-                        card.style.transform = "";
                     });
                 }
 
@@ -249,7 +259,7 @@
         window.addEventListener("mouseleave", () => {
             shell.style.setProperty("--mx", 0);
             shell.style.setProperty("--my", 0);
-            shell.querySelectorAll(".glass").forEach(card => {
+            shell.querySelectorAll(".hero-card, .brand-card, .rewards-card, .memory-card").forEach(card => {
                 card.style.transform = "";
             });
         });
@@ -276,16 +286,16 @@
     }
 
     function boot() {
+        const shell = getShell();
+        if (!shell) return;
+
         ensureEliteButtons();
         ensureXpCards();
+        ensureDepthLayer(shell);
         syncThemeButtons();
         renderXpInfo();
         attachEliteMotion();
         hijackThemeCycleButton();
-        setInterval(() => {
-            syncThemeButtons();
-            renderXpInfo();
-        }, 1000);
     }
 
     if (document.readyState === "loading") {

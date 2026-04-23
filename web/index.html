@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>IA Étudiant</title>
+</head>
+<body>
+
+<h1>IA Étudiant</h1>
+
+<input id="niveau" placeholder="Niveau" value="L1"><br><br>
+<input id="matiere" placeholder="Matière" value="sociologie"><br><br>
+
+<select id="mode">
+  <option value="expliquer">expliquer</option>
+  <option value="resumer">resumer</option>
+  <option value="reviser">reviser</option>
+  <option value="corriger">corriger</option>
+</select><br><br>
+
+<textarea id="cours">Cours ici</textarea><br><br>
+<textarea id="message">Question ici</textarea><br><br>
+
+<button onclick="send()">Envoyer</button>
+
+<pre id="answer"></pre>
+
+<script>
+async function send() {
+  const res = await fetch("http://127.0.0.1:8000/generate", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({
+      niveau: document.getElementById("niveau").value,
+      matiere: document.getElementById("matiere").value,
+      mode: document.getElementById("mode").value,
+      cours: document.getElementById("cours").value,
+      message: document.getElementById("message").value
+    })
+  });
+
+  const data = await res.json();
+  document.getElementById("answer").textContent = data.answer;
+}
+</script>
+
+</body>
+</html>
+

@@ -1,11 +1,15 @@
 /* =========================
-   V29 CLEAN — XP + ELITE IMMERSION LIGHT
+   V29 CLEAN — PREMIUM LAYER
    ========================= */
 
 :root {
     --mx: 0;
     --my: 0;
 }
+
+/* =========================
+   XP EXTENDED
+   ========================= */
 
 .progression-extended {
     margin-top: 12px;
@@ -49,7 +53,7 @@
     height: 100%;
     width: 0%;
     border-radius: 999px;
-    background: linear-gradient(90deg, var(--accent, #8b5cf6), var(--accent-3, #d8b4fe));
+    background: linear-gradient(90deg, var(--accent), var(--accent-3));
     transition: width 0.28s ease;
 }
 
@@ -69,7 +73,7 @@
 }
 
 /* =========================
-   ELITE ONLY
+   ELITE MODE
    ========================= */
 
 .theme-depth-layer {
@@ -120,18 +124,10 @@
     background: radial-gradient(circle at center, rgba(255,255,255,0.08), transparent 68%);
 }
 
-/* l'image reste en fond, mais plus discrète */
-.theme-imperial::before,
-.theme-feudal::before,
-.theme-sunlight::before {
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    filter: saturate(1.02) brightness(0.62);
-    opacity: 0.55;
-}
+/* =========================
+   ELITE GLASS BEHAVIOR
+   ========================= */
 
-/* grosses cartes = décor intégré */
 .app-shell.elite-live .hero-card,
 .app-shell.elite-live .brand-card,
 .app-shell.elite-live .memory-card,
@@ -148,274 +144,20 @@
         border-color 0.20s ease;
 }
 
-/* pas d'image collée DANS les blocs */
 .app-shell.elite-live .glass::after {
     content: none !important;
 }
 
-/* effet décoratif léger qui mord sur les blocs */
-.app-shell.elite-live .hero-card::before,
-.app-shell.elite-live .brand-card::before,
-.app-shell.elite-live .rewards-card::before {
-    content: "";
-    position: absolute;
-    pointer-events: none;
-    z-index: 2;
-}
+/* =========================
+   THEME — IMPERIAL
+   ========================= */
 
-/* COUR IMPERIALE */
 .theme-imperial {
     --accent: #c084fc;
     --accent-2: #7c3aed;
     --accent-3: #f5d0fe;
 }
 
-.theme-imperial .hero-card,
-.theme-imperial .brand-card,
-.theme-imperial .memory-card,
-.theme-imperial .history-card,
-.theme-imperial .rewards-card,
-.theme-imperial .answer-card,
-.theme-imperial .form-card {
-    background: linear-gradient(180deg, rgba(52, 22, 72, 0.76), rgba(20, 12, 34, 0.90));
-    border-color: rgba(245, 208, 254, 0.14);
-    box-shadow:
-        0 26px 70px rgba(0,0,0,0.36),
-        0 0 0 1px rgba(245, 208, 254, 0.05) inset,
-        0 0 28px rgba(192,132,252,0.08);
-}
-
-.theme-imperial .hero-card::before {
-    width: 180px;
-    height: 180px;
-    top: -36px;
-    right: -26px;
-    opacity: 0.22;
-    border-radius: 999px;
-    background:
-        radial-gradient(circle at center, rgba(255,244,220,0.18), transparent 34%),
-        repeating-conic-gradient(
-            from 0deg,
-            rgba(245,208,254,0.00) 0deg 20deg,
-            rgba(245,208,254,0.20) 20deg 25deg
-        );
-}
-
-.theme-imperial .brand-card::before {
-    width: 120px;
-    height: 120px;
-    left: -12px;
-    top: -10px;
-    opacity: 0.18;
-    border-radius: 999px;
-    background:
-        radial-gradient(circle at center, rgba(255,244,220,0.14), transparent 36%),
-        repeating-conic-gradient(
-            from 0deg,
-            rgba(245,208,254,0.00) 0deg 24deg,
-            rgba(245,208,254,0.16) 24deg 30deg
-        );
-}
-
-.theme-imperial .rewards-card::before {
-    width: 150px;
-    height: 60px;
-    right: 8px;
-    bottom: -10px;
-    opacity: 0.14;
-    border-radius: 999px;
-    background:
-        radial-gradient(circle at 50% 50%, rgba(255,235,205,0.18), transparent 38%),
-        linear-gradient(180deg, rgba(245,208,254,0.00), rgba(245,208,254,0.16), rgba(245,208,254,0.00));
-}
-
-.theme-imperial input,
-.theme-imperial select,
-.theme-imperial textarea,
-.theme-imperial .advanced-box,
-.theme-imperial .memory-fold,
-.theme-imperial .xp-next-card,
-.theme-imperial .xp-help-card {
-    background: rgba(56, 24, 78, 0.74);
-    border-color: rgba(245, 208, 254, 0.16);
-}
-
-/* JAPON FEODAL */
-.theme-feudal {
-    --accent: #fb7185;
-    --accent-2: #be123c;
-    --accent-3: #fecdd3;
-}
-
-.theme-feudal .hero-card,
-.theme-feudal .brand-card,
-.theme-feudal .memory-card,
-.theme-feudal .history-card,
-.theme-feudal .rewards-card,
-.theme-feudal .answer-card,
-.theme-feudal .form-card {
-    background: linear-gradient(180deg, rgba(96, 28, 48, 0.76), rgba(32, 18, 28, 0.90));
-    border-color: rgba(254, 205, 211, 0.16);
-    box-shadow:
-        0 26px 70px rgba(0,0,0,0.36),
-        0 0 0 1px rgba(254, 205, 211, 0.05) inset,
-        0 0 28px rgba(251,113,133,0.08);
-}
-
-.theme-feudal .hero-card::before {
-    width: 190px;
-    height: 160px;
-    top: -34px;
-    right: -24px;
-    opacity: 0.26;
-    background:
-        radial-gradient(circle at 22% 30%, rgba(255,214,228,0.95) 0 10px, transparent 11px),
-        radial-gradient(circle at 42% 18%, rgba(255,196,215,0.90) 0 9px, transparent 10px),
-        radial-gradient(circle at 58% 34%, rgba(255,228,236,0.88) 0 8px, transparent 9px),
-        radial-gradient(circle at 74% 24%, rgba(255,196,215,0.82) 0 8px, transparent 9px),
-        linear-gradient(135deg, transparent 0 42%, rgba(130,96,104,0.65) 42% 44%, transparent 44% 100%);
-    transform: rotate(8deg);
-}
-
-.theme-feudal .brand-card::before {
-    width: 135px;
-    height: 130px;
-    left: -12px;
-    top: -12px;
-    opacity: 0.20;
-    background:
-        radial-gradient(circle at 30% 26%, rgba(255,214,228,0.90) 0 8px, transparent 9px),
-        radial-gradient(circle at 46% 40%, rgba(255,196,215,0.78) 0 7px, transparent 8px),
-        linear-gradient(35deg, transparent 0 48%, rgba(130,96,104,0.60) 48% 50%, transparent 50% 100%);
-    transform: rotate(-10deg);
-}
-
-.theme-feudal .rewards-card::before {
-    width: 120px;
-    height: 100px;
-    right: -12px;
-    bottom: -10px;
-    opacity: 0.16;
-    background:
-        radial-gradient(circle at 26% 36%, rgba(255,214,228,0.82) 0 7px, transparent 8px),
-        radial-gradient(circle at 46% 18%, rgba(255,196,215,0.74) 0 6px, transparent 7px),
-        radial-gradient(circle at 62% 44%, rgba(255,228,236,0.72) 0 6px, transparent 7px);
-}
-
-.theme-feudal input,
-.theme-feudal select,
-.theme-feudal textarea,
-.theme-feudal .advanced-box,
-.theme-feudal .memory-fold,
-.theme-feudal .xp-next-card,
-.theme-feudal .xp-help-card {
-    background: rgba(92, 26, 46, 0.74);
-    border-color: rgba(254, 205, 211, 0.18);
-}
-
-/* SUNLIGHT */
-.theme-sunlight {
-    --accent: #f59e0b;
-    --accent-2: #f97316;
-    --accent-3: #fde68a;
-}
-
-.theme-sunlight .hero-card,
-.theme-sunlight .brand-card,
-.theme-sunlight .memory-card,
-.theme-sunlight .history-card,
-.theme-sunlight .rewards-card,
-.theme-sunlight .answer-card,
-.theme-sunlight .form-card {
-    background: linear-gradient(180deg, rgba(62, 34, 12, 0.76), rgba(24, 16, 12, 0.90));
-    border-color: rgba(253, 230, 138, 0.16);
-    box-shadow:
-        0 26px 70px rgba(0,0,0,0.36),
-        0 0 0 1px rgba(253, 230, 138, 0.05) inset,
-        0 0 28px rgba(245,158,11,0.08);
-}
-
-.theme-sunlight .hero-card::before {
-    width: 190px;
-    height: 190px;
-    top: -40px;
-    right: -28px;
-    opacity: 0.22;
-    border-radius: 999px;
-    background:
-        radial-gradient(circle at 50% 50%, rgba(255,236,160,0.26), transparent 30%),
-        repeating-conic-gradient(
-            from 0deg,
-            rgba(255,230,170,0.00) 0deg 16deg,
-            rgba(255,230,170,0.18) 16deg 20deg
-        );
-}
-
-.theme-sunlight .brand-card::before {
-    width: 130px;
-    height: 130px;
-    left: -12px;
-    top: -10px;
-    opacity: 0.16;
-    border-radius: 999px;
-    background:
-        radial-gradient(circle at 50% 50%, rgba(255,226,150,0.22), transparent 34%),
-        repeating-conic-gradient(
-            from 0deg,
-            rgba(255,230,170,0.00) 0deg 18deg,
-            rgba(255,230,170,0.14) 18deg 22deg
-        );
-}
-
-.theme-sunlight .rewards-card::before {
-    width: 160px;
-    height: 66px;
-    right: -6px;
-    bottom: -12px;
-    opacity: 0.16;
-    border-radius: 999px;
-    background:
-        radial-gradient(circle at 20% 50%, rgba(255,220,150,0.20), transparent 26%),
-        linear-gradient(180deg, rgba(255,220,150,0.00), rgba(255,220,150,0.18), rgba(255,220,150,0.00));
-}
-
-.theme-sunlight input,
-.theme-sunlight select,
-.theme-sunlight textarea,
-.theme-sunlight .advanced-box,
-.theme-sunlight .memory-fold,
-.theme-sunlight .xp-next-card,
-.theme-sunlight .xp-help-card {
-    background: rgba(68, 36, 12, 0.74);
-    border-color: rgba(253, 230, 138, 0.18);
-}
-
-/* mouvement léger seulement sur cartes majeures */
-.app-shell.elite-live .hero-card:hover,
-.app-shell.elite-live .brand-card:hover,
-.app-shell.elite-live .memory-card:hover,
-.app-shell.elite-live .history-card:hover,
-.app-shell.elite-live .rewards-card:hover {
-    transform:
-        perspective(1200px)
-        rotateX(calc(var(--my) * -2.4deg))
-        rotateY(calc(var(--mx) * 3deg))
-        translateY(-2px);
-}
-
-@media (max-width: 760px) {
-    .app-shell.elite-live .hero-card::before,
-    .app-shell.elite-live .brand-card::before,
-    .app-shell.elite-live .rewards-card::before {
-        opacity: 0.10;
-    }
-}
-
-/* =========================
-   FIX ELITE — FONDS + COULEURS
-   ========================= */
-
-/* -------- Cour Impériale -------- */
 .theme-imperial::before {
     content: "";
     position: fixed;
@@ -430,6 +172,33 @@
     background-repeat: no-repeat;
     filter: saturate(1.06) brightness(0.68);
     opacity: 0.60;
+}
+
+.theme-imperial .hero-card,
+.theme-imperial .brand-card,
+.theme-imperial .memory-card,
+.theme-imperial .history-card,
+.theme-imperial .rewards-card,
+.theme-imperial .answer-card,
+.theme-imperial .form-card,
+.theme-imperial .sidebar .glass {
+    background: linear-gradient(180deg, rgba(52, 22, 72, 0.76), rgba(20, 12, 34, 0.90));
+    border-color: rgba(245, 208, 254, 0.14);
+    box-shadow:
+        0 26px 70px rgba(0,0,0,0.36),
+        0 0 0 1px rgba(245, 208, 254, 0.05) inset,
+        0 0 28px rgba(192,132,252,0.08);
+}
+
+.theme-imperial input,
+.theme-imperial select,
+.theme-imperial textarea,
+.theme-imperial .advanced-box,
+.theme-imperial .memory-fold,
+.theme-imperial .xp-next-card,
+.theme-imperial .xp-help-card {
+    background: rgba(56, 24, 78, 0.74);
+    border-color: rgba(245, 208, 254, 0.16);
 }
 
 .theme-imperial .primary-btn,
@@ -447,499 +216,19 @@
     color: #f5d0fe;
 }
 
-/* -------- Japon féodal -------- */
-.theme-feudal::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    z-index: -4;
-    pointer-events: none;
-    background:
-        linear-gradient(180deg, rgba(28, 10, 18, 0.06), rgba(10, 10, 12, 0.38)),
-        url("/static/kyoto_painting.jpg");
-    background-size: cover;
-    background-position: center center;
-    background-repeat: no-repeat;
-    filter: saturate(1.06) brightness(0.96);
-    opacity: 0.62;
-}
-
-.theme-feudal .primary-btn,
-.theme-feudal .mini-badge,
-.theme-feudal .xp-mini-fill,
-.theme-feudal .active-theme {
-    background: linear-gradient(135deg, #fb7185, #be123c);
-}
-
-.theme-feudal .xp-pill,
-.theme-feudal .unlock-chip,
-.theme-feudal .memory-tag {
-    background: rgba(251, 113, 133, 0.12);
-    border-color: rgba(254, 205, 211, 0.20);
-    color: #fecdd3;
-}
-
-/* -------- Sunlight -------- */
-.theme-sunlight::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    z-index: -4;
-    pointer-events: none;
-    background:
-        linear-gradient(180deg, rgba(30, 16, 12, 0.06), rgba(14, 12, 12, 0.34)),
-        url("/static/coast_painting.jpg");
-    background-size: cover;
-    background-position: center center;
-    background-repeat: no-repeat;
-    filter: saturate(1.08) brightness(0.86);
-    opacity: 0.60;
-}
-
-.theme-sunlight .primary-btn,
-.theme-sunlight .mini-badge,
-.theme-sunlight .xp-mini-fill,
-.theme-sunlight .active-theme {
-    background: linear-gradient(135deg, #f59e0b, #f97316);
-}
-
-.theme-sunlight .xp-pill,
-.theme-sunlight .unlock-chip,
-.theme-sunlight .memory-tag {
-    background: rgba(245, 158, 11, 0.12);
-    border-color: rgba(253, 230, 138, 0.20);
-    color: #fde68a;
-}
-
-
-/* =========================
-   FINAL TOUCH — SIDEBAR ELITE + ÉLÉMENTS QUI MORDENT SUR LES BLOCS
-   ========================= */
-
-/* 1) BLOCS DE GAUCHE = bonne couleur selon le thème élite */
-.theme-imperial .sidebar .glass {
-    background: linear-gradient(180deg, rgba(52, 22, 72, 0.78), rgba(20, 12, 34, 0.90)) !important;
-    border-color: rgba(245, 208, 254, 0.14) !important;
-    box-shadow:
-        0 22px 56px rgba(0,0,0,0.32),
-        0 0 0 1px rgba(245, 208, 254, 0.05) inset,
-        0 0 24px rgba(192,132,252,0.08);
-}
-
-.theme-feudal .sidebar .glass {
-    background: linear-gradient(180deg, rgba(96, 28, 48, 0.78), rgba(32, 18, 28, 0.90)) !important;
-    border-color: rgba(254, 205, 211, 0.16) !important;
-    box-shadow:
-        0 22px 56px rgba(0,0,0,0.32),
-        0 0 0 1px rgba(254, 205, 211, 0.05) inset,
-        0 0 24px rgba(251,113,133,0.08);
-}
-
-.theme-sunlight .sidebar .glass {
-    background: linear-gradient(180deg, rgba(62, 34, 12, 0.78), rgba(24, 16, 12, 0.90)) !important;
-    border-color: rgba(253, 230, 138, 0.16) !important;
-    box-shadow:
-        0 22px 56px rgba(0,0,0,0.32),
-        0 0 0 1px rgba(253, 230, 138, 0.05) inset,
-        0 0 24px rgba(245,158,11,0.08);
-}
-
-/* champs de la sidebar aussi */
-.theme-imperial .sidebar input,
-.theme-imperial .sidebar select,
-.theme-imperial .sidebar textarea {
-    background: rgba(56, 24, 78, 0.74) !important;
-    border-color: rgba(245, 208, 254, 0.16) !important;
-}
-
-.theme-feudal .sidebar input,
-.theme-feudal .sidebar select,
-.theme-feudal .sidebar textarea {
-    background: rgba(92, 26, 46, 0.74) !important;
-    border-color: rgba(254, 205, 211, 0.18) !important;
-}
-
-.theme-sunlight .sidebar input,
-.theme-sunlight .sidebar select,
-.theme-sunlight .sidebar textarea {
-    background: rgba(68, 36, 12, 0.74) !important;
-    border-color: rgba(253, 230, 138, 0.18) !important;
-}
-
-/* 2) PETITS ÉLÉMENTS QUI VIENNENT DU TABLEAU SUR LES BLOCS */
-
-/* base */
-.app-shell.elite-live .sidebar .brand-card,
-.app-shell.elite-live .sidebar .panel,
-.app-shell.elite-live .hero-card,
-.app-shell.elite-live .memory-card,
-.app-shell.elite-live .rewards-card {
-    position: relative;
-    overflow: visible !important;
-}
-
-/* COUR IMPERIALE : éclats nobles qui mordent */
-.theme-imperial .sidebar .brand-card::before,
-.theme-imperial .hero-card::before {
-    content: "";
-    position: absolute;
-    width: 150px;
-    height: 150px;
-    top: -24px;
-    right: -18px;
-    pointer-events: none;
-    z-index: 4;
-    opacity: 0.20;
-    border-radius: 999px;
-    background:
-        radial-gradient(circle at center, rgba(255,244,220,0.18), transparent 34%),
-        repeating-conic-gradient(
-            from 0deg,
-            rgba(245,208,254,0.00) 0deg 20deg,
-            rgba(245,208,254,0.20) 20deg 25deg
-        );
-}
-
+.theme-imperial .hero-card::before,
+.theme-imperial .brand-card::before,
 .theme-imperial .rewards-card::before {
     content: "";
     position: absolute;
-    width: 120px;
-    height: 48px;
-    right: -8px;
-    bottom: -8px;
     pointer-events: none;
-    z-index: 4;
-    opacity: 0.16;
-    border-radius: 999px;
-    background:
-        radial-gradient(circle at 50% 50%, rgba(255,235,205,0.18), transparent 38%),
-        linear-gradient(180deg, rgba(245,208,254,0.00), rgba(245,208,254,0.16), rgba(245,208,254,0.00));
-}
-
-/* JAPON FÉODAL : pétales/branche qui mordent */
-.theme-feudal .sidebar .brand-card::before,
-.theme-feudal .hero-card::before {
-    content: "";
-    position: absolute;
-    width: 170px;
-    height: 145px;
-    top: -28px;
-    right: -18px;
-    pointer-events: none;
-    z-index: 4;
-    opacity: 0.28;
-    background:
-        radial-gradient(circle at 22% 30%, rgba(255,214,228,0.95) 0 9px, transparent 10px),
-        radial-gradient(circle at 42% 18%, rgba(255,196,215,0.90) 0 8px, transparent 9px),
-        radial-gradient(circle at 58% 34%, rgba(255,228,236,0.88) 0 7px, transparent 8px),
-        radial-gradient(circle at 74% 24%, rgba(255,196,215,0.82) 0 7px, transparent 8px),
-        linear-gradient(135deg, transparent 0 42%, rgba(130,96,104,0.65) 42% 44%, transparent 44% 100%);
-    transform: rotate(8deg);
-}
-
-.theme-feudal .memory-card::before {
-    content: "";
-    position: absolute;
-    width: 110px;
-    height: 90px;
-    right: -10px;
-    bottom: -6px;
-    pointer-events: none;
-    z-index: 4;
-    opacity: 0.18;
-    background:
-        radial-gradient(circle at 26% 36%, rgba(255,214,228,0.82) 0 6px, transparent 7px),
-        radial-gradient(circle at 46% 18%, rgba(255,196,215,0.74) 0 5px, transparent 6px),
-        radial-gradient(circle at 62% 44%, rgba(255,228,236,0.72) 0 5px, transparent 6px);
-}
-
-/* SUNLIGHT : rayons/lueurs qui mordent */
-.theme-sunlight .sidebar .brand-card::before,
-.theme-sunlight .hero-card::before {
-    content: "";
-    position: absolute;
-    width: 170px;
-    height: 170px;
-    top: -30px;
-    right: -22px;
-    pointer-events: none;
-    z-index: 4;
-    opacity: 0.20;
-    border-radius: 999px;
-    background:
-        radial-gradient(circle at 50% 50%, rgba(255,236,160,0.26), transparent 30%),
-        repeating-conic-gradient(
-            from 0deg,
-            rgba(255,230,170,0.00) 0deg 16deg,
-            rgba(255,230,170,0.18) 16deg 20deg
-        );
-}
-
-.theme-sunlight .rewards-card::before {
-    content: "";
-    position: absolute;
-    width: 140px;
-    height: 56px;
-    right: -6px;
-    bottom: -10px;
-    pointer-events: none;
-    z-index: 4;
-    opacity: 0.18;
-    border-radius: 999px;
-    background:
-        radial-gradient(circle at 20% 50%, rgba(255,220,150,0.20), transparent 26%),
-        linear-gradient(180deg, rgba(255,220,150,0.00), rgba(255,220,150,0.18), rgba(255,220,150,0.00));
-}
-
-/* 3) petits accents de couleur cohérents sur les badges de gauche */
-.theme-imperial .sidebar .mini-badge,
-.theme-imperial .sidebar .active-theme,
-.theme-imperial .sidebar .xp-mini-fill {
-    background: linear-gradient(135deg, #c084fc, #7c3aed) !important;
-}
-
-.theme-feudal .sidebar .mini-badge,
-.theme-feudal .sidebar .active-theme,
-.theme-feudal .sidebar .xp-mini-fill {
-    background: linear-gradient(135deg, #fb7185, #be123c) !important;
-}
-
-.theme-sunlight .sidebar .mini-badge,
-.theme-sunlight .sidebar .active-theme,
-.theme-sunlight .sidebar .xp-mini-fill {
-    background: linear-gradient(135deg, #f59e0b, #f97316) !important;
-}
-
-
-/* =========================
-   FINAL ELITE DECOR OVERLAY
-   petits éléments qui sortent du décor
-   ========================= */
-
-/* on autorise bien le débordement */
-.theme-imperial .brand-card,
-.theme-imperial .hero-card,
-.theme-imperial .rewards-card,
-.theme-feudal .brand-card,
-.theme-feudal .hero-card,
-.theme-feudal .rewards-card,
-.theme-sunlight .brand-card,
-.theme-sunlight .hero-card,
-.theme-sunlight .rewards-card {
-    overflow: visible !important;
-    position: relative;
-}
-
-/* on passe au-dessus du contenu de fond mais sans gêner les clics */
-.theme-imperial .brand-card::before,
-.theme-imperial .hero-card::before,
-.theme-imperial .rewards-card::before,
-.theme-feudal .brand-card::before,
-.theme-feudal .hero-card::before,
-.theme-feudal .rewards-card::before,
-.theme-sunlight .brand-card::before,
-.theme-sunlight .hero-card::before,
-.theme-sunlight .rewards-card::before {
-    pointer-events: none;
-    z-index: 8 !important;
-}
-
-/* =========================
-   COUR IMPERIALE
-   éclats nobles plus visibles
-   ========================= */
-
-.theme-imperial .hero-card::before {
-    content: "";
-    position: absolute;
-    width: 210px;
-    height: 210px;
-    top: -42px;
-    right: -34px;
-    border-radius: 999px;
-    opacity: 0.34;
-    background:
-        radial-gradient(circle at 50% 50%, rgba(255,245,225,0.28), transparent 26%),
-        repeating-conic-gradient(
-            from 0deg,
-            rgba(245,208,254,0.00) 0deg 16deg,
-            rgba(245,208,254,0.28) 16deg 22deg
-        );
-    filter: drop-shadow(0 0 10px rgba(245,208,254,0.10));
-}
-
-.theme-imperial .brand-card::before {
-    content: "";
-    position: absolute;
-    width: 150px;
-    height: 150px;
-    left: -16px;
-    top: -18px;
-    border-radius: 999px;
-    opacity: 0.26;
-    background:
-        radial-gradient(circle at center, rgba(255,245,225,0.18), transparent 28%),
-        repeating-conic-gradient(
-            from 0deg,
-            rgba(245,208,254,0.00) 0deg 18deg,
-            rgba(245,208,254,0.22) 18deg 24deg
-        );
-}
-
-.theme-imperial .rewards-card::before {
-    content: "";
-    position: absolute;
-    width: 170px;
-    height: 64px;
-    right: -10px;
-    bottom: -12px;
-    opacity: 0.22;
-    border-radius: 999px;
-    background:
-        radial-gradient(circle at 50% 50%, rgba(255,235,205,0.26), transparent 36%),
-        linear-gradient(180deg, rgba(245,208,254,0.00), rgba(245,208,254,0.20), rgba(245,208,254,0.00));
-    transform: rotate(-4deg);
-}
-
-/* =========================
-   JAPON FEODAL
-   branche/pétales qui débordent
-   ========================= */
-
-.theme-feudal .hero-card::before {
-    content: "";
-    position: absolute;
-    width: 220px;
-    height: 170px;
-    top: -36px;
-    right: -28px;
-    opacity: 0.40;
-    background:
-        radial-gradient(circle at 20% 30%, rgba(255,220,232,0.98) 0 11px, transparent 12px),
-        radial-gradient(circle at 36% 18%, rgba(255,196,215,0.94) 0 10px, transparent 11px),
-        radial-gradient(circle at 54% 34%, rgba(255,232,240,0.92) 0 9px, transparent 10px),
-        radial-gradient(circle at 70% 24%, rgba(255,196,215,0.86) 0 9px, transparent 10px),
-        radial-gradient(circle at 62% 50%, rgba(255,220,232,0.82) 0 8px, transparent 9px),
-        radial-gradient(circle at 82% 34%, rgba(255,196,215,0.76) 0 8px, transparent 9px),
-        linear-gradient(135deg, transparent 0 40%, rgba(125,92,104,0.82) 40% 43%, transparent 43% 100%);
-    transform: rotate(8deg);
-    filter: drop-shadow(0 3px 6px rgba(255,196,215,0.08));
-}
-
-.theme-feudal .brand-card::before {
-    content: "";
-    position: absolute;
-    width: 160px;
-    height: 140px;
-    left: -18px;
-    top: -16px;
-    opacity: 0.32;
-    background:
-        radial-gradient(circle at 28% 26%, rgba(255,220,232,0.96) 0 9px, transparent 10px),
-        radial-gradient(circle at 46% 40%, rgba(255,196,215,0.82) 0 8px, transparent 9px),
-        radial-gradient(circle at 62% 20%, rgba(255,232,240,0.76) 0 7px, transparent 8px),
-        linear-gradient(35deg, transparent 0 46%, rgba(125,92,104,0.74) 46% 49%, transparent 49% 100%);
-    transform: rotate(-10deg);
-}
-
-.theme-feudal .rewards-card::before {
-    content: "";
-    position: absolute;
-    width: 130px;
-    height: 110px;
-    right: -14px;
-    bottom: -10px;
-    opacity: 0.24;
-    background:
-        radial-gradient(circle at 24% 36%, rgba(255,220,232,0.88) 0 7px, transparent 8px),
-        radial-gradient(circle at 46% 18%, rgba(255,196,215,0.78) 0 6px, transparent 7px),
-        radial-gradient(circle at 62% 44%, rgba(255,232,240,0.76) 0 6px, transparent 7px),
-        radial-gradient(circle at 80% 28%, rgba(255,196,215,0.70) 0 5px, transparent 6px);
-}
-
-/* =========================
-   SUNLIGHT
-   rayons/lueur qui sortent
-   ========================= */
-
-.theme-sunlight .hero-card::before {
-    content: "";
-    position: absolute;
-    width: 220px;
-    height: 220px;
-    top: -44px;
-    right: -34px;
-    opacity: 0.30;
-    border-radius: 999px;
-    background:
-        radial-gradient(circle at 50% 50%, rgba(255,238,170,0.34), transparent 28%),
-        repeating-conic-gradient(
-            from 0deg,
-            rgba(255,230,170,0.00) 0deg 14deg,
-            rgba(255,230,170,0.24) 14deg 19deg
-        );
-    filter: drop-shadow(0 0 10px rgba(255,220,150,0.08));
-}
-
-.theme-sunlight .brand-card::before {
-    content: "";
-    position: absolute;
-    width: 150px;
-    height: 150px;
-    left: -16px;
-    top: -14px;
-    opacity: 0.22;
-    border-radius: 999px;
-    background:
-        radial-gradient(circle at 50% 50%, rgba(255,226,150,0.26), transparent 32%),
-        repeating-conic-gradient(
-            from 0deg,
-            rgba(255,230,170,0.00) 0deg 18deg,
-            rgba(255,230,170,0.18) 18deg 23deg
-        );
-}
-
-.theme-sunlight .rewards-card::before {
-    content: "";
-    position: absolute;
-    width: 180px;
-    height: 72px;
-    right: -8px;
-    bottom: -12px;
-    opacity: 0.22;
-    border-radius: 999px;
-    background:
-        radial-gradient(circle at 20% 50%, rgba(255,220,150,0.24), transparent 26%),
-        linear-gradient(180deg, rgba(255,220,150,0.00), rgba(255,220,150,0.22), rgba(255,220,150,0.00));
-    transform: rotate(-5deg);
-}
-
-
-/* =========================
-   ELITE TRUE OVERLAYS
-   éléments illustrés qui sortent du décor
-   ========================= */
-
-.theme-imperial .brand-card::before,
-.theme-imperial .hero-card::before,
-.theme-imperial .rewards-card::before,
-.theme-feudal .brand-card::before,
-.theme-feudal .hero-card::before,
-.theme-feudal .rewards-card::before,
-.theme-sunlight .brand-card::before,
-.theme-sunlight .hero-card::before,
-.theme-sunlight .rewards-card::before {
-    content: "";
-    position: absolute;
-    pointer-events: none;
-    z-index: 12 !important;
+    z-index: 12;
     background-repeat: no-repeat;
     background-size: contain;
     background-position: center;
     filter: drop-shadow(0 6px 12px rgba(0,0,0,0.10));
 }
 
-/* COUR IMPERIALE */
 .theme-imperial .hero-card::before {
     width: 210px;
     height: 170px;
@@ -969,7 +258,87 @@
     transform: scale(0.60) rotate(-8deg);
 }
 
-/* JAPON FEODAL */
+/* =========================
+   THEME — FEUDAL
+   ========================= */
+
+.theme-feudal {
+    --accent: #fb7185;
+    --accent-2: #be123c;
+    --accent-3: #fecdd3;
+}
+
+.theme-feudal::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -4;
+    pointer-events: none;
+    background:
+        linear-gradient(180deg, rgba(28, 10, 18, 0.06), rgba(10, 10, 12, 0.38)),
+        url("/static/kyoto_painting.jpg");
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    filter: saturate(1.06) brightness(0.96);
+    opacity: 0.62;
+}
+
+.theme-feudal .hero-card,
+.theme-feudal .brand-card,
+.theme-feudal .memory-card,
+.theme-feudal .history-card,
+.theme-feudal .rewards-card,
+.theme-feudal .answer-card,
+.theme-feudal .form-card,
+.theme-feudal .sidebar .glass {
+    background: linear-gradient(180deg, rgba(96, 28, 48, 0.76), rgba(32, 18, 28, 0.90));
+    border-color: rgba(254, 205, 211, 0.16);
+    box-shadow:
+        0 26px 70px rgba(0,0,0,0.36),
+        0 0 0 1px rgba(254, 205, 211, 0.05) inset,
+        0 0 28px rgba(251,113,133,0.08);
+}
+
+.theme-feudal input,
+.theme-feudal select,
+.theme-feudal textarea,
+.theme-feudal .advanced-box,
+.theme-feudal .memory-fold,
+.theme-feudal .xp-next-card,
+.theme-feudal .xp-help-card {
+    background: rgba(92, 26, 46, 0.74);
+    border-color: rgba(254, 205, 211, 0.18);
+}
+
+.theme-feudal .primary-btn,
+.theme-feudal .mini-badge,
+.theme-feudal .xp-mini-fill,
+.theme-feudal .active-theme {
+    background: linear-gradient(135deg, #fb7185, #be123c);
+}
+
+.theme-feudal .xp-pill,
+.theme-feudal .unlock-chip,
+.theme-feudal .memory-tag {
+    background: rgba(251, 113, 133, 0.12);
+    border-color: rgba(254, 205, 211, 0.20);
+    color: #fecdd3;
+}
+
+.theme-feudal .hero-card::before,
+.theme-feudal .brand-card::before,
+.theme-feudal .rewards-card::before {
+    content: "";
+    position: absolute;
+    pointer-events: none;
+    z-index: 12;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    filter: drop-shadow(0 6px 12px rgba(0,0,0,0.10));
+}
+
 .theme-feudal .hero-card::before {
     width: 240px;
     height: 190px;
@@ -999,7 +368,87 @@
     transform: scale(0.64) rotate(12deg);
 }
 
-/* SUNLIGHT */
+/* =========================
+   THEME — SUNLIGHT
+   ========================= */
+
+.theme-sunlight {
+    --accent: #f59e0b;
+    --accent-2: #f97316;
+    --accent-3: #fde68a;
+}
+
+.theme-sunlight::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -4;
+    pointer-events: none;
+    background:
+        linear-gradient(180deg, rgba(30, 16, 12, 0.06), rgba(14, 12, 12, 0.34)),
+        url("/static/coast_painting.jpg");
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    filter: saturate(1.08) brightness(0.86);
+    opacity: 0.60;
+}
+
+.theme-sunlight .hero-card,
+.theme-sunlight .brand-card,
+.theme-sunlight .memory-card,
+.theme-sunlight .history-card,
+.theme-sunlight .rewards-card,
+.theme-sunlight .answer-card,
+.theme-sunlight .form-card,
+.theme-sunlight .sidebar .glass {
+    background: linear-gradient(180deg, rgba(62, 34, 12, 0.76), rgba(24, 16, 12, 0.90));
+    border-color: rgba(253, 230, 138, 0.16);
+    box-shadow:
+        0 26px 70px rgba(0,0,0,0.36),
+        0 0 0 1px rgba(253, 230, 138, 0.05) inset,
+        0 0 28px rgba(245,158,11,0.08);
+}
+
+.theme-sunlight input,
+.theme-sunlight select,
+.theme-sunlight textarea,
+.theme-sunlight .advanced-box,
+.theme-sunlight .memory-fold,
+.theme-sunlight .xp-next-card,
+.theme-sunlight .xp-help-card {
+    background: rgba(68, 36, 12, 0.74);
+    border-color: rgba(253, 230, 138, 0.18);
+}
+
+.theme-sunlight .primary-btn,
+.theme-sunlight .mini-badge,
+.theme-sunlight .xp-mini-fill,
+.theme-sunlight .active-theme {
+    background: linear-gradient(135deg, #f59e0b, #f97316);
+}
+
+.theme-sunlight .xp-pill,
+.theme-sunlight .unlock-chip,
+.theme-sunlight .memory-tag {
+    background: rgba(245, 158, 11, 0.12);
+    border-color: rgba(253, 230, 138, 0.20);
+    color: #fde68a;
+}
+
+.theme-sunlight .hero-card::before,
+.theme-sunlight .brand-card::before,
+.theme-sunlight .rewards-card::before {
+    content: "";
+    position: absolute;
+    pointer-events: none;
+    z-index: 12;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    filter: drop-shadow(0 6px 12px rgba(0,0,0,0.10));
+}
+
 .theme-sunlight .hero-card::before {
     width: 220px;
     height: 180px;
@@ -1029,3 +478,972 @@
     transform: scale(0.62) rotate(-6deg);
 }
 
+/* =========================
+   ELITE HOVER
+   ========================= */
+
+.app-shell.elite-live .hero-card:hover,
+.app-shell.elite-live .brand-card:hover,
+.app-shell.elite-live .memory-card:hover,
+.app-shell.elite-live .history-card:hover,
+.app-shell.elite-live .rewards-card:hover {
+    transform:
+        perspective(1200px)
+        rotateX(calc(var(--my) * -2.0deg))
+        rotateY(calc(var(--mx) * 2.4deg))
+        translateY(-2px);
+}
+
+@media (max-width: 760px) {
+    .app-shell.elite-live .hero-card::before,
+    .app-shell.elite-live .brand-card::before,
+    .app-shell.elite-live .rewards-card::before {
+        opacity: 0.10;
+    }
+
+    .xp-next-card,
+    .xp-help-card {
+        padding: 10px;
+    }
+}
+
+/* =========================
+   EPURE UI — INPUT EXPERIENCE
+   ========================= */
+
+.intent-selector {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    margin-top: 18px;
+    margin-bottom: 14px;
+}
+
+.intent-card {
+    border: 1px solid rgba(148, 163, 184, 0.14);
+    background: rgba(255,255,255,0.035);
+    border-radius: 20px;
+    padding: 16px;
+    text-align: left;
+    cursor: pointer;
+    transition: transform 0.16s ease, border-color 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
+}
+
+.intent-card:hover {
+    transform: translateY(-2px);
+    border-color: color-mix(in srgb, var(--accent) 45%, transparent 55%);
+    background: color-mix(in srgb, var(--accent) 8%, rgba(255,255,255,0.04));
+}
+
+.intent-card.active {
+    background: linear-gradient(180deg, color-mix(in srgb, var(--accent) 16%, rgba(255,255,255,0.04)), rgba(255,255,255,0.04));
+    border-color: color-mix(in srgb, var(--accent) 55%, transparent 45%);
+    box-shadow: 0 18px 40px color-mix(in srgb, var(--accent) 12%, transparent 88%);
+}
+
+.intent-kicker {
+    display: inline-block;
+    margin-bottom: 8px;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: color-mix(in srgb, var(--accent-3) 72%, white 28%);
+}
+
+.intent-card strong {
+    display: block;
+    color: var(--white);
+    font-size: 17px;
+    margin-bottom: 6px;
+}
+
+.intent-card p {
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.5;
+    font-size: 13px;
+}
+
+.mode-block {
+    display: none;
+    margin-top: 14px;
+    padding: 18px;
+    border-radius: 22px;
+    border: 1px solid rgba(148,163,184,0.13);
+    background: rgba(255,255,255,0.03);
+}
+
+.active-mode-block {
+    display: block;
+}
+
+.mode-block-head {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+.mode-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 999px;
+    margin-top: 6px;
+    flex: 0 0 auto;
+    background: linear-gradient(135deg, var(--accent), var(--accent-3));
+    box-shadow: 0 0 0 6px color-mix(in srgb, var(--accent) 10%, transparent 90%);
+}
+
+.mode-block-head h3 {
+    margin: 0 0 4px 0;
+    color: var(--white);
+    font-size: 20px;
+}
+
+.mode-block-head p {
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.5;
+}
+
+.answer-focus-card {
+    margin-top: 14px;
+}
+
+.answer-focus-shell {
+    margin-top: 12px;
+    min-height: 320px;
+    border-radius: 20px;
+    border: 1px solid rgba(148,163,184,0.12);
+    background: rgba(2, 6, 23, 0.36);
+    padding: 18px;
+}
+
+.answer-focus-card pre {
+    min-height: 260px;
+    margin: 0;
+}
+
+.memory-only-grid {
+    grid-template-columns: 1fr;
+}
+
+.form-card .panel-head {
+    align-items: center;
+}
+
+.advanced-box {
+    margin-top: 16px;
+    border-radius: 18px;
+}
+
+.advanced-box summary {
+    padding-top: 12px;
+    padding-bottom: 12px;
+}
+
+@media (max-width: 900px) {
+    .intent-selector {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+/* =========================
+   SIDEBAR ATMOSPHERE + MEMORY DIFFERENTIATION
+   ========================= */
+
+.sidebar-atmosphere-card {
+    min-height: 220px;
+    display: grid;
+    align-content: space-between;
+    gap: 14px;
+}
+
+.sidebar-atmosphere-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.sidebar-atmosphere-content strong {
+    display: block;
+    color: var(--white);
+    font-size: 18px;
+    margin-bottom: 8px;
+}
+
+.sidebar-atmosphere-content p {
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.6;
+}
+
+.sidebar-orbital {
+    position: relative;
+    height: 96px;
+    border-radius: 20px;
+    overflow: hidden;
+    background:
+        radial-gradient(circle at 24% 30%, color-mix(in srgb, var(--accent) 18%, transparent 82%), transparent 18%),
+        radial-gradient(circle at 74% 38%, color-mix(in srgb, var(--accent-3) 18%, transparent 82%), transparent 22%),
+        linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.015));
+    border: 1px solid rgba(148, 163, 184, 0.10);
+}
+
+.orb {
+    position: absolute;
+    border-radius: 999px;
+    filter: blur(2px);
+    opacity: 0.95;
+}
+
+.orb-a {
+    width: 58px;
+    height: 58px;
+    left: 18px;
+    top: 22px;
+    background: radial-gradient(circle at 35% 35%, rgba(255,255,255,0.6), color-mix(in srgb, var(--accent) 45%, transparent 55%));
+}
+
+.orb-b {
+    width: 38px;
+    height: 38px;
+    right: 28px;
+    top: 18px;
+    background: radial-gradient(circle at 35% 35%, rgba(255,255,255,0.55), color-mix(in srgb, var(--accent-3) 42%, transparent 58%));
+}
+
+.orb-c {
+    width: 26px;
+    height: 26px;
+    right: 64px;
+    bottom: 18px;
+    background: radial-gradient(circle at 35% 35%, rgba(255,255,255,0.42), color-mix(in srgb, var(--accent-2) 42%, transparent 58%));
+}
+
+.memory-card {
+    border-color: color-mix(in srgb, var(--accent) 28%, rgba(148,163,184,0.12));
+}
+
+.memory-card .panel-head h2 {
+    letter-spacing: 0.01em;
+}
+
+.memory-render {
+    border-radius: 18px;
+    padding: 6px;
+    background: rgba(255,255,255,0.02);
+}
+
+.memory-insight-card {
+    background: linear-gradient(180deg, rgba(255,255,255,0.045), rgba(255,255,255,0.028));
+    border: 1px dashed rgba(148,163,184,0.18);
+}
+
+.memory-insight-copy {
+    color: var(--muted);
+    line-height: 1.65;
+}
+
+.memory-insight-copy p {
+    margin: 0 0 12px 0;
+}
+
+.memory-insight-copy p:last-child {
+    margin-bottom: 0;
+}
+
+
+/* =========================
+   SIDEBAR REWARDS LAYOUT
+   ========================= */
+
+.sidebar .rewards-card {
+    min-height: 100%;
+}
+
+.sidebar .rewards-card .theme-groups {
+    gap: 14px;
+}
+
+.sidebar .rewards-card .theme-tile {
+    width: 100%;
+    justify-content: flex-start;
+    text-align: left;
+}
+
+.sidebar .rewards-card .theme-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 8px;
+}
+
+
+/* =========================
+   ANSWER RENDERING
+   ========================= */
+
+.answer-rich {
+    min-height: 260px;
+    color: var(--text);
+    line-height: 1.72;
+    font-size: 15px;
+}
+
+.answer-rich h2,
+.answer-rich h3,
+.answer-rich h4 {
+    margin: 0 0 12px 0;
+    color: var(--white);
+    line-height: 1.3;
+}
+
+.answer-rich h2 { font-size: 24px; }
+.answer-rich h3 { font-size: 20px; }
+.answer-rich h4 { font-size: 17px; }
+
+.answer-rich p {
+    margin: 0 0 12px 0;
+    color: var(--text);
+}
+
+.answer-rich ul {
+    margin: 0 0 14px 0;
+    padding-left: 20px;
+}
+
+.answer-rich li {
+    margin-bottom: 8px;
+    color: var(--text);
+}
+
+.answer-rich strong {
+    color: var(--white);
+    font-weight: 800;
+}
+
+.answer-rich em {
+    color: color-mix(in srgb, var(--accent-3) 68%, white 32%);
+}
+
+.answer-gap {
+    height: 8px;
+}
+
+/* =========================
+   MEMORY SESSION BROWSER
+   ========================= */
+
+.session-browser {
+    display: grid;
+    grid-template-columns: 320px minmax(0, 1fr);
+    gap: 14px;
+    margin-top: 8px;
+}
+
+.session-entry-list {
+    display: grid;
+    gap: 10px;
+    max-height: 420px;
+    overflow: auto;
+    padding-right: 4px;
+}
+
+.session-entry {
+    width: 100%;
+    text-align: left;
+    border: 1px solid rgba(148,163,184,0.14);
+    background: rgba(255,255,255,0.035);
+    border-radius: 16px;
+    padding: 12px;
+    cursor: pointer;
+    transition: transform 0.16s ease, border-color 0.18s ease, background 0.18s ease;
+}
+
+.session-entry:hover {
+    transform: translateY(-1px);
+    border-color: color-mix(in srgb, var(--accent) 40%, transparent 60%);
+    background: color-mix(in srgb, var(--accent) 7%, rgba(255,255,255,0.04));
+}
+
+.session-entry strong {
+    display: block;
+    color: var(--white);
+    margin-bottom: 6px;
+    line-height: 1.4;
+}
+
+.session-entry p {
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.45;
+    font-size: 13px;
+}
+
+.session-entry-top,
+.session-detail-top {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+.session-detail-card {
+    min-height: 240px;
+    border-radius: 18px;
+    border: 1px solid rgba(148,163,184,0.12);
+    background: rgba(255,255,255,0.03);
+    padding: 16px;
+}
+
+.session-detail-empty {
+    color: var(--muted);
+    line-height: 1.6;
+}
+
+.session-detail-block + .session-detail-block {
+    margin-top: 14px;
+}
+
+.detail-label {
+    display: inline-block;
+    margin-bottom: 8px;
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: color-mix(in srgb, var(--accent-3) 70%, white 30%);
+}
+
+.detail-box {
+    border-radius: 14px;
+    border: 1px solid rgba(148,163,184,0.12);
+    background: rgba(2, 6, 23, 0.28);
+    padding: 12px;
+    color: var(--text);
+    line-height: 1.6;
+    white-space: pre-wrap;
+}
+
+.detail-answer {
+    white-space: normal;
+}
+
+@media (max-width: 980px) {
+    .session-browser {
+        grid-template-columns: 1fr;
+    }
+
+    .session-entry-list {
+        max-height: none;
+    }
+}
+
+
+/* =========================
+   ANSWER RENDERING SAFE
+   ========================= */
+
+.answer-rich {
+    min-height: 260px;
+    color: var(--text);
+    line-height: 1.72;
+    font-size: 15px;
+}
+
+.answer-rich h2,
+.answer-rich h3,
+.answer-rich h4 {
+    margin: 0 0 12px 0;
+    color: var(--white);
+    line-height: 1.3;
+}
+
+.answer-rich h2 { font-size: 24px; }
+.answer-rich h3 { font-size: 20px; }
+.answer-rich h4 { font-size: 17px; }
+
+.answer-rich p {
+    margin: 0 0 12px 0;
+    color: var(--text);
+}
+
+.answer-rich ul {
+    margin: 0 0 14px 0;
+    padding-left: 20px;
+}
+
+.answer-rich li {
+    margin-bottom: 8px;
+    color: var(--text);
+}
+
+.answer-rich strong {
+    color: var(--white);
+    font-weight: 800;
+}
+
+.answer-rich em {
+    color: color-mix(in srgb, var(--accent-3) 68%, white 32%);
+}
+
+.answer-gap {
+    height: 8px;
+}
+
+/* =========================
+   MEMORY SESSION BROWSER SAFE
+   ========================= */
+
+.session-browser {
+    display: grid;
+    grid-template-columns: 320px minmax(0, 1fr);
+    gap: 14px;
+    margin-top: 8px;
+}
+
+.session-entry-list {
+    display: grid;
+    gap: 10px;
+    max-height: 420px;
+    overflow: auto;
+    padding-right: 4px;
+}
+
+.session-entry {
+    width: 100%;
+    text-align: left;
+    border: 1px solid rgba(148,163,184,0.14);
+    background: rgba(255,255,255,0.035);
+    border-radius: 16px;
+    padding: 12px;
+    cursor: pointer;
+    transition: transform 0.16s ease, border-color 0.18s ease, background 0.18s ease;
+}
+
+.session-entry:hover {
+    transform: translateY(-1px);
+    border-color: color-mix(in srgb, var(--accent) 40%, transparent 60%);
+    background: color-mix(in srgb, var(--accent) 7%, rgba(255,255,255,0.04));
+}
+
+.session-entry strong {
+    display: block;
+    color: var(--white);
+    margin-bottom: 6px;
+    line-height: 1.4;
+}
+
+.session-entry p {
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.45;
+    font-size: 13px;
+}
+
+.session-entry-top,
+.session-detail-top {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+.session-detail-card {
+    min-height: 240px;
+    border-radius: 18px;
+    border: 1px solid rgba(148,163,184,0.12);
+    background: rgba(255,255,255,0.03);
+    padding: 16px;
+}
+
+.session-detail-empty {
+    color: var(--muted);
+    line-height: 1.6;
+}
+
+.session-detail-block + .session-detail-block {
+    margin-top: 14px;
+}
+
+.detail-label {
+    display: inline-block;
+    margin-bottom: 8px;
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: color-mix(in srgb, var(--accent-3) 70%, white 30%);
+}
+
+.detail-box {
+    border-radius: 14px;
+    border: 1px solid rgba(148,163,184,0.12);
+    background: rgba(2, 6, 23, 0.28);
+    padding: 12px;
+    color: var(--text);
+    line-height: 1.6;
+    white-space: pre-wrap;
+}
+
+.detail-answer {
+    white-space: normal;
+}
+
+@media (max-width: 980px) {
+    .session-browser {
+        grid-template-columns: 1fr;
+    }
+
+    .session-entry-list {
+        max-height: none;
+    }
+}
+
+
+/* =========================
+   PRESTIGE THEMES — DISTINCT ART BACKGROUNDS
+   ========================= */
+
+.theme-royal {
+    --accent: #b794f6;
+    --accent-2: #7c3aed;
+    --accent-3: #f3e8ff;
+}
+
+.theme-royal::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -6;
+    pointer-events: none;
+    background:
+        linear-gradient(180deg, rgba(18, 10, 28, 0.18), rgba(7, 6, 12, 0.62)),
+        url("/static/prestige_royal.jpg");
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    filter: saturate(1.04) brightness(0.64);
+    opacity: 0.92;
+}
+
+.theme-royal::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -5;
+    pointer-events: none;
+    background:
+        radial-gradient(circle at 16% 18%, rgba(183, 148, 246, 0.16), transparent 18%),
+        radial-gradient(circle at 84% 16%, rgba(255, 244, 230, 0.08), transparent 16%),
+        linear-gradient(180deg, rgba(255,255,255,0.02), transparent 18%);
+}
+
+.theme-royal .hero-card,
+.theme-royal .brand-card,
+.theme-royal .memory-card,
+.theme-royal .rewards-card,
+.theme-royal .answer-card,
+.theme-royal .form-card,
+.theme-royal .sidebar .glass {
+    background: linear-gradient(180deg, rgba(40, 20, 62, 0.72), rgba(18, 12, 34, 0.90));
+    border-color: rgba(243, 232, 255, 0.14);
+}
+
+.theme-kyoto {
+    --accent: #f472b6;
+    --accent-2: #be185d;
+    --accent-3: #fce7f3;
+}
+
+.theme-kyoto::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -6;
+    pointer-events: none;
+    background:
+        linear-gradient(180deg, rgba(28, 10, 18, 0.10), rgba(10, 10, 12, 0.42)),
+        url("/static/prestige_kyoto.jpg");
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    filter: saturate(1.06) brightness(0.88);
+    opacity: 0.94;
+}
+
+.theme-kyoto::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -5;
+    pointer-events: none;
+    background:
+        radial-gradient(circle at 14% 16%, rgba(255, 196, 215, 0.18), transparent 14%),
+        radial-gradient(circle at 82% 14%, rgba(255, 230, 240, 0.10), transparent 14%),
+        linear-gradient(180deg, rgba(255,255,255,0.02), transparent 20%);
+}
+
+.theme-kyoto .hero-card,
+.theme-kyoto .brand-card,
+.theme-kyoto .memory-card,
+.theme-kyoto .rewards-card,
+.theme-kyoto .answer-card,
+.theme-kyoto .form-card,
+.theme-kyoto .sidebar .glass {
+    background: linear-gradient(180deg, rgba(86, 28, 52, 0.68), rgba(28, 18, 28, 0.88));
+    border-color: rgba(252, 231, 243, 0.14);
+}
+
+.theme-coast {
+    --accent: #fb923c;
+    --accent-2: #ea580c;
+    --accent-3: #ffedd5;
+}
+
+.theme-coast::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -6;
+    pointer-events: none;
+    background:
+        linear-gradient(180deg, rgba(30, 16, 12, 0.08), rgba(14, 12, 12, 0.38)),
+        url("/static/prestige_coast.jpg");
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    filter: saturate(1.08) brightness(0.80);
+    opacity: 0.94;
+}
+
+.theme-coast::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -5;
+    pointer-events: none;
+    background:
+        radial-gradient(circle at 18% 14%, rgba(255, 190, 120, 0.12), transparent 14%),
+        radial-gradient(circle at 82% 16%, rgba(255, 220, 170, 0.08), transparent 12%),
+        linear-gradient(180deg, rgba(255,255,255,0.02), transparent 18%);
+}
+
+.theme-coast .hero-card,
+.theme-coast .brand-card,
+.theme-coast .memory-card,
+.theme-coast .rewards-card,
+.theme-coast .answer-card,
+.theme-coast .form-card,
+.theme-coast .sidebar .glass {
+    background: linear-gradient(180deg, rgba(66, 36, 12, 0.68), rgba(24, 16, 12, 0.88));
+    border-color: rgba(255, 237, 213, 0.14);
+}
+
+/* =========================
+   ELITE THEMES — MORE ALIVE, STILL CLEAN
+   ========================= */
+
+@keyframes eliteFloatA {
+    0% { transform: translate3d(0, 0, 0) scale(1); opacity: 0.08; }
+    50% { transform: translate3d(10px, -12px, 0) scale(1.04); opacity: 0.14; }
+    100% { transform: translate3d(0, 0, 0) scale(1); opacity: 0.08; }
+}
+
+@keyframes eliteFloatB {
+    0% { transform: translate3d(0, 0, 0) scale(1); opacity: 0.07; }
+    50% { transform: translate3d(-12px, 10px, 0) scale(1.06); opacity: 0.13; }
+    100% { transform: translate3d(0, 0, 0) scale(1); opacity: 0.07; }
+}
+
+.app-shell.elite-live .theme-depth-layer .d1 {
+    animation: eliteFloatA 7s ease-in-out infinite;
+}
+
+.app-shell.elite-live .theme-depth-layer .d2 {
+    animation: eliteFloatB 9s ease-in-out infinite;
+}
+
+.app-shell.elite-live .theme-depth-layer .d3 {
+    animation: eliteFloatA 11s ease-in-out infinite;
+}
+
+.theme-imperial .glass,
+.theme-feudal .glass,
+.theme-sunlight .glass {
+    box-shadow:
+        0 26px 70px rgba(0,0,0,0.36),
+        0 0 0 1px rgba(255,255,255,0.04) inset,
+        0 0 34px color-mix(in srgb, var(--accent) 10%, transparent 90%);
+}
+
+.theme-imperial .hero-card,
+.theme-feudal .hero-card,
+.theme-sunlight .hero-card {
+    backdrop-filter: blur(20px);
+}
+
+
+/* =========================
+   LEVEL UP FEEDBACK
+   ========================= */
+
+.levelup-toast {
+    position: fixed;
+    right: 22px;
+    bottom: 22px;
+    z-index: 120;
+    opacity: 0;
+    transform: translateY(16px) scale(0.98);
+    pointer-events: none;
+    transition: opacity 0.26s ease, transform 0.26s ease;
+}
+
+.levelup-toast.show {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+.levelup-inner {
+    min-width: 280px;
+    max-width: 340px;
+    border-radius: 20px;
+    padding: 16px 18px;
+    background: linear-gradient(180deg, rgba(15, 23, 42, 0.94), rgba(17, 24, 39, 0.98));
+    border: 1px solid rgba(255,255,255,0.10);
+    box-shadow: 0 24px 60px rgba(0,0,0,0.32);
+}
+
+.levelup-kicker {
+    display: inline-block;
+    margin-bottom: 8px;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: color-mix(in srgb, var(--accent-3) 72%, white 28%);
+}
+
+.levelup-inner strong {
+    display: block;
+    color: var(--white);
+    font-size: 18px;
+    margin-bottom: 6px;
+}
+
+.levelup-inner p {
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.5;
+}
+.theme-royal::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: url("/static/prestige_royal.jpg") center/cover no-repeat;
+    z-index: -10;
+    opacity: 0.6;
+}
+
+.theme-kyoto::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: url("/static/prestige_kyoto.jpg") center/cover no-repeat;
+    z-index: -10;
+    opacity: 0.6;
+}
+
+.theme-coast::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: url("/static/prestige_coast.jpg") center/cover no-repeat;
+    z-index: -10;
+    opacity: 0.6;
+}
+.theme-royal::before,
+.theme-kyoto::before,
+.theme-coast::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -10;
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    filter: brightness(0.7) contrast(1.05);
+}
+
+.theme-royal::before {
+    background-image: url("/static/prestige_royal.jpg");
+}
+
+.theme-kyoto::before {
+    background-image: url("/static/prestige_kyoto.jpg");
+}
+
+.theme-coast::before {
+    background-image: url("/static/prestige_coast.jpg");
+}
+
+/* 🔥 effet premium */
+.theme-royal::after,
+.theme-kyoto::after,
+.theme-coast::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -9;
+    pointer-events: none;
+
+    backdrop-filter: blur(2px);
+    background: rgba(0,0,0,0.35);
+}
+
+
+/* ===== XP POPUP ===== */
+.xp-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.8);
+    font-size: 28px;
+    font-weight: 900;
+    color: #fff;
+    background: linear-gradient(135deg, #8b5cf6, #14b8a6);
+    padding: 12px 22px;
+    border-radius: 14px;
+    opacity: 0;
+    z-index: 9999;
+    transition: all 0.4s ease;
+}
+
+.xp-popup-show {
+    opacity: 1;
+    transform: translate(-50%, -70%) scale(1.1);
+}
+
+/* ===== LEVEL UP ===== */
+.level-up-popup {
+    position: fixed;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.6);
+    font-size: 32px;
+    font-weight: 900;
+    color: gold;
+    opacity: 0;
+    z-index: 9999;
+    transition: all 0.5s ease;
+}
+
+.level-up-popup.show {
+    opacity: 1;
+    transform: translate(-50%, -60%) scale(1.1);
+}

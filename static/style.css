@@ -107,14 +107,14 @@ body {
 }
 
 .theme-kyoto {
-    --accent: #059669;
-    --accent-2: #14532d;
-    --accent-3: #d1fae5;
-    --theme-glow-1: rgba(5, 150, 105, 0.22);
-    --theme-glow-2: rgba(20, 83, 45, 0.14);
-    --theme-card: linear-gradient(180deg, rgba(10, 24, 19, 0.98), rgba(14, 30, 24, 0.99));
-    --theme-hero: linear-gradient(135deg, rgba(5, 150, 105, 0.24), rgba(209, 250, 229, 0.08));
-    --theme-symbol-bg: linear-gradient(135deg, rgba(5, 150, 105, 0.30), rgba(209, 250, 229, 0.10));
+    --accent: #ec4899;
+    --accent-2: #9d174d;
+    --accent-3: #fbcfe8;
+    --theme-glow-1: rgba(236, 72, 153, 0.18);
+    --theme-glow-2: rgba(251, 207, 232, 0.14);
+    --theme-card: linear-gradient(180deg, rgba(78, 32, 50, 0.70), rgba(30, 20, 28, 0.86));
+    --theme-hero: linear-gradient(135deg, rgba(255, 183, 197, 0.18), rgba(255, 232, 240, 0.06));
+    --theme-symbol-bg: linear-gradient(135deg, rgba(236, 72, 153, 0.26), rgba(251, 207, 232, 0.10));
 }
 
 .theme-coast {
@@ -123,8 +123,8 @@ body {
     --accent-3: #fed7aa;
     --theme-glow-1: rgba(251, 146, 60, 0.22);
     --theme-glow-2: rgba(234, 88, 12, 0.14);
-    --theme-card: linear-gradient(180deg, rgba(40, 23, 17, 0.96), rgba(28, 18, 16, 0.98));
-    --theme-hero: linear-gradient(135deg, rgba(251, 146, 60, 0.24), rgba(254, 215, 170, 0.08));
+    --theme-card: linear-gradient(180deg, rgba(44, 26, 18, 0.70), rgba(22, 16, 16, 0.86));
+    --theme-hero: linear-gradient(135deg, rgba(255, 170, 110, 0.14), rgba(255, 210, 150, 0.08));
     --theme-symbol-bg: linear-gradient(135deg, rgba(251, 146, 60, 0.30), rgba(254, 215, 170, 0.10));
 }
 
@@ -268,7 +268,8 @@ h2 {
 .session-card,
 .lab-box,
 .mini-stat,
-.advanced-box {
+.advanced-box,
+.memory-fold {
     border-radius: 16px;
     border: 1px solid rgba(148, 163, 184, 0.12);
     background: rgba(255, 255, 255, 0.035);
@@ -316,6 +317,7 @@ h2 {
     height: 100%;
     border-radius: 999px;
     background: linear-gradient(90deg, var(--accent), var(--accent-3));
+    transition: width 0.35s ease;
 }
 
 .unlock-row {
@@ -405,92 +407,8 @@ h2 {
     background: color-mix(in srgb, var(--accent) 12%, transparent 88%);
 }
 
-.future-theme {
-    position: relative;
-}
-
-.future-theme::after {
-    content: "bientôt";
-    margin-left: 6px;
-    font-size: 10px;
-    opacity: 0.8;
-}
-
 .hero-card {
     background: var(--theme-hero);
-}
-
-.hero-card::after,
-.brand-card::after {
-    content: "";
-    position: absolute;
-    right: 18px;
-    top: 18px;
-    width: 84px;
-    height: 84px;
-    border-radius: 22px;
-    opacity: 0.18;
-    pointer-events: none;
-}
-
-.theme-default .hero-card::after,
-.theme-default .brand-card::after {
-    background:
-        radial-gradient(circle at center, rgba(255,255,255,0.28), transparent 36%),
-        linear-gradient(135deg, rgba(139,92,246,0.5), rgba(37,99,235,0.16));
-    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
-}
-
-.theme-violet .hero-card::after,
-.theme-violet .brand-card::after {
-    background:
-        radial-gradient(circle at center, rgba(255,255,255,0.18), transparent 34%),
-        linear-gradient(135deg, rgba(168,85,247,0.55), rgba(124,58,237,0.18));
-    clip-path: polygon(50% 0%, 62% 32%, 100% 32%, 70% 54%, 82% 100%, 50% 72%, 18% 100%, 30% 54%, 0% 32%, 38% 32%);
-}
-
-.theme-emerald .hero-card::after,
-.theme-emerald .brand-card::after {
-    background:
-        radial-gradient(circle at center, rgba(255,255,255,0.14), transparent 34%),
-        linear-gradient(135deg, rgba(16,185,129,0.48), rgba(110,231,183,0.14));
-    clip-path: polygon(50% 0%, 82% 18%, 100% 50%, 82% 82%, 50% 100%, 18% 82%, 0% 50%, 18% 18%);
-}
-
-.theme-sunset .hero-card::after,
-.theme-sunset .brand-card::after {
-    background:
-        radial-gradient(circle at 50% 40%, rgba(255,255,255,0.20), transparent 26%),
-        linear-gradient(180deg, rgba(249,115,22,0.52), rgba(244,63,94,0.14));
-    clip-path: inset(0 round 40px);
-    border-bottom-left-radius: 999px;
-    border-bottom-right-radius: 999px;
-}
-
-.theme-royal .hero-card::after,
-.theme-royal .brand-card::after {
-    background:
-        radial-gradient(circle at center, rgba(255,255,255,0.18), transparent 28%),
-        linear-gradient(135deg, rgba(124,58,237,0.58), rgba(233,213,255,0.10));
-    clip-path: polygon(50% 0%, 61% 18%, 78% 18%, 66% 36%, 82% 52%, 60% 52%, 50% 74%, 40% 52%, 18% 52%, 34% 36%, 22% 18%, 39% 18%);
-}
-
-.theme-kyoto .hero-card::after,
-.theme-kyoto .brand-card::after {
-    background:
-        radial-gradient(circle at 32% 30%, rgba(255,255,255,0.10), transparent 24%),
-        linear-gradient(135deg, rgba(5,150,105,0.54), rgba(209,250,229,0.08));
-    clip-path: polygon(50% 0%, 72% 18%, 92% 50%, 72% 82%, 50% 100%, 28% 82%, 8% 50%, 28% 18%);
-}
-
-.theme-coast .hero-card::after,
-.theme-coast .brand-card::after {
-    background:
-        radial-gradient(circle at 50% 35%, rgba(255,255,255,0.18), transparent 22%),
-        linear-gradient(180deg, rgba(251,146,60,0.54), rgba(254,215,170,0.08));
-    clip-path: inset(0 round 38px);
-    border-bottom-left-radius: 999px;
-    border-bottom-right-radius: 999px;
 }
 
 .hero-actions {
@@ -580,7 +498,8 @@ textarea::placeholder {
     overflow: hidden;
 }
 
-.advanced-box summary {
+.advanced-box summary,
+.memory-fold summary {
     cursor: pointer;
     padding: 13px 14px;
     font-weight: 800;
@@ -588,15 +507,18 @@ textarea::placeholder {
     list-style: none;
 }
 
-.advanced-box summary::-webkit-details-marker {
+.advanced-box summary::-webkit-details-marker,
+.memory-fold summary::-webkit-details-marker {
     display: none;
 }
 
-.advanced-box[open] {
+.advanced-box[open],
+.memory-fold[open] {
     padding-bottom: 12px;
 }
 
-.advanced-box[open] summary {
+.advanced-box[open] summary,
+.memory-fold[open] summary {
     border-bottom: 1px solid rgba(148, 163, 184, 0.10);
     margin-bottom: 6px;
 }
@@ -718,38 +640,34 @@ textarea::placeholder {
     margin-top: 12px;
 }
 
-.memory-fold {
-    margin-top: 12px;
-    border-radius: 16px;
-    border: 1px solid rgba(148, 163, 184, 0.10);
-    background: rgba(255,255,255,0.025);
-    overflow: hidden;
-}
-
-.memory-fold summary {
-    cursor: pointer;
-    padding: 13px 14px;
-    font-weight: 800;
-    color: var(--white);
-    list-style: none;
-}
-
-.memory-fold summary::-webkit-details-marker {
-    display: none;
-}
-
-.memory-fold[open] {
-    padding-bottom: 14px;
-}
-
-.memory-fold[open] summary {
-    border-bottom: 1px solid rgba(148, 163, 184, 0.10);
-    margin-bottom: 10px;
-}
-
 .memory-fold > :not(summary) {
     padding-left: 14px;
     padding-right: 14px;
+}
+
+.theme-groups {
+    display: grid;
+    gap: 12px;
+}
+
+.theme-group {
+    display: grid;
+    gap: 8px;
+}
+
+.theme-group-title {
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding-left: 2px;
+}
+
+.theme-group .theme-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
 }
 
 @media (max-width: 1120px) {
@@ -799,491 +717,8 @@ textarea::placeholder {
         width: min(100% - 14px, 1440px);
         margin: 8px auto 14px;
     }
-}
-
-
-.theme-royal .glass::before {
-    background:
-        linear-gradient(120deg, rgba(255,255,255,0.04), transparent 30%),
-        radial-gradient(circle at 85% 15%, rgba(233,213,255,0.08), transparent 22%),
-        repeating-linear-gradient(90deg, transparent 0 34px, rgba(255,255,255,0.015) 34px 35px);
-}
-
-.theme-kyoto .glass::before {
-    background:
-        linear-gradient(120deg, rgba(255,255,255,0.03), transparent 30%),
-        radial-gradient(circle at 85% 15%, rgba(209,250,229,0.06), transparent 22%),
-        radial-gradient(circle at 12% 88%, rgba(255,183,197,0.05), transparent 16%);
-}
-
-.theme-coast .glass::before {
-    background:
-        linear-gradient(120deg, rgba(255,255,255,0.03), transparent 30%),
-        radial-gradient(circle at 85% 15%, rgba(254,215,170,0.07), transparent 24%),
-        linear-gradient(180deg, transparent 0 76%, rgba(255,255,255,0.025) 76% 77%, transparent 77% 100%);
-}
-
-.prestige-theme {
-    border-style: dashed;
-}
-
-
 /* =========================
-   V2.5 — THÈMES PRESTIGE IMMERSIFS
-   ========================= */
-
-.app-shell {
-    position: relative;
-    overflow: hidden;
-}
-
-.app-shell::before,
-.app-shell::after {
-    content: "";
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 0;
-}
-
-.sidebar,
-.main-column {
-    position: relative;
-    z-index: 1;
-}
-
-/* COUR ROYALE */
-.theme-royal body,
-.theme-royal {
-    background-color: #140d22;
-}
-
-.theme-royal .app-shell::before {
-    background:
-        radial-gradient(circle at 15% 20%, rgba(190, 120, 255, 0.12), transparent 18%),
-        radial-gradient(circle at 85% 15%, rgba(255, 235, 190, 0.08), transparent 18%),
-        linear-gradient(180deg, rgba(35, 16, 60, 0.72), rgba(15, 10, 28, 0.88)),
-        repeating-linear-gradient(
-            90deg,
-            rgba(255,255,255,0.00) 0px,
-            rgba(255,255,255,0.00) 70px,
-            rgba(255,255,255,0.018) 71px,
-            rgba(255,255,255,0.00) 72px
-        );
-    opacity: 1;
-}
-
-.theme-royal .app-shell::after {
-    background:
-        radial-gradient(circle at 50% 85%, rgba(255, 222, 160, 0.10), transparent 22%),
-        radial-gradient(circle at 50% 100%, rgba(124,58,237,0.16), transparent 34%);
-    mask-image:
-        linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.4) 18%, rgba(0,0,0,1) 50%, rgba(0,0,0,1) 100%);
-    -webkit-mask-image:
-        linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.4) 18%, rgba(0,0,0,1) 50%, rgba(0,0,0,1) 100%);
-}
-
-.theme-royal .hero-card,
-.theme-royal .brand-card {
-    box-shadow:
-        0 24px 60px rgba(0, 0, 0, 0.34),
-        0 0 0 1px rgba(230, 210, 255, 0.04) inset;
-}
-
-.theme-royal .hero-card::before,
-.theme-royal .brand-card::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    background:
-        radial-gradient(circle at 82% 20%, rgba(255, 236, 185, 0.10), transparent 14%),
-        linear-gradient(180deg, rgba(255,255,255,0.03), transparent 35%);
-}
-
-/* JADE KYOTO */
-.theme-kyoto .app-shell::before {
-    background:
-        radial-gradient(circle at 18% 18%, rgba(190, 255, 225, 0.08), transparent 16%),
-        radial-gradient(circle at 82% 12%, rgba(255, 210, 220, 0.08), transparent 14%),
-        linear-gradient(180deg, rgba(10, 26, 21, 0.78), rgba(8, 20, 16, 0.92));
-}
-
-.theme-kyoto .app-shell::after {
-    background:
-        radial-gradient(circle at 20% 24%, rgba(255, 183, 197, 0.10), transparent 6%),
-        radial-gradient(circle at 24% 30%, rgba(255, 183, 197, 0.08), transparent 5%),
-        radial-gradient(circle at 18% 36%, rgba(255, 183, 197, 0.07), transparent 5%),
-        radial-gradient(circle at 80% 22%, rgba(255, 183, 197, 0.08), transparent 5%),
-        radial-gradient(circle at 76% 28%, rgba(255, 183, 197, 0.06), transparent 5%),
-        linear-gradient(115deg, transparent 0 18%, rgba(90, 140, 110, 0.08) 18% 19%, transparent 19% 100%),
-        linear-gradient(70deg, transparent 0 76%, rgba(90, 140, 110, 0.08) 76% 77%, transparent 77% 100%);
-    opacity: 1;
-}
-
-.theme-kyoto .glass::before {
-    background:
-        linear-gradient(120deg, rgba(255,255,255,0.02), transparent 30%),
-        radial-gradient(circle at 85% 15%, rgba(209,250,229,0.04), transparent 22%),
-        radial-gradient(circle at 12% 88%, rgba(255,183,197,0.04), transparent 16%);
-}
-
-.theme-kyoto .hero-card::before,
-.theme-kyoto .brand-card::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    background:
-        linear-gradient(135deg, rgba(255,255,255,0.02), transparent 50%),
-        radial-gradient(circle at 82% 20%, rgba(255, 210, 220, 0.08), transparent 12%);
-}
-
-/* SUNSET COAST */
-.theme-coast .app-shell::before {
-    background:
-        radial-gradient(circle at 18% 16%, rgba(255, 210, 150, 0.10), transparent 18%),
-        radial-gradient(circle at 82% 12%, rgba(255, 165, 130, 0.10), transparent 16%),
-        linear-gradient(180deg, rgba(62, 30, 20, 0.60) 0%, rgba(28, 18, 16, 0.88) 100%);
-}
-
-.theme-coast .app-shell::after {
-    background:
-        radial-gradient(circle at 50% 28%, rgba(255, 210, 140, 0.16), transparent 12%),
-        linear-gradient(180deg, transparent 0 68%, rgba(255,255,255,0.04) 68% 69%, transparent 69% 100%),
-        linear-gradient(180deg, transparent 0 74%, rgba(255,190,130,0.06) 74% 75%, transparent 75% 100%),
-        linear-gradient(180deg, transparent 0 82%, rgba(255,255,255,0.03) 82% 83%, transparent 83% 100%);
-    opacity: 1;
-}
-
-.theme-coast .hero-card::before,
-.theme-coast .brand-card::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    background:
-        radial-gradient(circle at 78% 22%, rgba(255, 220, 160, 0.10), transparent 14%),
-        linear-gradient(180deg, rgba(255,255,255,0.02), transparent 40%);
-}
-
-/* renforce le prestige visuel */
-.theme-royal .glass,
-.theme-kyoto .glass,
-.theme-coast .glass {
-    border-color: rgba(255,255,255,0.10);
-    backdrop-filter: blur(14px);
-}
-
-.theme-royal .theme-tile.active-theme,
-.theme-kyoto .theme-tile.active-theme,
-.theme-coast .theme-tile.active-theme {
-    box-shadow: 0 14px 30px rgba(0,0,0,0.26);
-}
-
-
-/* =========================
-   V2.6 — PRESTIGE MAXIMAL
-   ========================= */
-
-body {
-    position: relative;
-    overflow-x: hidden;
-}
-
-/* on renforce le fond global des thèmes prestige */
-.theme-royal,
-.theme-kyoto,
-.theme-coast {
-    position: relative;
-    isolation: isolate;
-}
-
-/* =========================
-   COUR ROYALE — fond massif
-   ========================= */
-
-.theme-royal {
-    background:
-        radial-gradient(circle at 50% 8%, rgba(255, 229, 180, 0.09), transparent 12%),
-        radial-gradient(circle at 12% 18%, rgba(163, 92, 255, 0.16), transparent 18%),
-        radial-gradient(circle at 88% 14%, rgba(230, 190, 255, 0.08), transparent 16%),
-        linear-gradient(180deg, #2a163f 0%, #160f24 46%, #0c0a14 100%);
-}
-
-.theme-royal::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: -2;
-    background:
-        repeating-linear-gradient(
-            90deg,
-            rgba(255,255,255,0.00) 0px,
-            rgba(255,255,255,0.00) 110px,
-            rgba(255,255,255,0.035) 111px,
-            rgba(255,255,255,0.00) 113px
-        ),
-        linear-gradient(
-            180deg,
-            rgba(255,255,255,0.05) 0%,
-            rgba(255,255,255,0.00) 24%
-        );
-    opacity: 0.9;
-}
-
-.theme-royal::after {
-    content: "";
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: -1;
-    background:
-        radial-gradient(circle at 50% 82%, rgba(255, 216, 140, 0.10), transparent 18%),
-        radial-gradient(circle at 50% 100%, rgba(124, 58, 237, 0.14), transparent 28%),
-        linear-gradient(
-            180deg,
-            transparent 0 72%,
-            rgba(255,255,255,0.02) 72% 73%,
-            transparent 73% 100%
-        );
-}
-
-.theme-royal .glass {
-    background: linear-gradient(180deg, rgba(28, 16, 46, 0.82), rgba(18, 12, 32, 0.92));
-    border-color: rgba(255, 240, 210, 0.10);
-    box-shadow:
-        0 28px 80px rgba(0, 0, 0, 0.42),
-        0 0 0 1px rgba(255,255,255,0.03) inset;
-}
-
-.theme-royal .hero-card,
-.theme-royal .brand-card {
-    background:
-        linear-gradient(135deg, rgba(124, 58, 237, 0.24), rgba(255, 220, 170, 0.06)),
-        linear-gradient(180deg, rgba(34, 18, 56, 0.84), rgba(20, 12, 34, 0.94));
-}
-
-/* =========================
-   JADE KYOTO — jade + rose sakura
-   ========================= */
-
-.theme-kyoto {
-    background:
-        radial-gradient(circle at 14% 14%, rgba(255, 205, 220, 0.13), transparent 14%),
-        radial-gradient(circle at 82% 12%, rgba(255, 210, 225, 0.10), transparent 12%),
-        radial-gradient(circle at 50% 18%, rgba(170, 255, 220, 0.08), transparent 18%),
-        linear-gradient(180deg, #17392f 0%, #10281f 42%, #0a1511 100%);
-}
-
-.theme-kyoto::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: -2;
-    background:
-        radial-gradient(circle at 12% 24%, rgba(255, 183, 197, 0.22), transparent 3.2%),
-        radial-gradient(circle at 17% 30%, rgba(255, 183, 197, 0.18), transparent 2.8%),
-        radial-gradient(circle at 22% 20%, rgba(255, 183, 197, 0.15), transparent 2.5%),
-        radial-gradient(circle at 78% 18%, rgba(255, 183, 197, 0.18), transparent 3.0%),
-        radial-gradient(circle at 72% 26%, rgba(255, 183, 197, 0.14), transparent 2.6%),
-        radial-gradient(circle at 84% 32%, rgba(255, 183, 197, 0.12), transparent 2.2%),
-        linear-gradient(115deg, transparent 0 18%, rgba(130, 190, 150, 0.10) 18% 19%, transparent 19% 100%),
-        linear-gradient(74deg, transparent 0 78%, rgba(130, 190, 150, 0.08) 78% 79%, transparent 79% 100%);
-    opacity: 1;
-}
-
-.theme-kyoto::after {
-    content: "";
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: -1;
-    background:
-        radial-gradient(circle at 20% 78%, rgba(255, 183, 197, 0.08), transparent 12%),
-        radial-gradient(circle at 80% 82%, rgba(255, 183, 197, 0.06), transparent 10%),
-        linear-gradient(
-            180deg,
-            rgba(255,255,255,0.02) 0%,
-            transparent 22%
-        );
-}
-
-.theme-kyoto .glass {
-    background:
-        linear-gradient(180deg, rgba(15, 34, 27, 0.78), rgba(10, 24, 19, 0.90));
-    border-color: rgba(210, 255, 230, 0.10);
-    box-shadow:
-        0 28px 80px rgba(0, 0, 0, 0.42),
-        0 0 0 1px rgba(255, 210, 225, 0.025) inset;
-}
-
-.theme-kyoto .hero-card,
-.theme-kyoto .brand-card {
-    background:
-        linear-gradient(135deg, rgba(255, 183, 197, 0.10), rgba(16, 185, 129, 0.14)),
-        linear-gradient(180deg, rgba(17, 38, 30, 0.82), rgba(10, 22, 18, 0.94));
-}
-
-.theme-kyoto .brand-card::after,
-.theme-kyoto .hero-card::after {
-    width: 110px;
-    height: 110px;
-    right: 12px;
-    top: 12px;
-    opacity: 0.22;
-    background:
-        radial-gradient(circle at 35% 35%, rgba(255, 220, 230, 0.30), transparent 22%),
-        radial-gradient(circle at 60% 58%, rgba(255, 183, 197, 0.22), transparent 18%),
-        linear-gradient(135deg, rgba(16,185,129,0.32), rgba(255,183,197,0.10));
-    clip-path: polygon(50% 0%, 64% 18%, 86% 14%, 78% 36%, 100% 50%, 78% 64%, 86% 86%, 64% 82%, 50% 100%, 36% 82%, 14% 86%, 22% 64%, 0% 50%, 22% 36%, 14% 14%, 36% 18%);
-}
-
-/* =========================
-   SUNSET COAST — horizon fort
-   ========================= */
-
-.theme-coast {
-    background:
-        radial-gradient(circle at 50% 22%, rgba(255, 208, 140, 0.16), transparent 16%),
-        radial-gradient(circle at 16% 14%, rgba(255, 170, 120, 0.12), transparent 16%),
-        radial-gradient(circle at 84% 16%, rgba(255, 140, 130, 0.10), transparent 14%),
-        linear-gradient(180deg, #6d3a22 0%, #3b231b 44%, #191314 100%);
-}
-
-.theme-coast::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: -2;
-    background:
-        radial-gradient(circle at 50% 22%, rgba(255, 214, 150, 0.24), transparent 7%),
-        linear-gradient(180deg, transparent 0 66%, rgba(255,255,255,0.05) 66% 67%, transparent 67% 100%),
-        linear-gradient(180deg, transparent 0 74%, rgba(255, 205, 150, 0.05) 74% 75%, transparent 75% 100%),
-        linear-gradient(180deg, transparent 0 82%, rgba(255,255,255,0.03) 82% 83%, transparent 83% 100%);
-}
-
-.theme-coast::after {
-    content: "";
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: -1;
-    background:
-        radial-gradient(circle at 24% 84%, rgba(255, 180, 120, 0.08), transparent 12%),
-        radial-gradient(circle at 78% 86%, rgba(255, 170, 130, 0.07), transparent 10%),
-        linear-gradient(
-            180deg,
-            rgba(255,255,255,0.02) 0%,
-            transparent 20%
-        );
-}
-
-.theme-coast .glass {
-    background:
-        linear-gradient(180deg, rgba(42, 25, 18, 0.78), rgba(24, 17, 16, 0.90));
-    border-color: rgba(255, 222, 190, 0.10);
-    box-shadow:
-        0 28px 80px rgba(0, 0, 0, 0.42),
-        0 0 0 1px rgba(255, 220, 170, 0.02) inset;
-}
-
-.theme-coast .hero-card,
-.theme-coast .brand-card {
-    background:
-        linear-gradient(135deg, rgba(255, 170, 110, 0.12), rgba(255, 210, 150, 0.08)),
-        linear-gradient(180deg, rgba(44, 26, 18, 0.82), rgba(24, 17, 16, 0.94));
-}
-
-/* prestige encore plus visible */
-.theme-royal .glass,
-.theme-kyoto .glass,
-.theme-coast .glass {
-    backdrop-filter: blur(16px);
-}
-
-/* tuiles prestige plus distinctes */
-.prestige-theme {
-    border-style: solid;
-    border-width: 1px;
-    position: relative;
-}
-
-.prestige-theme::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    pointer-events: none;
-    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.04);
-}
-
-/* =========================
-   V2.7 — IMAGE DE FOND JADE KYOTO
-   ========================= */
-
-.theme-kyoto {
-    background: linear-gradient(180deg, #17392f 0%, #10281f 42%, #0a1511 100%);
-}
-
-.theme-kyoto::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: -3;
-    background:
-        linear-gradient(180deg, rgba(8, 20, 16, 0.42), rgba(8, 20, 16, 0.72)),
-        url("/static/kyoto_bg.jpg");
-    background-size: cover;
-    background-position: center center;
-    background-repeat: no-repeat;
-    filter: saturate(1.05) brightness(0.72);
-    opacity: 1;
-}
-
-.theme-kyoto::after {
-    content: "";
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: -2;
-    background:
-        radial-gradient(circle at 14% 14%, rgba(255, 205, 220, 0.16), transparent 14%),
-        radial-gradient(circle at 82% 12%, rgba(255, 210, 225, 0.14), transparent 12%),
-        radial-gradient(circle at 50% 18%, rgba(170, 255, 220, 0.10), transparent 18%),
-        radial-gradient(circle at 12% 24%, rgba(255, 183, 197, 0.18), transparent 3.2%),
-        radial-gradient(circle at 17% 30%, rgba(255, 183, 197, 0.14), transparent 2.8%),
-        radial-gradient(circle at 22% 20%, rgba(255, 183, 197, 0.12), transparent 2.5%),
-        radial-gradient(circle at 78% 18%, rgba(255, 183, 197, 0.14), transparent 3.0%),
-        radial-gradient(circle at 72% 26%, rgba(255, 183, 197, 0.10), transparent 2.6%),
-        linear-gradient(180deg, rgba(7, 18, 15, 0.16), rgba(7, 18, 15, 0.34));
-    opacity: 1;
-}
-
-.theme-kyoto .glass {
-    background:
-        linear-gradient(180deg, rgba(15, 34, 27, 0.70), rgba(10, 24, 19, 0.84));
-    border-color: rgba(210, 255, 230, 0.12);
-    box-shadow:
-        0 28px 80px rgba(0, 0, 0, 0.46),
-        0 0 0 1px rgba(255, 210, 225, 0.03) inset;
-    backdrop-filter: blur(16px);
-}
-
-.theme-kyoto .hero-card,
-.theme-kyoto .brand-card {
-    background:
-        linear-gradient(135deg, rgba(255, 183, 197, 0.10), rgba(16, 185, 129, 0.14)),
-        linear-gradient(180deg, rgba(17, 38, 30, 0.72), rgba(10, 22, 18, 0.86));
-}
-
-
-/* =========================
-   V2.7 — IMAGES RÉELLES THÈMES PRESTIGE
+   PRESTIGE BACKGROUNDS RESTORED
    ========================= */
 
 .theme-royal {
@@ -1299,11 +734,11 @@ body {
     pointer-events: none;
     background:
         linear-gradient(180deg, rgba(20, 10, 30, 0.35), rgba(8, 6, 14, 0.74)),
-        url("/static/royal_bg.jpg");
+        url("/static/royal_painting.jpg");
     background-size: cover;
     background-position: center center;
     background-repeat: no-repeat;
-    filter: saturate(1.05) brightness(0.55);
+    filter: saturate(1.05) brightness(0.60);
     opacity: 1;
 }
 
@@ -1319,195 +754,7 @@ body {
         linear-gradient(180deg, rgba(255,255,255,0.04), transparent 18%);
 }
 
-.theme-royal .glass {
-    background:
-        linear-gradient(180deg, rgba(28, 16, 44, 0.70), rgba(18, 12, 30, 0.84));
-    border-color: rgba(255, 240, 210, 0.12);
-    backdrop-filter: blur(16px);
-    box-shadow:
-        0 30px 80px rgba(0,0,0,0.48),
-        0 0 0 1px rgba(255,255,255,0.03) inset;
-}
-
-.theme-royal .hero-card,
-.theme-royal .brand-card {
-    background:
-        linear-gradient(135deg, rgba(124, 58, 237, 0.18), rgba(255, 223, 170, 0.08)),
-        linear-gradient(180deg, rgba(30, 17, 48, 0.72), rgba(18, 12, 30, 0.86));
-}
-
-/* JADE KYOTO — rose sakura + image réelle */
 .theme-kyoto {
-    background:
-        linear-gradient(180deg, #17392f 0%, #10281f 42%, #091511 100%);
-}
-
-.theme-kyoto::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    z-index: -4;
-    pointer-events: none;
-    background:
-        linear-gradient(180deg, rgba(8, 20, 16, 0.22), rgba(8, 20, 16, 0.66)),
-        url("/static/kyoto_bg.jpg");
-    background-size: cover;
-    background-position: center center;
-    background-repeat: no-repeat;
-    filter: saturate(1.08) brightness(0.62);
-    opacity: 1;
-}
-
-.theme-kyoto::after {
-    content: "";
-    position: fixed;
-    inset: 0;
-    z-index: -3;
-    pointer-events: none;
-    background:
-        radial-gradient(circle at 14% 16%, rgba(255, 190, 210, 0.22), transparent 13%),
-        radial-gradient(circle at 82% 14%, rgba(255, 196, 215, 0.18), transparent 12%),
-        radial-gradient(circle at 50% 20%, rgba(170, 255, 220, 0.10), transparent 18%),
-        radial-gradient(circle at 18% 30%, rgba(255, 183, 197, 0.12), transparent 5%),
-        radial-gradient(circle at 26% 24%, rgba(255, 183, 197, 0.10), transparent 4%),
-        radial-gradient(circle at 76% 26%, rgba(255, 183, 197, 0.10), transparent 4%),
-        linear-gradient(180deg, rgba(255,255,255,0.03), transparent 20%);
-}
-
-.theme-kyoto .glass {
-    background:
-        linear-gradient(180deg, rgba(15, 34, 27, 0.64), rgba(10, 24, 19, 0.82));
-    border-color: rgba(255, 220, 230, 0.12);
-    backdrop-filter: blur(16px);
-    box-shadow:
-        0 30px 80px rgba(0,0,0,0.48),
-        0 0 0 1px rgba(255, 210, 225, 0.03) inset;
-}
-
-.theme-kyoto .hero-card,
-.theme-kyoto .brand-card {
-    background:
-        linear-gradient(135deg, rgba(255, 183, 197, 0.12), rgba(16, 185, 129, 0.10)),
-        linear-gradient(180deg, rgba(17, 38, 30, 0.68), rgba(10, 22, 18, 0.84));
-}
-
-/* SUNSET COAST — vraie plage */
-.theme-coast {
-    background:
-        linear-gradient(180deg, #6d3a22 0%, #3b231b 46%, #161112 100%);
-}
-
-.theme-coast::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    z-index: -4;
-    pointer-events: none;
-    background:
-        linear-gradient(180deg, rgba(45, 22, 14, 0.12), rgba(20, 14, 14, 0.54)),
-        url("/static/coast_bg.png");
-    background-size: cover;
-    background-position: center center;
-    background-repeat: no-repeat;
-    filter: saturate(1.08) brightness(0.72);
-    opacity: 1;
-}
-
-.theme-coast::after {
-    content: "";
-    position: fixed;
-    inset: 0;
-    z-index: -3;
-    pointer-events: none;
-    background:
-        radial-gradient(circle at 50% 22%, rgba(255, 215, 150, 0.16), transparent 14%),
-        radial-gradient(circle at 18% 14%, rgba(255, 180, 120, 0.12), transparent 14%),
-        radial-gradient(circle at 82% 16%, rgba(255, 160, 130, 0.10), transparent 12%),
-        linear-gradient(180deg, rgba(255,255,255,0.02), transparent 18%);
-}
-
-.theme-coast .glass {
-    background:
-        linear-gradient(180deg, rgba(42, 25, 18, 0.62), rgba(24, 17, 16, 0.82));
-    border-color: rgba(255, 220, 190, 0.12);
-    backdrop-filter: blur(16px);
-    box-shadow:
-        0 30px 80px rgba(0,0,0,0.48),
-        0 0 0 1px rgba(255, 220, 170, 0.02) inset;
-}
-
-.theme-coast .hero-card,
-.theme-coast .brand-card {
-    background:
-        linear-gradient(135deg, rgba(255, 170, 110, 0.14), rgba(255, 210, 150, 0.08)),
-        linear-gradient(180deg, rgba(44, 26, 18, 0.68), rgba(24, 17, 16, 0.84));
-}
-
-
-/* =========================
-   RECOVERY — XP + KYOTO ROSE + TABLEAUX
-   ========================= */
-
-/* --- Cour Royale en tableau --- */
-.theme-royal {
-    --accent: #8b5cf6;
-    --accent-2: #5b21b6;
-    --accent-3: #f3e8ff;
-    background:
-        linear-gradient(180deg, #24122f 0%, #140d1f 52%, #09070f 100%);
-}
-
-.theme-royal::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    z-index: -4;
-    pointer-events: none;
-    background:
-        linear-gradient(180deg, rgba(18, 10, 28, 0.24), rgba(7, 6, 12, 0.66)),
-        url("/static/royal_painting.jpg");
-    background-size: cover;
-    background-position: center center;
-    background-repeat: no-repeat;
-    filter: saturate(1.02) brightness(0.62);
-    opacity: 1;
-}
-
-.theme-royal::after {
-    content: "";
-    position: fixed;
-    inset: 0;
-    z-index: -3;
-    pointer-events: none;
-    background:
-        radial-gradient(circle at 16% 16%, rgba(180, 120, 255, 0.14), transparent 16%),
-        radial-gradient(circle at 84% 14%, rgba(255, 228, 180, 0.12), transparent 14%),
-        linear-gradient(180deg, rgba(255,255,255,0.02), transparent 18%);
-}
-
-.theme-royal .glass {
-    background:
-        linear-gradient(180deg, rgba(34, 18, 48, 0.72), rgba(18, 12, 28, 0.86));
-    border-color: rgba(255, 235, 205, 0.12);
-    backdrop-filter: blur(16px);
-}
-
-.theme-royal input,
-.theme-royal select,
-.theme-royal textarea,
-.theme-royal .advanced-box,
-.theme-royal .memory-fold {
-    background: rgba(30, 16, 42, 0.66);
-    border-color: rgba(255, 223, 170, 0.15);
-}
-
-/* --- Jade Kyoto = ROSE dominant, plus de base verte --- */
-.theme-kyoto {
-    --accent: #ec4899;
-    --accent-2: #9d174d;
-    --accent-3: #fbcfe8;
-    --theme-glow-1: rgba(236, 72, 153, 0.18);
-    --theme-glow-2: rgba(251, 207, 232, 0.14);
     background:
         linear-gradient(180deg, #5b2940 0%, #341c29 34%, #1f1820 68%, #0c0d12 100%);
 }
@@ -1541,64 +788,7 @@ body {
         linear-gradient(180deg, rgba(255,255,255,0.02), transparent 20%);
 }
 
-.theme-kyoto .glass {
-    background:
-        linear-gradient(180deg, rgba(78, 32, 50, 0.70), rgba(30, 20, 28, 0.86));
-    border-color: rgba(255, 214, 228, 0.16);
-    backdrop-filter: blur(16px);
-    box-shadow:
-        0 30px 80px rgba(0, 0, 0, 0.46),
-        0 0 0 1px rgba(255, 220, 230, 0.03) inset;
-}
-
-.theme-kyoto .hero-card,
-.theme-kyoto .brand-card {
-    background:
-        linear-gradient(135deg, rgba(255, 183, 197, 0.18), rgba(255, 232, 240, 0.06)),
-        linear-gradient(180deg, rgba(88, 34, 52, 0.74), rgba(34, 22, 30, 0.88));
-}
-
-.theme-kyoto input,
-.theme-kyoto select,
-.theme-kyoto textarea,
-.theme-kyoto .advanced-box,
-.theme-kyoto .memory-fold,
-.theme-kyoto .xp-next-card,
-.theme-kyoto .xp-help-card {
-    background: rgba(88, 34, 56, 0.68);
-    border-color: rgba(255, 214, 228, 0.18);
-}
-
-.theme-kyoto .memory-tag,
-.theme-kyoto .unlock-chip,
-.theme-kyoto .xp-pill {
-    background: rgba(236, 72, 153, 0.12);
-    border-color: rgba(251, 207, 232, 0.20);
-    color: #ffd9e8;
-}
-
-.theme-kyoto .mini-badge,
-.theme-kyoto .active-theme,
-.theme-kyoto .xp-mini-fill {
-    background: linear-gradient(135deg, #ec4899, #9d174d);
-}
-
-/* on force aussi les boutons/selects du thème Kyoto à suivre le rose */
-.theme-kyoto button,
-.theme-kyoto .mode-chip,
-.theme-kyoto .theme-tile {
-    border-color: rgba(255, 214, 228, 0.16);
-}
-
-.theme-kyoto .primary-btn {
-    background: linear-gradient(135deg, #ec4899, #9d174d);
-}
-
-/* --- Sunset Coast en tableau --- */
 .theme-coast {
-    --accent: #fb923c;
-    --accent-2: #ea580c;
-    --accent-3: #fed7aa;
     background:
         linear-gradient(180deg, #6a3924 0%, #3a231b 48%, #161112 100%);
 }
@@ -1632,75 +822,151 @@ body {
         linear-gradient(180deg, rgba(255,255,255,0.02), transparent 18%);
 }
 
-.theme-coast .glass {
+/* FIX FONDS PRESTIGE FORCÉS */
+
+.theme-royal::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: url("/static/royal_painting.jpg") center/cover no-repeat;
+    z-index: -10 !important;
+    opacity: 0.6 !important;
+}
+
+.theme-kyoto::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: url("/static/kyoto_painting.jpg") center/cover no-repeat;
+    z-index: -10 !important;
+    opacity: 0.6 !important;
+}
+
+.theme-coast::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: url("/static/coast_painting.jpg") center/cover no-repeat;
+    z-index: -10 !important;
+    opacity: 0.6 !important;
+}
+
+
+/* FIX FONDS PRESTIGE FORCÉS */
+
+.theme-royal::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: url("/static/royal_painting.jpg") center/cover no-repeat;
+    z-index: -10 !important;
+    opacity: 0.6 !important;
+}
+
+.theme-kyoto::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: url("/static/kyoto_painting.jpg") center/cover no-repeat;
+    z-index: -10 !important;
+    opacity: 0.6 !important;
+}
+
+.theme-coast::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: url("/static/coast_painting.jpg") center/cover no-repeat;
+    z-index: -10 !important;
+    opacity: 0.6 !important;
+}
+
+
+/* =========================
+   PRESTIGE BACKGROUNDS — CLEAN REMAP
+   ========================= */
+
+.theme-royal::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -4;
+    pointer-events: none;
     background:
-        linear-gradient(180deg, rgba(44, 26, 18, 0.70), rgba(22, 16, 16, 0.86));
-    border-color: rgba(255, 220, 190, 0.14);
-    backdrop-filter: blur(16px);
+        linear-gradient(180deg, rgba(18, 10, 28, 0.18), rgba(7, 6, 12, 0.58)),
+        url("/static/royal_painting.jpg");
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    filter: saturate(1.06) brightness(0.68);
+    opacity: 0.60;
 }
 
-.theme-coast input,
-.theme-coast select,
-.theme-coast textarea,
-.theme-coast .advanced-box,
-.theme-coast .memory-fold,
-.theme-coast .xp-next-card,
-.theme-coast .xp-help-card {
-    background: rgba(50, 28, 18, 0.68);
-    border-color: rgba(255, 214, 170, 0.16);
+.theme-kyoto::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -4;
+    pointer-events: none;
+    background:
+        linear-gradient(180deg, rgba(28, 10, 18, 0.06), rgba(10, 10, 12, 0.38)),
+        url("/static/kyoto_painting.jpg");
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    filter: saturate(1.06) brightness(0.96);
+    opacity: 0.62;
 }
 
-
-/* classement des thèmes */
-.theme-groups {
-    display: grid;
-    gap: 12px;
+.theme-coast::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -4;
+    pointer-events: none;
+    background:
+        linear-gradient(180deg, rgba(30, 16, 12, 0.06), rgba(14, 12, 12, 0.34)),
+        url("/static/coast_painting.jpg");
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    filter: saturate(1.08) brightness(0.86);
+    opacity: 0.60;
 }
 
-.theme-group {
-    display: grid;
-    gap: 8px;
+.theme-royal .hero-card,
+.theme-royal .brand-card,
+.theme-royal .memory-card,
+.theme-royal .history-card,
+.theme-royal .rewards-card,
+.theme-royal .answer-card,
+.theme-royal .form-card,
+.theme-royal .sidebar .glass {
+    background: linear-gradient(180deg, rgba(52, 22, 72, 0.70), rgba(20, 12, 34, 0.88));
+    border-color: rgba(245, 208, 254, 0.12);
 }
 
-.theme-group-title {
-    font-size: 11px;
-    font-weight: 800;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--muted);
-    padding-left: 2px;
+.theme-kyoto .hero-card,
+.theme-kyoto .brand-card,
+.theme-kyoto .memory-card,
+.theme-kyoto .history-card,
+.theme-kyoto .rewards-card,
+.theme-kyoto .answer-card,
+.theme-kyoto .form-card,
+.theme-kyoto .sidebar .glass {
+    background: linear-gradient(180deg, rgba(96, 28, 48, 0.66), rgba(32, 18, 28, 0.84));
+    border-color: rgba(254, 205, 211, 0.12);
 }
 
-.theme-group .theme-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-}
-
-
-/* classement des thèmes */
-.theme-groups {
-    display: grid;
-    gap: 12px;
-}
-
-.theme-group {
-    display: grid;
-    gap: 8px;
-}
-
-.theme-group-title {
-    font-size: 11px;
-    font-weight: 800;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--muted);
-    padding-left: 2px;
-}
-
-.theme-group .theme-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
+.theme-coast .hero-card,
+.theme-coast .brand-card,
+.theme-coast .memory-card,
+.theme-coast .history-card,
+.theme-coast .rewards-card,
+.theme-coast .answer-card,
+.theme-coast .form-card,
+.theme-coast .sidebar .glass {
+    background: linear-gradient(180deg, rgba(62, 34, 12, 0.66), rgba(24, 16, 12, 0.84));
+    border-color: rgba(253, 230, 138, 0.12);
 }
 
