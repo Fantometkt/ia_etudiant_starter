@@ -8,6 +8,10 @@ from flask import Flask, render_template, request, jsonify
 
 app = Flask(__name__)
 
+# =========================================================
+# ROUTES
+# =========================================================
+
 @app.route("/")
 def index():
     return render_template("index.html")
@@ -37,7 +41,8 @@ def chat():
     try:
         mem = load_memory()
 
-        answer = generate_answer(
+        answer = 'TEST OK' # bypass
+        #answer = generate_answer(
             mem=mem,
             message=message,
             niveau=niveau,
@@ -69,7 +74,6 @@ def chat():
         save_memory(mem)
 
         return jsonify({"answer": answer})
-
     except Exception as e:
         return jsonify({"answer": f"Erreur : {str(e)}"})
 
