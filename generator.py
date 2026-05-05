@@ -1,156 +1,163 @@
 from utils import *
 from prompts import *
-from memory_manager import *
+from memory_manager import build_student_memory_context
 from course_analyzer import analyze_course, format_course_analysis
 from judge import judge
 from llm import call_ollama
+from learning_eval import build_eval_summary
+from progress_engine import build_learning_plan, recommend_mode
+from safety import output_quality_flags
 
-
-FAST_MODES = {"expliquer", "resumer", "a_retenir", "quiz"}
 
 MODE_TEMPS = {
-    "expliquer": [0.12, 0.22, 0.32],
-    "resumer": [0.08, 0.16, 0.24],
-    "a_retenir": [0.08, 0.16],
-    "quiz": [0.15, 0.25, 0.35],
-    "corriger": [0.12, 0.20, 0.28],
-    "exam": [0.12, 0.20, 0.28],
-    "notions_centrales": [0.12, 0.20, 0.28],
-    "memoire": [0.18, 0.28, 0.36],
-    "reviser": [0.12, 0.20, 0.28],
+    "expliquer": [0.10, 0.18],
+    "resumer": [0.06, 0.12],
+    "a_retenir": [0.05, 0.10],
+    "quiz": [0.12, 0.20],
+    "corriger": [0.08, 0.16],
+    "exam": [0.10, 0.18],
+    "notions_centrales": [0.08, 0.14],
+    "memoire": [0.14, 0.22],
+    "socratic": [0.10, 0.18],
+    "diagnostic": [0.06, 0.12],
+    "progression": [0.12, 0.20],
+    "reviser": [0.08, 0.16],
 }
 
 
-# ========================
-# 🧠 DIAGNOSTIC PÉDAGOGIQUE
-# ========================
+# =========================================================
+# DIAGNOSTIC
+# =========================================================
 
 def infer_real_need(message, mode, previous_response="", learning_goal="comprendre"):
     text = clean(message).lower()
-    prev = clean(previous_response).lower()
 
-    if mode == "corriger" or prev:
-        return "correction_progression"
-
+    if mode == "diagnostic":
+        return "diagnostiquer_le_niveau_reel"
+    if mode == "progression":
+        return "construire_une_progression"
+    if mode == "socratic":
+        return "guider_sans_remplacer"
+    if mode == "corriger" or clean(previous_response):
+        return "corriger_pour_faire_progresser"
     if mode == "exam":
-        return "preparation_examen"
-
+        return "preparer_une_evaluation"
     if mode == "quiz":
-        return "entrainement_actif"
-
+        return "entrainer_la_comprehension"
     if mode == "a_retenir":
-        return "condensation_memorisation"
-
+        return "fixer_le_noyau_minimal"
     if mode == "reviser":
-        return "revision_memorisation"
-
+        return "rendre_le_cours_revisable"
     if mode == "notions_centrales":
-        return "structuration_ossature"
-
-    if "je n'ai pas compris" in text or "réexplique" in text or "réexpliquer" in text:
-        return "deblocage_incomprehension"
-
+        return "extraire_l_ossature_du_cours"
+    if "pas compris" in text or "perdu" in text or "bloqué" in text:
+        return "debloquer_une_incomprehension"
     if "différence" in text or "confond" in text or "confusion" in text:
-        return "clarification_confusion"
+        return "clarifier_une_confusion"
+    if mode == "resumer":
+        return "synthetiser_l_essentiel"
 
-    if "résume" in text or mode == "resumer":
-        return "synthese_essentiel"
-
-    if "explique" in text or mode == "expliquer":
-        return "comprehension_profonde"
-
-    if learning_goal:
-        return learning_goal
-
-    return "comprehension_profonde"
+    return learning_goal or "comprendre_reellement"
 
 
-def infer_difficulty_level(cours, message, niveau):
-    cours_len = len(clean(cours))
+def infer_difficulty(cours, message, niveau):
+    score = 0
+
+    if len(clean(cours)) > 2500:
+        score += 2
+    elif len(clean(cours)) > 800:
+        score += 1
+
     msg = clean(message).lower()
-    niv = clean(niveau).lower()
-
-    difficulty_score = 0
-
-    if cours_len > 1500:
-        difficulty_score += 2
-    elif cours_len > 600:
-        difficulty_score += 1
-
     hard_markers = [
-        "pourquoi", "mécanisme", "enjeu", "logique", "différence",
-        "compare", "démontre", "analyse", "implication"
+        "analyse",
+        "mécanisme",
+        "logique",
+        "implication",
+        "comparer",
+        "démontrer",
+        "problématiser",
+        "enjeu"
     ]
+
     if any(m in msg for m in hard_markers):
-        difficulty_score += 1
+        score += 1
 
-    if "l3" in niv or "master" in niv or "licence 3" in niv:
-        difficulty_score += 1
+    niv = clean(niveau).lower()
+    if any(x in niv for x in ["l3", "m1", "m2", "master"]):
+        score += 1
 
-    if difficulty_score >= 3:
+    if score >= 3:
         return "difficile"
-    if difficulty_score >= 1:
+    if score >= 1:
         return "intermediaire"
     return "simple"
 
+def compute_enrichment_level(cours, mode):
+    wc = word_count(cours)
 
-def infer_blocking_risks(message, cours, mode, previous_response=""):
-    text = clean(message).lower()
-    risks = []
+    if mode in {"resumer", "a_retenir"}:
+        return "minimal"
 
     if not clean(cours):
-        risks.append("absence_de_cours")
+        return "general"
 
-    if previous_response:
-        risks.append("copie_etudiante_a_corriger")
+    if wc < 35:
+        return "high"
 
-    if mode == "expliquer":
-        risks.append("reformulation_sans_mecanisme")
+    if wc < 120:
+        return "medium"
 
-    if mode == "resumer":
-        risks.append("condensation_trop_superficielle")
-
-    if mode == "reviser":
-        risks.append("memorisation_sans_hierarchisation")
-
-    if mode == "exam":
-        risks.append("cadre_trop_scolaire_ou_bavard")
-
-    if mode == "corriger":
-        risks.append("jugement_flou_ou_peu_formateur")
-
-    confusion_markers = ["différence", "confond", "confusion", "nuance"]
-    if any(m in text for m in confusion_markers):
-        risks.append("confusion_probable")
-
-    if "aussi" in text and "cours" in text:
-        risks.append("tentation_de_sortir_du_cours")
-
-    return risks[:6]
+    return "low"
 
 
-def choose_pedagogical_strategy(real_need, mode, help_level="equilibre"):
-    strategy_map = {
-        "deblocage_incomprehension": "expliquer_dabord_le_noeud_de_blocage",
-        "clarification_confusion": "distinguer_netement_les_notions",
-        "correction_progression": "diagnostiquer_puis_corriger_pour_faire_progresser",
-        "preparation_examen": "produire_un_cadre_compact_et_exploitable",
-        "entrainement_actif": "tester_la_comprehension_utile",
-        "condensation_memorisation": "garder_le_noyau_memorisable",
-        "revision_memorisation": "structurer_pour_retenir_et_revoir",
-        "structuration_ossature": "faire_apparaitre_la_charpente_du_cours",
-        "synthese_essentiel": "eliminer_tout_sauf_lessentiel",
-        "comprehension_profonde": "mettre_au_centre_le_mecanisme_et_la_logique",
-    }
+def build_enrichment_block(cours, mode):
+    level = compute_enrichment_level(cours, mode)
 
-    strategy = strategy_map.get(real_need, "mettre_au_centre_le_mecanisme_et_la_logique")
+    if level == "general":
+        return """
+ENRICHISSEMENT
+- Aucun cours réel n’est fourni.
+- Tu peux utiliser des connaissances générales fiables.
+- Reste pédagogique, clair et adapté au niveau.
+- Ne prétends pas t’appuyer sur un cours absent.
+""".strip()
 
-    if help_level == "fort":
-        strategy += "_avec_plus_de_guidage"
-    elif help_level == "leger":
-        strategy += "_avec_plus_de_concision"
+    if level == "high":
+        return """
+ENRICHISSEMENT CONTRÔLÉ
+- Le cours est très court.
+- Tu dois partir strictement de l’idée donnée.
+- Tu peux enrichir pour permettre une vraie compréhension.
+- Ajoute seulement des compléments utiles : mécanisme, exemple, notion proche, lien logique.
+- Ne présente jamais ces compléments comme explicitement présents dans le cours.
+- Signale naturellement l’apport avec : "Pour mieux comprendre", "En complément utile", ou "Dans la logique du cours".
+""".strip()
 
-    return strategy
+    if level == "medium":
+        return """
+ENRICHISSEMENT CONTRÔLÉ
+- Le cours est partiel.
+- Tu peux compléter modérément pour aider la progression.
+- Priorité : expliquer la logique et combler les implicites utiles.
+- Évite les développements trop longs.
+- Distingue clairement le cours et l’apport pédagogique.
+""".strip()
+
+    if level == "minimal":
+        return """
+ENRICHISSEMENT LIMITÉ
+- Le mode demandé exige de condenser.
+- N’ajoute presque aucun contenu externe.
+- Garde seulement ce qui aide directement à retenir.
+""".strip()
+
+    return """
+ENRICHISSEMENT LIMITÉ
+- Le cours est assez développé.
+- Priorité : structurer, hiérarchiser, clarifier.
+- N’ajoute un complément que s’il débloque vraiment la compréhension.
+""".strip()
 
 
 def build_pedagogical_diagnostic_block(
@@ -158,237 +165,166 @@ def build_pedagogical_diagnostic_block(
     cours,
     niveau,
     mode,
-    previous_response="",
-    learning_goal="comprendre",
-    help_level="equilibre"
+    previous_response,
+    learning_goal,
+    help_level,
+    student_eval=None
 ):
-    real_need = infer_real_need(message, mode, previous_response, learning_goal)
-    difficulty = infer_difficulty_level(cours, message, niveau)
-    risks = infer_blocking_risks(message, cours, mode, previous_response)
-    strategy = choose_pedagogical_strategy(real_need, mode, help_level)
+    need = infer_real_need(message, mode, previous_response, learning_goal)
+    difficulty = infer_difficulty(cours, message, niveau)
 
-    risk_lines = "\n".join(f"- {r}" for r in risks) if risks else "- aucun risque majeur identifié"
+    risks = []
+
+    if not clean(cours):
+        risks.append("absence_de_cours")
+    if clean(previous_response):
+        risks.append("réponse_étudiante_à_exploiter")
+    if mode == "expliquer":
+        risks.append("paraphrase_sans_mécanisme")
+    if mode == "resumer":
+        risks.append("résumé_trop_long_ou_trop_descriptif")
+    if mode == "corriger":
+        risks.append("correction_vague_ou_peu_formatrice")
+    if mode == "exam":
+        risks.append("sujet_trop_générique")
+    if mode == "socratic":
+        risks.append("donner_la_réponse_trop_vite")
+    if "invente" in clean(message).lower() or "même si" in clean(message).lower():
+        risks.append("demande_d_invention_ou_dépassement_du_cours")
+
+    eval_block = ""
+    if student_eval:
+        eval_block = f"""
+ÉVALUATION DE LA RÉPONSE ÉTUDIANTE
+{build_eval_summary(student_eval)}
+"""
 
     return f"""
-DIAGNOSTIC PÉDAGOGIQUE IMPLICITE
-- Besoin réel détecté : {real_need}
+DIAGNOSTIC PÉDAGOGIQUE INTERNE
+- Besoin réel : {need}
 - Difficulté estimée : {difficulty}
-- Stratégie pédagogique à privilégier : {strategy}
+- Niveau d’aide : {help_level}
 
 RISQUES À SURVEILLER
-{risk_lines}
+{chr(10).join("- " + r for r in risks) if risks else "- aucun risque majeur"}
 
-RÈGLES DE DÉCISION
-- Identifie d’abord ce qui aide le plus l’étudiant ici
-- Traite en priorité le point le plus important, le plus difficile ou le plus bloquant
-- Choisis la forme la plus utile, pas la plus scolaire
-- Si une confusion est probable, clarifie-la explicitement
-- Si un mécanisme structure la compréhension, mets-le au centre
-- Si un détail n’aide pas à comprendre ou réussir, réduis-le fortement
-"""
-    
+{eval_block}
 
-# ========================
-# 🧠 BLOCS CONTEXTUELS
-# ========================
-
-def build_evolution_block(mem):
-    if not mem.get("selftests"):
-        return ""
-
-    last = mem["selftests"][-1].get("diagnostics", {})
-    recos = last.get("recommendations", [])
-    weak = last.get("weak_points", [])
-
-    bloc = []
-
-    for r in recos[:3]:
-        bloc.append(f"- {r}")
-
-    for w in weak[:2]:
-        bloc.append(f"- Corriger : {w}")
-
-    if not bloc:
-        return ""
-
-    return f"""
-AMÉLIORATION CONTINUE
-{chr(10).join(bloc)}
-
-RÈGLES D'ÉVOLUTION
-- Corrige activement ces faiblesses
-- Ne reproduis pas les erreurs passées
-- Évite la paraphrase descriptive
-- Hiérarchise davantage
-- Augmente la valeur pédagogique réelle
-"""
+DÉCISION
+- Prioriser ce qui fait progresser réellement l’étudiant.
+- Ne pas faire illusion avec une réponse jolie mais peu utile.
+- Expliciter le mécanisme si c’est central.
+- Refuser clairement d’inventer ce que le cours ne donne pas.
+- Si une erreur étudiante est disponible, l’utiliser pour personnaliser l’aide.
+""".strip()
 
 
-def build_mode_behavior(mode):
-    if mode == "resumer":
+# =========================================================
+# BLOCKS
+# =========================================================
+
+def build_goal_block(learning_goal):
+    goal = clean(learning_goal).lower()
+
+    if "retenir" in goal or "mémoris" in goal:
         return """
-COMPORTEMENT ATTENDU
-- très peu de structure
-- pas de sous-parties décoratives
-- pas de redondance
-- priorité à la densité utile
-- garder uniquement ce qui mérite d’être retenu
-"""
-    if mode == "corriger":
+OBJECTIF PÉDAGOGIQUE
+- Priorité : mémorisation.
+- La réponse doit être facilement révisable.
+- Formulations courtes, nettes, fixables.
+""".strip()
+
+    if "examen" in goal or "partiel" in goal or "bac" in goal:
         return """
-COMPORTEMENT ATTENDU
-- jugement net
-- hiérarchisation des erreurs
-- expliquer le mécanisme, pas seulement le constat
-- vraie amélioration de copie
-- correction tournée vers la progression
-"""
-    if mode == "exam":
+OBJECTIF PÉDAGOGIQUE
+- Priorité : réussite en évaluation.
+- Mettre en avant les attentes du correcteur, les pièges et la méthode.
+""".strip()
+
+    if "autonomie" in goal or "seul" in goal:
         return """
-COMPORTEMENT ATTENDU
-- sujet crédible
-- attentes du correcteur utiles
-- plan efficace
-- pas de développement scolaire inutile
-- compacité maximale sans perte d’utilité
-"""
-    if mode == "expliquer":
-        return """
-COMPORTEMENT ATTENDU
-- rendre le cours compréhensible
-- aller au mécanisme
-- éviter la simple reformulation
-- traiter d’abord le point difficile ou central
-"""
-    if mode == "notions_centrales":
-        return """
-COMPORTEMENT ATTENDU
-- extraction forte de l’essentiel
-- hiérarchisation claire
-- pas d’explication décorative
-- donner une vraie ossature intellectuelle
-"""
-    if mode == "reviser":
-        return """
-COMPORTEMENT ATTENDU
-- support de révision mémorisable
-- liens importants mis en évidence
-- pas de bavardage
-- aide directe à la mémorisation et à la compréhension
-"""
-    if mode == "quiz":
-        return """
-COMPORTEMENT ATTENDU
-- questions utiles
-- pas de trivialité
-- tester la compréhension réelle
-- faire apparaître les pièges utiles
-"""
-    if mode == "a_retenir":
-        return """
-COMPORTEMENT ATTENDU
-- ultra-condensation
-- impact maximal
-- aucun mot inutile
-- formulation nette et mémorisable
-"""
-    if mode == "memoire":
-        return """
-COMPORTEMENT ATTENDU
-- stratégie concrète
-- priorisation forte
-- actionnable
-- adaptée aux blocages réels
-"""
+OBJECTIF PÉDAGOGIQUE
+- Priorité : autonomie.
+- Guider sans remplacer.
+- Faire réfléchir l’étudiant au lieu de produire à sa place.
+""".strip()
+
     return """
-COMPORTEMENT ATTENDU
-- réponse utile
-- claire
-- hiérarchisée
-- centrée sur la progression
-"""
+OBJECTIF PÉDAGOGIQUE
+- Priorité : compréhension réelle.
+- Faire apparaître la logique, le mécanisme et les confusions possibles.
+""".strip()
 
 
 def build_help_level_block(help_level):
     if help_level == "fort":
         return """
 NIVEAU D’AIDE
-- explique davantage les points difficiles
-- explicite plus clairement les liens
-- sécurise davantage la compréhension
-- privilégie la pédagogie sur la concision brute
-"""
+- Guidage fort.
+- Explications plus progressives.
+- Sécuriser les blocages.
+- Découper les raisonnements difficiles.
+""".strip()
+
     if help_level == "leger":
         return """
 NIVEAU D’AIDE
-- va droit à l’essentiel
-- garde seulement ce qui apporte le plus de valeur
-- privilégie une réponse compacte
-"""
+- Guidage léger.
+- Réponse compacte.
+- Aller directement au plus utile.
+""".strip()
+
     return """
 NIVEAU D’AIDE
-- équilibre entre compréhension, clarté et concision
-- assez de guidage pour aider, sans alourdir inutilement
-"""
-
-
-def build_learning_goal_block(learning_goal):
-    goal = clean(learning_goal).lower()
-
-    if "comprendre" in goal:
-        return """
-OBJECTIF PÉDAGOGIQUE PRIORITAIRE
-- viser avant tout la compréhension réelle
-- faire apparaître la logique et le mécanisme
-"""
-    if "retenir" in goal or "mémoris" in goal:
-        return """
-OBJECTIF PÉDAGOGIQUE PRIORITAIRE
-- viser avant tout la mémorisation efficace
-- rendre la réponse facilement révisable
-"""
-    if "examen" in goal or "partiel" in goal:
-        return """
-OBJECTIF PÉDAGOGIQUE PRIORITAIRE
-- viser avant tout la réussite en évaluation
-- privilégier l’exploitable, le cadré, le rentable
-"""
-    return """
-OBJECTIF PÉDAGOGIQUE PRIORITAIRE
-- aider à comprendre et progresser réellement
-"""
-
-
-def build_weaknesses_block(weaknesses):
-    w = clean(weaknesses)
-    if not w:
-        return ""
-    return f"""
-FAIBLESSES OU POINTS DE VIGILANCE ÉTUDIANT
-{w}
-
-RÈGLES
-- adapte implicitement ton aide à ces fragilités
-- renforce ce qui risque de bloquer l’apprentissage
-"""
+- Équilibre entre clarté, densité et autonomie.
+""".strip()
 
 
 def build_previous_response_block(previous_response):
-    prev = clean(previous_response)
-    if not prev:
-        return "Aucune"
+    previous_response = clean(previous_response)
 
-    return f"""{prev}
+    if not previous_response:
+        return "Aucune réponse étudiante fournie."
 
-RÈGLES
-- tiens compte de cette réponse pour identifier erreurs, imprécisions ou blocages
-- si elle révèle une confusion, traite-la explicitement
-"""
+    return f"""
+RÉPONSE ÉTUDIANTE
+{previous_response}
+
+UTILISATION ATTENDUE
+- Repérer ce qui est juste.
+- Repérer ce qui est faux.
+- Repérer ce qui est incomplet.
+- Expliquer pourquoi.
+- Transformer l’erreur en progression.
+""".strip()
 
 
-# ========================
-# 🧱 CONSTRUCTION DU PROMPT
-# ========================
+def build_learning_plan_block(mem, student_id):
+    student = safe_dict(mem.get("students")).get(clean(student_id))
+
+    if not student:
+        return """
+PLAN D’APPRENTISSAGE
+- Aucun profil suffisamment avancé.
+- Commencer par diagnostic court.
+""".strip()
+
+    plan = build_learning_plan(student, horizon="court")
+    recommended = recommend_mode(student)
+
+    return f"""
+PLAN D’APPRENTISSAGE PERSONNALISÉ
+- Objectif : {plan.get("goal")}
+- Mode recommandé par le système : {recommended}
+
+Étapes conseillées :
+{chr(10).join("- " + s for s in plan.get("steps", []))}
+""".strip()
+
+
+# =========================================================
+# PROMPT
+# =========================================================
 
 def build_prompt(
     mem,
@@ -402,194 +338,191 @@ def build_prompt(
     previous_response,
     mode,
     learning_goal="comprendre",
-    help_level="equilibre"
+    help_level="equilibre",
+    student_eval=None
 ):
     student_context = build_student_memory_context(mem, student_id)
-    course_analysis = analyze_course(cours, niveau, matiere, force=False)
+    course_analysis = analyze_course(cours, niveau, matiere)
     analysis_text = format_course_analysis(course_analysis)
-    evolution_block = build_evolution_block(mem)
-    mode_behavior = build_mode_behavior(mode)
-    help_block = build_help_level_block(help_level)
-    goal_block = build_learning_goal_block(learning_goal)
-    weaknesses_block = build_weaknesses_block(weaknesses)
-    pedagogical_diagnostic = build_pedagogical_diagnostic_block(
-        message=message,
-        cours=cours,
-        niveau=niveau,
-        mode=mode,
-        previous_response=previous_response,
-        learning_goal=learning_goal,
-        help_level=help_level
-    )
-
-    learning_style_block = ""
-    if clean(learning_style):
-        learning_style_block = f"""
-STYLE D’APPRENTISSAGE INDIQUÉ
-{clean(learning_style)}
-
-RÈGLES
-- adapte légèrement la forme si cela aide vraiment
-- ne caricature jamais le style d’apprentissage
-- garde la priorité sur la fidélité, la compréhension et l’utilité
-"""
+    enrichment_block = build_enrichment_block(cours, mode)
 
     return f"""
-CONTEXTE
+CONTEXTE GÉNÉRAL
 - Niveau : {niveau}
 - Matière : {matiere}
-- Mode : {mode}
+- Mode demandé : {mode}
 
-{goal_block}
+{build_goal_block(learning_goal)}
 
-{help_block}
+{build_help_level_block(help_level)}
 
-PROFIL ÉTUDIANT
-{student_context if clean(student_context) else "Aucun contexte étudiant spécifique."}
+MÉMOIRE ET PROFIL ÉTUDIANT
+{student_context}
 
-{learning_style_block}
+PLAN PERSONNALISÉ
+{build_learning_plan_block(mem, student_id)}
 
-{weaknesses_block}
+STYLE D’APPRENTISSAGE INDIQUÉ
+{clean(learning_style) or "Non précisé."}
 
-ANALYSE DU COURS
+FAIBLESSES OU LACUNES DÉCLARÉES
+{clean(weaknesses) or "Non précisées."}
+
+ANALYSE PÉDAGOGIQUE DU COURS
 {analysis_text}
 
-{pedagogical_diagnostic}
+STRATÉGIE D’ENRICHISSEMENT
+{enrichment_block}
 
-{evolution_block}
-
-{mode_behavior}
+{build_pedagogical_diagnostic_block(
+    message=message,
+    cours=cours,
+    niveau=niveau,
+    mode=mode,
+    previous_response=previous_response,
+    learning_goal=learning_goal,
+    help_level=help_level,
+    student_eval=student_eval
+)}
 
 RÈGLES DE PRODUCTION
-- Base principale = le cours
-- Réponse dense, utile et pédagogiquement ciblée
-- Évite la paraphrase mécanique
-- Hiérarchise clairement
-- Supprime les répétitions
-- Si le cours est insuffisant, dis-le clairement
-- Si aucun cours n’est fourni, utilise seulement des connaissances générales fiables, sobres et pédagogiquement utiles
-- N’alourdis pas la structure si elle n’apporte rien
-- Cherche à aider réellement l’étudiant, pas seulement à produire une réponse propre
-- Si un blocage probable existe, traite-le avant le reste
-- Si une confusion classique est probable, signale-la
-- Si une partie n’aide ni à comprendre, ni à retenir, ni à réussir, coupe-la
+- Base principale = le cours fourni.
+- Ne jamais inventer une information absente du cours comme si elle était certaine.
+- Si le cours est insuffisant, le dire uniquement si cela bloque la réponse.
+- Si le cours est court mais exploitable, enrichir intelligemment pour faire progresser.
+- Toujours distinguer ce qui vient du cours et ce qui est un complément pédagogique utile.
+- La réponse doit faire progresser l’étudiant.
+- Ne pas confondre longueur et profondeur.
+- Hiérarchiser essentiel / important / secondaire.
+- Éviter la paraphrase mécanique.
+- Éviter le ton robotique.
+- En cas d’erreur étudiante, corriger précisément et utilement.
+- En cas de mode socratic, guider sans donner immédiatement toute la réponse.
+- En cas de mode progression, donner un plan pédagogique concret.
+- Terminer par une micro-action seulement si elle apporte une vraie valeur.
 
 COURS
-{cours if cours else "Aucun cours fourni."}
+{cours if clean(cours) else "Aucun cours fourni."}
 
 RÉPONSE ÉTUDIANTE OU BASE À ANALYSER
 {build_previous_response_block(previous_response)}
 
 DEMANDE
 {message}
-"""
+""".strip()
 
 
-# ========================
-# 🚨 QUALITÉ DE SORTIE
-# ========================
+# =========================================================
+# VARIANTS
+# =========================================================
 
-def answer_is_bad(ans: str) -> bool:
-    a = clean(ans).lower()
-    if not a:
-        return True
+def answer_is_bad(answer):
+    flags = output_quality_flags(answer)
+    return "empty_output" in flags or "technical_error_output" in flags
 
-    bad_markers = [
-        "erreur ia",
-        "erreur de génération",
-        "traceback",
-        "importerror",
-        "syntaxerror",
-    ]
-    return any(marker in a for marker in bad_markers)
-
-
-def score_variant(ans, message, niveau, matiere, cours):
-    if answer_is_bad(ans):
-        return -999, {"total": -999}
-    raw = judge(ans, message, niveau, matiere, cours)
-    return raw.get("total", 0), raw
-
-
-def choose_best_variant(variants, message, niveau, matiere, cours):
-    best_answer = variants[0]
-    best_score = -10**9
-    best_meta = None
-
-    for ans in variants:
-        total, raw = score_variant(ans, message, niveau, matiere, cours)
-
-        if total > best_score:
-            best_score = total
-            best_answer = ans
-            best_meta = raw
-        elif total == best_score:
-            # à score égal : préfère le plus court seulement s'il reste suffisamment dense
-            if len(clean(ans)) < len(clean(best_answer)):
-                best_answer = ans
-                best_meta = raw
-
-    return best_answer, best_score, best_meta
-
-
-# ========================
-# 🧪 VARIANTES STRATÉGIQUES
-# ========================
 
 def build_strategy_variants(mode, prompt):
-    """
-    Au lieu de varier seulement la température,
-    on varie légèrement l’angle pédagogique.
-    """
     variants = []
 
-    base_suffix = """
+    variants.append(prompt + """
+
 CONTRÔLE FINAL
-- supprime toute redondance
-- vérifie que chaque phrase apporte une vraie valeur
-- garde seulement ce qui aide à comprendre, retenir ou réussir
-"""
+- Supprime les répétitions.
+- Garde la structure seulement si elle aide.
+- Chaque phrase doit avoir une valeur pédagogique.
+""")
 
-    variants.append(prompt + "\n\n" + base_suffix)
-
-    if mode in {"expliquer", "reviser", "corriger"}:
+    if mode in {"expliquer", "reviser"}:
         variants.append(prompt + """
 
-FOCUS SUPPLÉMENTAIRE
-- traite d’abord le point le plus bloquant ou le plus difficile
-- aide explicitement l’étudiant à dépasser la confusion principale
+FOCUS VARIANTE
+- Commence par le mécanisme central.
+- Explique pourquoi la notion est importante.
+- Termine par ce qu’il faut vraiment retenir.
+""")
+
+    if mode in {"corriger", "diagnostic"}:
+        variants.append(prompt + """
+
+FOCUS VARIANTE
+- Sois plus exigeant.
+- Distingue clairement juste / faux / incomplet.
+- Donne une prochaine action concrète.
 """)
 
     if mode in {"resumer", "a_retenir", "notions_centrales"}:
         variants.append(prompt + """
 
-FOCUS SUPPLÉMENTAIRE
-- coupe encore davantage le secondaire
-- garde uniquement la charpente utile
+FOCUS VARIANTE
+- Coupe tout le secondaire.
+- Garde l’ossature intellectuelle.
+- Privilégie la densité mémorisable.
+""")
+
+    if mode == "socratic":
+        variants.append(prompt + """
+
+FOCUS VARIANTE
+- Pose une question guidée.
+- Donne un indice.
+- Ne donne pas toute la réponse d’un coup.
 """)
 
     if mode == "exam":
         variants.append(prompt + """
 
-FOCUS SUPPLÉMENTAIRE
-- privilégie un cadre immédiatement exploitable en partiel
-- évite toute lourdeur inutile
+FOCUS VARIANTE
+- Fais un sujet crédible.
+- Donne les attentes du correcteur.
+- Évite le faux formalisme.
 """)
 
-    if mode == "quiz":
+    if mode == "progression":
         variants.append(prompt + """
 
-FOCUS SUPPLÉMENTAIRE
-- privilégie des questions révélant la compréhension réelle
-- évite les formulations triviales
+FOCUS VARIANTE
+- Construis une progression par étapes.
+- Relie chaque étape à une compétence.
+- Prévois un moyen de vérifier la progression.
 """)
 
     return variants[:3]
 
 
-# ========================
-# 🚀 GÉNÉRATION PRINCIPALE
-# ========================
+def choose_best_variant(variants, message, niveau, matiere, cours, mode):
+    best_answer = variants[0]
+    best_score = -10**9
+    best_meta = {}
+
+    for ans in variants:
+        if answer_is_bad(ans):
+            continue
+
+        meta = judge(
+            answer=ans,
+            message=message,
+            niveau=niveau,
+            matiere=matiere,
+            cours=cours,
+            mode=mode
+        )
+
+        score = meta.get("total", 0)
+
+        if score > best_score:
+            best_answer = ans
+            best_score = score
+            best_meta = meta
+        elif score == best_score and len(clean(ans)) < len(clean(best_answer)):
+            best_answer = ans
+            best_meta = meta
+
+    return best_answer, best_score, best_meta
+
+
+# =========================================================
+# MAIN
+# =========================================================
 
 def generate_answer(
     mem,
@@ -604,63 +537,72 @@ def generate_answer(
     previous_response="",
     learning_goal="comprendre",
     help_level="equilibre",
+    student_eval=None,
     fast_eval=False
 ):
+    if mode not in MODE_INSTRUCTIONS:
+        mode = "expliquer"
+
     mode_instruction = MODE_INSTRUCTIONS.get(mode, MODE_INSTRUCTIONS["expliquer"])
 
     prompt = build_prompt(
-        mem,
+        mem=mem,
+        message=message,
+        niveau=niveau,
+        matiere=matiere,
+        cours=cours,
+        student_id=student_id,
+        learning_style=learning_style,
+        weaknesses=weaknesses,
+        previous_response=previous_response,
+        mode=mode,
+        learning_goal=learning_goal,
+        help_level=help_level,
+        student_eval=student_eval
+    )
+
+    if fast_eval:
+        return call_ollama([
+            {"role": "system", "content": BASE_SYSTEM_PROMPT},
+            {"role": "system", "content": mode_instruction},
+            {"role": "user", "content": prompt}
+        ], temp=0.14, max_tokens=1600)
+
+    generated = []
+
+    for variant_prompt in build_strategy_variants(mode, prompt):
+        for temp in MODE_TEMPS.get(mode, [0.10, 0.18]):
+            answer = call_ollama([
+                {"role": "system", "content": BASE_SYSTEM_PROMPT},
+                {"role": "system", "content": mode_instruction},
+                {"role": "user", "content": variant_prompt}
+            ], temp=temp, max_tokens=2200)
+
+            if answer and not answer_is_bad(answer):
+                generated.append(answer)
+
+    if not generated:
+        return "Erreur de génération."
+
+    best_answer, best_score, best_meta = choose_best_variant(
+        generated,
         message,
         niveau,
         matiere,
         cours,
-        student_id,
-        learning_style,
-        weaknesses,
-        previous_response,
-        mode,
-        learning_goal,
-        help_level
+        mode
     )
 
-    if fast_eval:
-        messages = [
-            {"role": "system", "content": BASE_SYSTEM_PROMPT},
-            {"role": "system", "content": mode_instruction},
-            {"role": "user", "content": prompt}
-        ]
-        return call_ollama(messages, temp=0.18)
-
-    prompt_variants = build_strategy_variants(mode, prompt)
-    temps = MODE_TEMPS.get(mode, [0.12, 0.22])
-    variants = []
-
-    for p in prompt_variants:
-        for t in temps:
-            messages = [
-                {"role": "system", "content": BASE_SYSTEM_PROMPT},
-                {"role": "system", "content": mode_instruction},
-                {"role": "user", "content": p}
-            ]
-
-            ans = call_ollama(messages, temp=t)
-            if ans and not answer_is_bad(ans):
-                variants.append(ans)
-
-    if not variants:
-        return "Erreur de génération."
-
-    best_answer, best_score, best_meta = choose_best_variant(
-        variants, message, niveau, matiere, cours
-    )
-
-    mem.setdefault("best_patterns", []).append({
+    mem.setdefault("best_patterns", [])
+    mem["best_patterns"].append({
+        "timestamp": now_iso(),
         "mode": mode,
         "score": best_score,
-        "length": len(best_answer),
-        "verdict": (best_meta or {}).get("verdict", ""),
-        "main_weakness": (best_meta or {}).get("main_weakness", ""),
+        "verdict": best_meta.get("verdict", ""),
+        "main_weakness": best_meta.get("main_weakness", ""),
+        "risk_flags": best_meta.get("risk_flags", []),
+        "length": len(best_answer)
     })
-    mem["best_patterns"] = mem["best_patterns"][-50:]
+    mem["best_patterns"] = mem["best_patterns"][-120:]
 
     return best_answer

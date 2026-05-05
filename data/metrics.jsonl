@@ -1,0 +1,2 @@
+{"timestamp": "2026-05-04T12:19:16.452455+00:00", "event_type": "chat", "payload": {"student_id": "test_axel", "mode": "expliquer", "matiere": "sociologie", "niveau": "L1", "has_course": true, "has_student_answer": false, "student_score": null, "injection_flags": []}}
+{"timestamp": "2026-05-04T12:58:09.295711+00:00", "event_type": "chat", "payload": {"student_id": "test_axel", "mode": "expliquer", "matiere": "sociologie", "niveau": "L1", "has_course": true, "has_student_answer": false, "student_score": null, "injection_flags": []}}

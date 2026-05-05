@@ -1,32 +1,41 @@
 from utils import *
+from skills import update_skill, build_skills_context
+from progress_engine import build_progress_context
 
-MEMORY_FILE = "memory.json"
 
-# =========================
+MEMORY_FILE = "data/memory.json"
+
+
+# =========================================================
 # BASE
-# =========================
+# =========================================================
 
 def load_memory():
     return load_json_file(MEMORY_FILE, {
         "history": [],
         "stats": {},
         "selftests": [],
+        "selftests_ultra": [],
+        "best_patterns": [],
         "students": {}
     })
+
 
 def save_memory(mem):
     save_json_file(MEMORY_FILE, mem)
 
-# =========================
-# STRUCTURE ÉTUDIANT
-# =========================
+
+# =========================================================
+# STUDENT
+# =========================================================
 
 def ensure_student(mem, student_id):
+    student_id = clean(student_id)
+
     if not student_id:
         return None
 
-    if "students" not in mem:
-        mem["students"] = {}
+    mem.setdefault("students", {})
 
     if student_id not in mem["students"]:
         mem["students"][student_id] = {
@@ -36,174 +45,308 @@ def ensure_student(mem, student_id):
                 "matiere": "",
                 "learning_style": "",
                 "weaknesses": "",
+                "created_at": now_iso(),
                 "last_seen": now_iso()
             },
             "sessions": [],
-            "memory_notes": [],
+            "skills": {},
+            "learning_events": [],
             "focus_topics": [],
-            "progress_clues": {
-                "frequent_modes": {},
-                "recent_difficulties": [],
-                "recent_strengths": []
+            "memory_notes": [],
+            "progress": {
+                "total_interactions": 0,
+                "avg_student_score": 0,
+                "last_scores": [],
+                "dominant_modes": {},
+                "pre_post_deltas": []
             }
         }
 
     return mem["students"][student_id]
 
-# =========================
-# PROFIL
-# =========================
 
 def update_student_profile(mem, student_id, display_name, niveau, matiere, learning_style, weaknesses):
     student = ensure_student(mem, student_id)
+
     if not student:
         return
 
-    student["profile"]["display_name"] = display_name
-    student["profile"]["niveau"] = niveau
-    student["profile"]["matiere"] = matiere
-    student["profile"]["learning_style"] = learning_style
-    student["profile"]["weaknesses"] = weaknesses
-    student["profile"]["last_seen"] = now_iso()
+    profile = student.setdefault("profile", {})
+    profile["display_name"] = clean(display_name)
+    profile["niveau"] = clean(niveau)
+    profile["matiere"] = clean(matiere)
+    profile["learning_style"] = clean(learning_style)
+    profile["weaknesses"] = clean(weaknesses)
+    profile["last_seen"] = now_iso()
 
-# =========================
-# ANALYSE CONTENU
-# =========================
 
-def extract_focus_topics(cours, matiere, message):
-    text = " ".join([clean(matiere), clean(message), clean(cours)]).lower()
+# =========================================================
+# TOPICS
+# =========================================================
 
-    topics = []
-    keywords = [
-        "socialisation", "contrôle social", "normes", "valeurs",
-        "identité", "rôles sociaux", "déviance", "groupe social",
-        "famille", "institution", "stratification", "capital culturel",
-        "habitus", "pouvoir", "intégration", "conformité",
-        "socialisation primaire", "socialisation secondaire",
-        "conscience", "liberté", "justice", "vérité",
-        "croissance", "chômage", "marché", "offre", "demande",
-        "industrialisation", "urbanisation", "mouvement ouvrier"
+def extract_focus_topics(cours, matiere="", message=""):
+    text = " ".join([clean(cours), clean(matiere), clean(message)]).lower()
+
+    candidates = [
+        "socialisation primaire",
+        "socialisation secondaire",
+        "socialisation",
+        "contrôle social",
+        "controle social",
+        "normes",
+        "valeurs",
+        "déviance",
+        "deviance",
+        "rôle social",
+        "role social",
+        "marché",
+        "marche",
+        "offre",
+        "demande",
+        "prix",
+        "équilibre",
+        "equilibre",
+        "chômage",
+        "chomage",
+        "conscience",
+        "vérité",
+        "verite",
+        "liberté",
+        "liberte",
+        "justice",
+        "industrialisation",
+        "urbanisation",
+        "prolétariat",
+        "proletariat",
+        "usine",
+        "argumentation",
+        "thèse",
+        "these",
+        "problématique",
+        "problematique",
+        "fonction",
+        "dérivée",
+        "derivee",
+        "adn",
+        "gène",
+        "gene",
+        "mémoire de travail",
+        "memoire de travail",
+        "légitimité politique",
+        "legitimite politique",
+        "règle de droit",
+        "regle de droit"
     ]
 
-    for k in keywords:
-        if k in text:
-            topics.append(k)
+    found = []
 
-    return topics[:10]
+    for c in candidates:
+        if c in text and c not in found:
+            found.append(c)
 
-def summarize_interaction(mode, message, cours, answer):
-    clean_answer = clean(answer)
+    return found[:12]
+
+
+# =========================================================
+# SESSION / PROGRESS
+# =========================================================
+
+def summarize_interaction(mode, message, cours, answer, student_eval=None):
     return {
         "timestamp": now_iso(),
-        "mode": mode,
-        "question": clean(message)[:160],
-        "cours_hint": clean(cours)[:120],
-        "answer_hint": clean_answer.replace("\n", " ")[:180],
-        "answer": clean_answer
+        "mode": clean(mode),
+        "question": short(message, 220),
+        "cours_hint": short(cours, 200),
+        "answer_hint": short(answer, 300),
+        "student_score": safe_dict(student_eval).get("score") if student_eval else None
     }
 
-# =========================
-# PROGRESSION
-# =========================
 
-def update_progress(student, mode, weaknesses, answer):
-    progress = student.setdefault("progress_clues", {
-        "frequent_modes": {},
-        "recent_difficulties": [],
-        "recent_strengths": []
+def update_progress(student, mode, student_score=None, pre_post_delta=None):
+    progress = student.setdefault("progress", {
+        "total_interactions": 0,
+        "avg_student_score": 0,
+        "last_scores": [],
+        "dominant_modes": {},
+        "pre_post_deltas": []
     })
 
+    progress["total_interactions"] = int(progress.get("total_interactions", 0)) + 1
+
+    mode = clean(mode)
     if mode:
-        progress["frequent_modes"][mode] = progress["frequent_modes"].get(mode, 0) + 1
+        progress.setdefault("dominant_modes", {})
+        progress["dominant_modes"][mode] = progress["dominant_modes"].get(mode, 0) + 1
 
-    if weaknesses:
-        if weaknesses not in progress["recent_difficulties"]:
-            progress["recent_difficulties"].append(weaknesses)
-        progress["recent_difficulties"] = progress["recent_difficulties"][-8:]
+    if student_score is not None:
+        score = to_int(student_score, 0, 0, 100)
+        progress.setdefault("last_scores", [])
+        progress["last_scores"].append(score)
+        progress["last_scores"] = progress["last_scores"][-30:]
+        progress["avg_student_score"] = average(progress["last_scores"])
 
-    if "complément utile" in clean(answer).lower():
-        strength = "Bonne utilisation des compléments utiles"
-        if strength not in progress["recent_strengths"]:
-            progress["recent_strengths"].append(strength)
+    if pre_post_delta:
+        progress.setdefault("pre_post_deltas", [])
+        progress["pre_post_deltas"].append(pre_post_delta)
+        progress["pre_post_deltas"] = progress["pre_post_deltas"][-30:]
 
-    progress["recent_strengths"] = progress["recent_strengths"][-8:]
 
-# =========================
-# UPDATE GLOBAL
-# =========================
-
-def update_student_memory(mem, student_id, display_name, niveau, matiere, learning_style, weaknesses, mode, message, cours, answer):
-    if not student_id:
-        return
-
+def update_student_memory(
+    mem,
+    student_id,
+    display_name,
+    niveau,
+    matiere,
+    learning_style,
+    weaknesses,
+    mode,
+    message,
+    cours,
+    answer,
+    student_eval=None,
+    pre_post_delta=None
+):
     student = ensure_student(mem, student_id)
+
     if not student:
         return
 
-    update_student_profile(mem, student_id, display_name, niveau, matiere, learning_style, weaknesses)
-
-    student["sessions"].append(
-        summarize_interaction(mode, message, cours, answer)
+    update_student_profile(
+        mem,
+        student_id,
+        display_name,
+        niveau,
+        matiere,
+        learning_style,
+        weaknesses
     )
-    student["sessions"] = student["sessions"][-10:]
+
+    student.setdefault("sessions", [])
+    student["sessions"].append(
+        summarize_interaction(mode, message, cours, answer, student_eval)
+    )
+    student["sessions"] = student["sessions"][-20:]
 
     topics = extract_focus_topics(cours, matiere, message)
-    for t in topics:
-        if t not in student["focus_topics"]:
-            student["focus_topics"].append(t)
 
-    student["focus_topics"] = student["focus_topics"][-18:]
+    student.setdefault("focus_topics", [])
+    for topic in topics:
+        if topic not in student["focus_topics"]:
+            student["focus_topics"].append(topic)
+    student["focus_topics"] = student["focus_topics"][-25:]
 
-    if weaknesses:
-        note = f"Lacunes : {weaknesses}"
+    student.setdefault("memory_notes", [])
+
+    if clean(weaknesses):
+        note = f"Lacunes déclarées : {clean(weaknesses)}"
         if note not in student["memory_notes"]:
             student["memory_notes"].append(note)
 
-    if learning_style:
-        note = f"Style : {learning_style}"
+    if clean(learning_style):
+        note = f"Style déclaré : {clean(learning_style)}"
         if note not in student["memory_notes"]:
             student["memory_notes"].append(note)
 
-    student["memory_notes"] = student["memory_notes"][-18:]
+    student["memory_notes"] = student["memory_notes"][-25:]
 
-    update_progress(student, mode, weaknesses, answer)
+    if student_eval:
+        event = {
+            "timestamp": now_iso(),
+            "mode": mode,
+            "score": student_eval.get("score"),
+            "diagnostic": student_eval.get("diagnostic"),
+            "next_step": student_eval.get("next_step"),
+            "question_suivante_recommandee": student_eval.get("question_suivante_recommandee"),
+            "errors": student_eval.get("erreurs", []),
+            "omissions": student_eval.get("oublis", []),
+            "strengths": student_eval.get("forces", [])
+        }
 
-# =========================
-# CONTEXTE POUR IA
-# =========================
+        student.setdefault("learning_events", [])
+        student["learning_events"].append(event)
+        student["learning_events"] = student["learning_events"][-40:]
+
+        notions = (
+            student_eval.get("notions_fragiles", [])
+            or student_eval.get("notions_detectees", [])
+            or topics
+        )
+
+        for notion in notions:
+            update_skill(
+                student,
+                notion=notion,
+                score=student_eval.get("score", 0),
+                errors=student_eval.get("erreurs", []) + student_eval.get("oublis", []),
+                strengths=student_eval.get("forces", []),
+                source="student_eval"
+            )
+
+        update_progress(
+            student,
+            mode,
+            student_score=student_eval.get("score"),
+            pre_post_delta=pre_post_delta
+        )
+    else:
+        update_progress(student, mode, pre_post_delta=pre_post_delta)
+
+
+# =========================================================
+# CONTEXT FOR GENERATION
+# =========================================================
 
 def build_student_memory_context(mem, student_id):
+    student_id = clean(student_id)
+
     if not student_id:
-        return "Aucune mémoire."
+        return "Aucune mémoire étudiant."
 
-    student = mem.get("students", {}).get(student_id)
+    student = safe_dict(mem.get("students")).get(student_id)
+
     if not student:
-        return "Aucune mémoire."
+        return "Aucune mémoire étudiant."
 
-    profile = student.get("profile", {})
-    sessions = student.get("sessions", [])[-3:]
-    notes = student.get("memory_notes", [])[-4:]
-    topics = student.get("focus_topics", [])[-6:]
+    profile = safe_dict(student.get("profile"))
+    notes = student.get("memory_notes", [])[-5:]
+    topics = student.get("focus_topics", [])[-8:]
+    sessions = student.get("sessions", [])[-5:]
+    events = student.get("learning_events", [])[-4:]
 
     lines = [
-        f"Nom : {profile.get('display_name', '')}",
-        f"Niveau : {profile.get('niveau', '')}",
-        f"Matière : {profile.get('matiere', '')}",
-        f"Style : {profile.get('learning_style', '')}",
-        f"Lacunes : {profile.get('weaknesses', '')}",
+        "PROFIL",
+        f"- Nom : {profile.get('display_name', '')}",
+        f"- Niveau : {profile.get('niveau', '')}",
+        f"- Matière : {profile.get('matiere', '')}",
+        f"- Style : {profile.get('learning_style', '')}",
+        f"- Lacunes déclarées : {profile.get('weaknesses', '')}",
+        "",
+        build_progress_context(student),
+        "",
+        "COMPÉTENCES",
+        build_skills_context(student)
     ]
 
     if topics:
-        lines.append("Thèmes : " + ", ".join(topics))
+        lines.append("\nTHÈMES FRÉQUENTS")
+        lines.append(", ".join(topics))
 
     if notes:
-        lines.append("Notes :")
-        for n in notes:
-            lines.append(f"- {n}")
+        lines.append("\nNOTES MÉMOIRE")
+        for note in notes:
+            lines.append(f"- {note}")
+
+    if events:
+        lines.append("\nDERNIERS DIAGNOSTICS")
+        for event in events:
+            lines.append(
+                f"- Score {event.get('score')}/100 : "
+                f"{short(event.get('diagnostic'), 160)}"
+            )
 
     if sessions:
-        lines.append("Dernières interactions :")
-        for s in sessions:
-            lines.append(f"- {s.get('mode')} : {s.get('question')}")
+        lines.append("\nDERNIÈRES INTERACTIONS")
+        for session in sessions:
+            lines.append(f"- {session.get('mode')} : {session.get('question')}")
 
     return "\n".join(lines)
